@@ -1,0 +1,75 @@
+
+  <nav class='navbar navbar-default navbar-fixed-top' role='navigation'>
+    <div class='container-fluid'>
+      <div class='navbar-header'>
+        <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#responsiveMode'>
+          <span class='sr-only'>Toggle navigation</span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+        </button>
+        <a class='navbar-brand' href=''>Jrc</a>
+      </div>
+
+      <div class='collapse navbar-collapse' id='responsiveMode'>
+        <ul ng-hide='user' class='nav navbar-nav navbar-left'>
+          <li>
+            <a href='/dashboard'>
+              <i class='fa fa-tachometer'></i>
+              <span class='icon-hide'>
+                Dashboard
+              </span>
+            </a>
+          </li>
+        </ul>
+
+        <ul class='nav navbar-nav'>
+          <li>
+            <a href='' class='dropdown-toggle' data-toggle='dropdown'>
+              Modules
+              <span class='caret'></span>
+            </a>
+            <ul class='dropdown-menu' role='menu'>
+              <li>
+                <a ui-sref='database'>
+                  <i class="fa fa-database"></i> Database
+                </a>
+              </li>
+              <li>
+                <a ui-sref='paragala'>
+                  <i class="fa fa-trophy"></i> Paragala
+                </a>
+              </li>
+              <li>
+                <a ui-sref='paragala_add-student'>
+                  <i class="fa fa-male"></i> Add Student
+                </a>
+              </li>
+              <li>
+                <a ui-sref='paragala_paragala-results'>
+                  <i class="fa fa-file-text-o"></i> Results
+                </a>
+              </li>
+              <li>
+                <a ui-sref='rave'>
+                  <i class="fa fa-video-camera"></i> Rave
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <ul ng-hide='user' class='nav navbar-nav navbar-right' ng-controller='Login as vm'>
+          <li ng-hide='<$ isAuthenticated $>'>
+            <a href='' ng-click='vm.strapSignUpHtml()' data-animation='am-fade-and-slide-top' class='login-link'>Sign-up</a>
+          </li>
+          <li ng-show='<$ isAuthenticated $>'>
+            <a ui-sref='profile' >Welcome <$ username $></a>
+          </li>
+          <li>
+            <a href='' ng-click='<$ isAuthenticated $>?vm.logout():vm.strapLoginHtml()'> {{<$ isAuthenticated $>?"Logout": "Login"}} </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

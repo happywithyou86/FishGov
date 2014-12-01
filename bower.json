@@ -1,0 +1,13 @@
+{
+  "name": "magens",
+  "version": "0.0.0",
+  "description": "Boilerplate for creating new projects",
+  "author": "Jo-Ries P. Canino",
+  "email": "canino_jories@hotmail.com",
+  "private": "true",
+  "license": "MIT",
+  "dependencies": {
+
+  },
+  "devDependencies": {}
+}
