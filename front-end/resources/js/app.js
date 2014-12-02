@@ -21,17 +21,11 @@
          * Feature areas
          */
         //'app.avengers',
-        'app.login',
-        'app.profile',
-        'app.dashboard',
-        'app.database',
-        'app.layout',
-        'app.paragala',
-        'app.rave',
+        'app.sample',
 
         /*
          * Restangular Service
         **/
         'app.restangular'
-    ])
+    ]);
 })();

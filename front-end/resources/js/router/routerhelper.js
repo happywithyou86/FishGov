@@ -6,7 +6,8 @@
         .provider('routehelperConfig', routehelperConfig)
         .factory('routehelper', routehelper);
 
-    routehelper.$inject = ['$location', '$rootScope', '$q', '$state', '$timeout', '$window', 'logger', 'routehelperConfig', 'commonsDataservice', 'paragalaDataservice'];
+    routehelper.$inject = ['$location', '$rootScope', '$q', '$state', '$timeout', '$window',
+      'logger', 'routehelperConfig', 'commonsDataservice'];
 
     // Must configure via the routehelperConfigProvider
     function routehelperConfig() {
@@ -25,7 +26,8 @@
         };
     }
 
-    function routehelper( $location, $rootScope, $q, $state, $timeout, $window, logger, routehelperConfig, commonsDataservice, paragalaDataservice ) {
+    function routehelper( $location, $rootScope, $q, $state, $timeout, $window,
+      logger, routehelperConfig, commonsDataservice) {
         var handlingRouteChangeError = false;
         var routeCounts = {
             errors: 0,
@@ -53,7 +55,7 @@
                 //$routeProvider.when( route.url, route.config );
                 $stateProvider.state( route.state, route.config );
             });
-            $urlRouterProvider.otherwise("/");
+            $urlRouterProvider.otherwise('/');
             //$routeProvider.otherwise({redirectTo: '/'});
         }
 

@@ -19,17 +19,14 @@
         //'blocks.exception',
         'blocks.logger',
         'blocks.router',
+        'blocks.exception',
         'strapService',
         /*
          * 3rd Party modules
          */
         'ngplus',
-        'angularLoad',
-        'ui.ace',
-        'ui.bootstrap',
         'mgcrea.ngStrap',
         'angular-flash.service',
-        'angular-flash.flash-alert-directive',
-        'ui.tree'
+        'angular-flash.flash-alert-directive'
     ]);
 })();

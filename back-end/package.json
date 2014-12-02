@@ -1,24 +1,14 @@
 {
-  "name": "ToroEcc",
+  "name": "magens",
   "version": "0.0.0",
-  "description": "Making Gulp Plugin",
-  "main": "slushfile.js",
-  "repository": {
-    "type": "git",
-    "url": "https://bitbucket.org/canino_jories/jrc.paragala"
-  },
-  "keywords": [
-    "slushgenerator"
-  ],
-  "author": "Jo-Ries Canino",
-  "license": "MIT",
+  "description": "Boilerplate for creating new projects",
+  "main": "server.js",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^2.3.5",
     "body-parser": "~1.4.3",
     "colors": "^1.0.3",
     "compression": "^1.2.0",
-    "connect-flash": "^0.1.1",
     "connect-modrewrite": "^0.7.7",
     "connect-mongo": "^0.4.1",
     "cookie": "^0.1.2",
@@ -36,8 +26,17 @@
     "promised-mongo": "^0.11.1",
     "run-sequence": "^0.3.6",
     "serve-favicon": "~2.0.1",
-    "serve-static": "~1.2.3",
     "underscore": "^1.6.0"
   },
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Jo-Ries P. Canino",
+  "license": "MIT",
+  "homepage": "",
   "devDependencies": {}
 }

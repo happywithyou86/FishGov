@@ -12,17 +12,17 @@
     // }
 
     var config = {
-        appErrorPrefix: '[NG-Modular Error] ', //Configure the exceptionHandler decorator
-        appTitle: 'Angular Modular Demo',
-        version: '1.0.0'
+        appErrorPrefix: '[Magens Error] ', //Configure the exceptionHandler decorator
+        appTitle: 'Magens Boilerplate',
+        version: '0.0.0'
     };
 
     core.value('config', config);
-
     core.config(configure);
 
     /* @ngInject */
-    function configure ( $locationProvider, $logProvider, $urlRouterProvider, $stateProvider, routehelperConfigProvider) {
+    function configure ( $locationProvider, $logProvider, $urlRouterProvider, $stateProvider,
+      routehelperConfigProvider, exceptionHandlerProvider) {
         //exceptionConfigProvider
         // turn debugging off/on (no info or warn)
         if ($logProvider.debugEnabled) {
@@ -34,20 +34,11 @@
         routehelperConfigProvider.config.$stateProvider = $stateProvider;
         routehelperConfigProvider.config.$urlRouterProvider = $urlRouterProvider;
         routehelperConfigProvider.config.docTitle = 'NG-Modular: ';
-        var resolveAlways = { /* @ngInject */
-            ready: function(dataservice) {
-                return dataservice.ready();
-            }
-            // ready: ['dataservice', function (dataservice) {
-            //    return dataservice.ready();
-            // }]
-        };
-        routehelperConfigProvider.config.resolveAlways = resolveAlways;
 
         $locationProvider
           .html5Mode(true);
 
         // Configure the common exception handler
-        //exceptionConfigProvider.config.appErrorPrefix = config.appErrorPrefix;
+        exceptionHandlerProvider.configure(config.appErrorPrefix);
     }
 })();
