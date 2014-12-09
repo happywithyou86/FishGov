@@ -33,10 +33,10 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/caninojories/magens_boilerplate.git"
   },
   "author": "Jo-Ries P. Canino",
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/caninojories/magens_boilerplate",
   "devDependencies": {}
 }
