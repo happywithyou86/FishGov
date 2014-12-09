@@ -4,8 +4,8 @@
   var express = require('express'),
       router  = express.Router();
 
-  router.get('/sample/welcome.html', function( req, res ) {
-    res.render('sample/welcome.html');
+  router.get('/client/sample/welcome.html', function( req, res ) {
+    res.render('client/sample/welcome.html');
   });
 
   module.exports = router;

@@ -7,8 +7,8 @@
       passport 		= require('passport'),
       cluster     = require('cluster'),
       numCPUs     = require('os').cpus().length,
-      sample      = require('./routes/clientRoutes/sample'),
-      catchAll    = require('./routes/clientRoutes/all');
+      sample      = require('./routes/client/sample'),
+      catchAll    = require('./routes');
 
     /**
      ** Configuration File NoSQL Database

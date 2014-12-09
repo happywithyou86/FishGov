@@ -14,7 +14,7 @@
         state: 'sample',
         config: {
           url: '/welcome',
-          templateUrl: '/sample/welcome.html',
+          templateUrl: '/client/sample/welcome.html',
           controller: 'Sample as vm',
           title: 'Sample'
         }
