@@ -12,7 +12,7 @@
         /*
          * Commons module
         **/
-        'commons.control',
+        'app.commons',
         /*
          * Our reusable cross app code modules
          */

@@ -2,12 +2,10 @@
   'use strict';
 
   angular
-    .module('commons.control')
+    .module('app.commons')
     .controller('Control', Control);
 
-    Control.$inject = ['viewContentLoaded'];
-
-    function Control( viewContentLoaded ) {
-      //delete this commonsjs
+    function Control() {
+      var vm = this;
     }
 })();
