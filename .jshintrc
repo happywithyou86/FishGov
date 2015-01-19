@@ -21,6 +21,7 @@
   "unused":    false,
   "predef"   : [
     "angular",
+    "app_require"
     "toastr",
     "jcaLayout"
   ]
