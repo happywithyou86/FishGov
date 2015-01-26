@@ -13,7 +13,8 @@
         'compatible-vendor-prefixes': false,
         'unqualified-attributes': false,
         'box-model': false,
-        'display-property-grouping': false
+        'display-property-grouping': false,
+        'adjoining-classes': false
       }))
       .pipe(csslint.reporter())
       .pipe(prefixer())

@@ -1,41 +1,35 @@
-<div class="modal" tabindex="-1" role="dialog" ng-controller="Login">
-  <form ng-submit="vm.login()" class="modal-dialog" name="loginForm" novalidate="novalidate">
+<div class="modal" tabindex="-1" role="dialog" ng-controller='RegisterNSignIn as vm'>
+  <form ng-submit="vm.login( loginForm.$valid )" class="modal-dialog" name="loginForm" novalidate="novalidate">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" ng-click="$hide()">&times;</button>
         <h4 class="modal-title">Login</h4>
       </div>
       <div class="modal-body">
-        <div class='form-group' ng-class="{ 'has-error' : loginForm.email.$invalid &amp;&amp; !loginForm.email.$pristine &amp;&amp; vm.submitted}" class="form-group">
+        <div class='form-group' ng-class="{ 'has-error' : loginForm.email.$invalid &amp;&amp; !loginForm.email.$pristine}">
+          <alert-logIn></alert-logIn>
           <label>Email</label>
-          <input type="email" ng-model="email" name="email" ng-minlength="0" required="required" class="form-control"/>
-          <h5>
-            <div ng-show="loginForm.email.$error.required &amp;&amp; vm.submitted" class="label label-danger">
-              Email is required
-            </div>
-            <div ng-show="loginForm.email.$invalid &amp;&amp; !loginForm.email.$pristine &amp;&amp; submitted &amp;&amp; !loginForm.email.$error.required" class="label label-danger">
-              Please Enter a Valid Email Address
-            </div>
-          </h5>
+          <input class="form-control" type="email" name="email" required ng-model="vm.email" ng-minlength="0" />
+          <div class='help-block' ng-show="loginForm.email.$error.required &amp;&amp; loginForm.email.$dirty ">
+            An email address is required
+          </div>
+          <div class='help-block' ng-show='loginForm.email.$error.email'>
+            Please enter an email address
+          </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-class="{ 'has-error' : loginForm.password.$invalid &amp;&amp; loginForm.password.$dirty}">
           <label>Password</label>
-          <input type="password" ng-model="password" name="password" required="required" ng-minlength="6" ng-maxlength="15" class="form-control"/>
-          <h5>
-            <div ng-show="loginForm.password.$error.required &amp;&amp; submitted" class="label label-danger">
-              Password is Required
-            </div>
-            <div ng-show="loginForm.password.$error.minlength &amp;&amp; submitted" class="label label-danger">
-              Password too Short
-            </div>
-            <div ng-show="loginForm.password.$error.maxlength &amp;&amp; submitted" class="label label-danger">
-              Password too Long
-            </div>
-          </h5>
+          <input type="password" ng-model="vm.password" name="password" required="required" ng-minlength="6" class="form-control"/>
+          <div class='help-block' ng-show="loginForm.password.$error.required &amp;&amp; loginForm.password.$dirty">
+            Password is Required
+          </div>
+          <div class='help-block'  ng-show="loginForm.password.$error.minlength">
+            Password too Short
+          </div>
         </div>
       </div>
       <div class="modal-footer">
-        <main-login></main-login>
+        <input type='submit' class='btn btn-primary' value='Log-in'>
       </div>
     </div>
   </form>

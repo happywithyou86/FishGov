@@ -1,0 +1,53 @@
+
+  <div class='modal' tabindex='-1' role='dialog' ng-controller='RegisterNSignIn as vm'>
+    <form ng-submit='vm.register( signupForm.$valid, vm.email, vm.username, vm.password, vm.confirmPassword )' class='modal-dialog' name='signupForm' novalidate='novalidate'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <button type='button' class='close' ng-click='$hide()'>&times;</button>
+          <h4 class='modal-title'>Create a Free Account</h4>
+        </div>
+        <div class='modal-body'>
+          <div class='form-group'  ng-class="{ 'has-error' : signupForm.email.$invalid &amp;&amp; !signupForm.email.$pristine}">
+            <label class='control-label'>Email</label>
+            <input type='email' name='email' ng-model='vm.email' class='form-control' required ng-blur='vm.checkEmailInBlurred(signupForm)'>
+            <div class='help-block' ng-show='signupForm.email.$dirty && signupForm.email.$error.required'>
+              An email address is required
+            </div>
+            <div class='help-block' ng-show='signupForm.email.$error.email'>
+              Please enter an email address
+            </div>
+            <div class='help-block' ng-show='signupForm.email.$error.taken'>
+              That email has been taken, try another one?
+            </div>
+          </div>
+          <div class='form-group' ng-class="{ 'has-error' : signupForm.username.$invalid &amp;&amp; !signupForm.username.$pristine}">
+            <label class='control-label'>Username</label>
+            <input type='text' name='username' ng-model='vm.username' class='form-control' required>
+            <div class='help-block' ng-show='signupForm.username.$dirty && signupForm.username.$error.required'>
+              A username is required
+            </div>
+            <div class='help-block' ng-show='signupForm.username.$error.taken'>
+              That username has been taken, try another one
+            </div>
+          </div>
+          <div class='form-group' ng-class="{ 'has-error' : signupForm.password.$invalid &amp;&amp; !signupForm.password.$pristine}">
+            <label class='control-label'>Password</label>
+            <input type='password' name='password' ng-model='vm.password' class='form-control' required ng-minlength='6'>
+            <div class='help-block' ng-show='signupForm.$error.minlength'>
+              Your password must be at least 6 characters
+            </div>
+          </div>
+          <div class='form-group' ng-class="{ 'has-error' : signupForm.confirmPassword.$invalid &amp;&amp; !signupForm.confirmPassword.$pristine}">
+            <label class='control-label'>Confirm Password</label>
+            <input type='password' name='confirmPassword' ng-model='vm.confirmPassword' class='form-control' required confirm-password='vm.password'>
+            <div class='help-block' ng-show='signupForm.confirmPassword.$dirty && signupForm.confirmPassword.$error.equal'>
+              The passwords must match
+            </div>
+          </div>
+        </div>
+        <div class='modal-footer'>
+          <input type='submit' class='btn btn-primary' value='Sign Up'>
+        </div>
+      </div>
+    </form>
+  </div>

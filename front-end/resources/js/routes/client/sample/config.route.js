@@ -13,8 +13,8 @@
       return [{
         state: 'sample',
         config: {
-          url: '/welcome',
-          templateUrl: '/client/sample/welcome.html',
+          url: '/sample',
+          templateUrl: '/client/sample/index.html',
           controller: 'Sample as vm',
           title: 'Sample'
         }

@@ -1,44 +1,55 @@
 (function() {
     'use strict';
 
-    var core = angular.module('app.core');
-
-    //core.config(toastrConfig);
-
-    /* @ngInject */
-    // function toastrConfig(toastr) {
-    //     toastr.options.timeOut = 4000;
-    //     toastr.options.positionClass = 'toast-bottom-left';
-    // }
-
     var config = {
-        appErrorPrefix: '[Magens Error] ', //Configure the exceptionHandler decorator
-        appTitle: 'Magens Boilerplate',
-        version: '0.0.0'
+      appErrorPrefix: '[Magens Error] ', //Configure the exceptionHandler decorator
+      appTitle: 'UDAYS Pageant: @by League of Outstanding Programmers',
+      version: '0.0.0'
     };
 
-    core.value('config', config);
-    core.config(configure);
+    angular
+      .module( 'app.core' )
+      .value( 'config', config )
+      .config(configure)
+      .config( toastrConfig )
+      .config( registerNsignInConfig );
+
 
     /* @ngInject */
-    function configure ( $locationProvider, $logProvider, $urlRouterProvider, $stateProvider,
-      routehelperConfigProvider, exceptionHandlerProvider) {
-        //exceptionConfigProvider
-        // turn debugging off/on (no info or warn)
-        if ($logProvider.debugEnabled) {
-            $logProvider.debugEnabled(true);
-        }
+    function toastrConfig(toastr) {
+        toastr.options.timeOut = 4000;
+        toastr.options.positionClass = 'toast-bottom-right';
+    }
 
-        // Configure the common route provider
-        //routehelperConfigProvider.config.$routeProvider = $routeProvider;
+    function registerNsignInConfig( $authProvider, cfpLoadingBarProvider ) {
+      cfpLoadingBarProvider.latencyThreshold = 100;
+      $authProvider.loginUrl = 'http://localhost:3000/userApi/userLogIn';
+      $authProvider.signupUrl = 'http://localhost:3000/userApi/userRegister';
+
+      $authProvider.facebook({
+        clientId: '789445017793242',
+        url: 'http://localhost:3000/userApi/logInUserFacebook'
+      });
+
+      $authProvider.google({
+        clientId: '514855305579-vmrkir3l76c0v2t6b5mtnphh38uf9irp.apps.googleusercontent.com',
+        url: 'http://localhost:3000/userApi/logInUserGoogle'
+      });
+    }
+
+    /* @ngInject */
+    function configure ( $httpProvider, $locationProvider, $logProvider, $urlRouterProvider, $stateProvider,
+      exceptionHandlerProvider, routehelperConfigProvider ) {
+
+        $locationProvider.html5Mode(true);
+        if ($logProvider.debugEnabled)  $logProvider.debugEnabled(true);
+
         routehelperConfigProvider.config.$stateProvider = $stateProvider;
         routehelperConfigProvider.config.$urlRouterProvider = $urlRouterProvider;
         routehelperConfigProvider.config.docTitle = 'NG-Modular: ';
 
-        $locationProvider
-          .html5Mode(true);
-
-        // Configure the common exception handler
+        $httpProvider.interceptors.push('authInterceptor');
+        /*Configure the common exception handler*/
         exceptionHandlerProvider.configure(config.appErrorPrefix);
     }
 })();

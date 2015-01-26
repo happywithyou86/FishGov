@@ -6,7 +6,10 @@
   };
 
   var node      = app_require( 'services/module.config' ),
+      main      = require( './routes/client/main' ),
       sample    = require( './routes/client/sample' ),
+
+      registerUserApi = require( './routes/restApi/API/registerNsignInApi' ),
       catchAll  = require( './routes' );
 
   /**
@@ -23,12 +26,14 @@
    ** Require our Configuration Files
    ***/
   require( './configuration/express' )(app);
+  require( './configuration/passport' )(node.passport);
 
   /***
    ** Routes
    ***/
-  app.use( '/', sample );
-  app.use( '*', catchAll );
+  useApp([main,sample,registerUserApi]);
+  //app.use( '/', registerUserApi );
+  app.use( '*', catchAll );//
 
   /***
    ** node.cluster Configuration
@@ -41,5 +46,10 @@
     });
   }
 
+  function useApp( param ) {
+    param.forEach(function( name ) {
+      app.use( '/', name );
+    });
+  }
 
 }());

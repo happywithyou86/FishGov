@@ -1,16 +1,16 @@
 (function() {
   'use strict';
 
-  var express = require('express'),
-  router  = express.Router();
+  var node    = app_require( 'services/module.config' ),
+      router  = node.express.Router();
+
 
   router.use(function timeLog( req, res, next) {
     console.log( 'Time: ', Date.now() );
     next();
   });
 
-  router.get( '*',  function(req, res) {
-    var email = req.user === undefined? '': req.user.email;
+  router.get( '*',  function( req, res ) {
     res.render( 'index.html' );
   });
 

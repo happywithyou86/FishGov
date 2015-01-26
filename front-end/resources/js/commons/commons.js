@@ -7,5 +7,7 @@
 
     function Control() {
       var vm = this;
+
+      console.log( 'commonsControl' );
     }
 })();

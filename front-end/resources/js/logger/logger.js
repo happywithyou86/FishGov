@@ -7,10 +7,6 @@
 
     logger.$inject = ['$log', 'toastr'];
 
-     toastr.options = {
-         'positionClass' : 'toast-bottom-right'
-     };
-
     function logger($log, toastr) {
         var service = {
             showToasts: true,
@@ -20,12 +16,11 @@
             success : success,
             warning : warning,
 
-            // straight to console; bypass toastr
+            /*straight to console; bypass toastr*/
             log     : $log.log
         };
 
         return service;
-        /////////////////////
 
         function error(message, data, title) {
             if( service.showToasts !== false ) {

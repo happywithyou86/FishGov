@@ -33,6 +33,7 @@
         return method;
       }
     }));
+    app.use( node_module.passport.initialize() );
     app.use( '/css', node_module.express.static( node_module.css ));
     app.use( '/fonts', node_module.express.static( node_module.fonts ));
     app.use( '/img', node_module.express.static( node_module.img ));
@@ -45,9 +46,9 @@
     ** Setup for CORS
     ***/
     app.use(function( req, res, next ) {
-      res.setHeader( 'Access-Control-Allow-Origin', '*' );
-      res.setHeader( 'Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE' );
-      res.setHeader( 'Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+      res.header( 'Access-Control-Allow-Origin', '*' );
+      res.header( 'Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE' );
+      res.header( 'Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization');
       next();
     });
 
