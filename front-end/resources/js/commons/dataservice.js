@@ -24,7 +24,7 @@
           });
 
         function authorizeCallBack( response, statuse, header, config ) {
-          return response;
+          return response.data;
         }
       }
 

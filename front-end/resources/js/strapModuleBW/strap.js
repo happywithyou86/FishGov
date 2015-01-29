@@ -17,13 +17,12 @@
       vm.logInUser       = logInUser;
       vm.logOut          = logOut;
       vm.registerUser    = registerUser;
-      $rootScope.jories = 'canino';
       getAuthorization();
 
       function getAuthorization() {
         $q.all( [getAuthorizationCallBack()] )
         .then(function( response ) {
-          $rootScope.username = response[0];
+          $rootScope.username = response;
           return response;
         });
       }

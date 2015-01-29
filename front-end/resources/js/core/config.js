@@ -23,8 +23,9 @@
 
     function registerNsignInConfig( $authProvider, cfpLoadingBarProvider ) {
       cfpLoadingBarProvider.latencyThreshold = 100;
-      $authProvider.loginUrl = 'http://localhost:3000/userApi/userLogIn';
-      $authProvider.signupUrl = 'http://localhost:3000/userApi/userRegister';
+      $authProvider.loginUrl    = 'http://localhost:3000/userApi/userLogIn';
+      $authProvider.signupUrl   = 'http://localhost:3000/userApi/userRegister';
+      $authProvider.tokenPrefix = 'rappler';
 
       $authProvider.facebook({
         clientId: '789445017793242',

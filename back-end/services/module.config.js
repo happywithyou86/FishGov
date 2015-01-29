@@ -7,6 +7,7 @@
       rootPath = path.normalize(__dirname + '/../../');
 
   module.exports = {
+    authorize         : require( './authorize'),
     clusterService    : require( './cluster' ),
     config            : require( './config' ),
     createSendToken   : require( './createSendToken' ),
@@ -14,6 +15,7 @@
     googleAuth        : require( './googleAuth' ),
     User              : require( '../model/User' ),
     mongoDB           : require( '../configuration/mongodb' ),
+    xPoweredBy        : require( './xPoweredBy' ),
     bodyParser        : require( 'body-parser' ),
     chalk             : require( 'chalk' ),
     cluster           : require( 'cluster' ),

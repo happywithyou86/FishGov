@@ -4,8 +4,8 @@
   var node = app_require( 'services/module.config' );
 
   exports.getUserInfo = function( req, res, next ) {
-    var token = req.query.token;
-    if( !token ) return res.json( 'Unauthorized: Please Login to View the Page' );
+    if( !req.headers.authorization ) return res.json({data:null});
+    var token = req.headers.authorization.split(' ')[1];
 
       try {
         var payLoad = node.jwt.decode( token, 'shhh..' );
@@ -19,7 +19,7 @@
         .findById( payLoad.sub, function( err, document ) {
           var name = document.displayName || document.username;
 
-          res.json( name );
+          res.json( {data:name} );
         });
       });
   };

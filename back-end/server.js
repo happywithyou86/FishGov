@@ -33,7 +33,8 @@
    ***/
   useApp([main,sample,registerUserApi]);
   //app.use( '/', registerUserApi );
-  app.use( '*', catchAll );//
+  app.use( '*', catchAll );
+
 
   /***
    ** node.cluster Configuration

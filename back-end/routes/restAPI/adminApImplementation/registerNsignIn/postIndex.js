@@ -40,4 +40,10 @@
 
     node.facebookAuth( node, params, res );
   };
+
+  /*mike*/
+  exports.postUserRegistration = function( req, res, next ) {
+    console.log( req.body );
+    res.json('MIKE LOVEs GLAI');
+  };
 }());
