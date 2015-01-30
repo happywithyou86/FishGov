@@ -13,22 +13,22 @@
 
   var POST_UserRegistration = require( '../adminApImplementation/registerNsignIn/postIndex.js' );
 
-    app.route( '/userApi/userRegister' )
+    app.route( '/userRegister' )
       .post( node.passport.authenticate('local-register'), POST_RegisterUser.registerUser );
 
-    app.route( '/userApi/logInUserFacebook' )
+    app.route( '/logInUserFacebook' )
       .post( POST_FacebookLogin.postFacebookLogin );
 
-    app.route( '/userApi/logInUserGoogle' )
+    app.route( '/logInUserGoogle' )
       .post( POST_GoogleLogin.postGoogleLogin );
 
-    app.route( '/userApi/userInfo' )
+    app.route( '/userInfo' )
       .get( node.authorize, node.xPoweredBy, GET_UserInfo.getUserInfo );
 
-    app.route( '/userApi/userLogin' )
+    app.route( '/userLogin' )
       .post( POST_UserLogin.postUserLogin );
 
-    app.route( '/userApi/isEmailTaken' )
+    app.route( '/isEmailTaken' )
       .get( GET_EmailInfo.getEmail );
 
     /*mike api*/

@@ -18,7 +18,7 @@
         method: 'GET'
       });
     }).then(function( profile, handleError ) {
-      node.mongoDB( node, 'pageant' );
+      node.mongoDB( node, node.config.dbName );
       return profile;
     }).then(function( googleData ) {
       node.User.findOne({

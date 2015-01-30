@@ -3,10 +3,7 @@
 
   var node = app_require('services/module.config');
 
-
-  /***
-   ** Express Configuration
-   ***/
+  /*Express Configuration*/
   module.exports = function(app) {
     node.nunjucksEnv.express(app);
     node.nunjucks.configure(node.nunjucksPath, {
@@ -47,18 +44,13 @@
     app.use('/commonViews', node.express.static(node.commonViews));
     app.use('/compiledCss', node.express.static(node.compiledCss));
 
-    /**********************
-      Environment SetUP
-     ***********************/
+    /*Environment SetUP*/
     if (process.env.NODE_ENV === 'production') {
       app.set('json spaces', 0);
     } else {
       app.set('json spaces', 2);
     }
-
-    /*****************************
-     **Setup for CORS
-     *****************************/
+    /*Setup for CORS*/
     app.use(function(req, res, next) {
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');

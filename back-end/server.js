@@ -12,33 +12,22 @@
       registerUserApi = require( './routes/restApi/API/registerNsignInApi' ),
       catchAll  = require( './routes' );
 
-  /**
-  ** Configuration File NoSQL Database
-  ***/
+  /*Configuration File NoSQL Database*/
   require( './configuration/mongodb' ); //mongodb integration
-
-  /***
-   ** Start our Express Server
-   ***/
+  /*Start our Express Server*/
   var app = node.express();
-
-  /***
-   ** Require our Configuration Files
-   ***/
+  /*Require our Configuration Files*/
   require( './configuration/express' )(app);
   require( './configuration/passport' )(node.passport);
-
-  /***
-   ** Routes
-   ***/
+  /*Routes*/
   useApp([main,sample,registerUserApi]);
-  //app.use( '/', registerUserApi );
+  useApi([{
+    name: '/userApi',
+    url: registerUserApi
+  }]);
   app.use( '*', catchAll );
 
-
-  /***
-   ** node.cluster Configuration
-   ***/
+  /*node.cluster Configuration*/
   if (node.cluster.isMaster) {
     node.clusterService( node );
   } else {
@@ -51,6 +40,13 @@
     param.forEach(function( name ) {
       app.use( '/', name );
     });
+  }
+
+  function useApi( param ) {
+    for( var key in param ) {
+      var obj = param[key];
+      app.use( obj.name, obj.url );
+    }
   }
 
 }());

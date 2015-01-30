@@ -11,7 +11,7 @@
     passport.use( 'local-login', new node.LocalStrategy({
       usernameField: 'email'
     }, function( email, password, done ) {
-      node.mongoDB( node, 'pageant' )
+      node.mongoDB( node, node.config.dbName )
       .then(function( connection ) {
         node.User.findOne({
           email: email
@@ -26,7 +26,6 @@
             if( !isMatch ) return done( null, false, {
               message: 'Wrong email/password'
             });
-            console.log( user );
             return done( null, user);
           });
         });
@@ -37,22 +36,20 @@
       usernameField: 'email',
       passReqToCallback: true
     }, function( req, email, password, done ) {
-      console.log( 'username: ' + req.body.username );
-      node.mongoDB( node, 'pageant' )
-      .then(function( connection ) {
-        var newUser = node.User({
-          email: email,
-          password: password,
-          username: req.body.username
+      node.mongoDB( node, node.config.dbName )
+        .then(function( connection ) {
+          var newUser = node.User({
+            email: email,
+            password: password,
+            username: req.body.username
+          });
+          return newUser;
+        }).then( function( user ) {
+            user.save(function(err) {
+              if( err ) return done( null, false );
+              done( null, user );
+          });
         });
-        return newUser;
-      })
-      .then( function( user ) {
-        user.save(function(err) {
-          if( err ) return done( null, false );
-          done( null, user );
-        });
-      });
     }));
   };
 }());

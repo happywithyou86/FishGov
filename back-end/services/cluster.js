@@ -2,13 +2,10 @@
   'use strict';
 
   module.exports = function( node ) {
-    /**
-    ** Fork Workers
-    ***/
+
+    /*Fork Workers*/
     var timeouts = [];
-    /***
-    ** Use a Vanilla for loop to fork our Clusters
-    ***/
+    /*Use a Vanilla for loop to fork our Clusters*/
     for (var i = 0; i < node.numCPUs; i++) node.cluster.fork();
 
     node.cluster.on('fork', function(worker) {
@@ -23,10 +20,7 @@
       console.log('A worker is now connected to ' + address.address + ':' + address.port);
     });
   };
-
-  /***
-  ** Function for using Error Message for the Worker
-  ***/
+  /*Function for using Error Message for the Worker*/
   function errorMsg() {
     console.error( 'Something must be wrong with the connection ...' );
   }
