@@ -4,7 +4,7 @@
 .header ul:nth-child(2) .register {
   font-size: 2em;
 }
-.header ul:nth-child(2) .login {
+.header ul:nth-child(2) .loginDropDown {
   font-size: 2em;
 }
 .header ul:nth-child(2) .logout {
@@ -19,6 +19,18 @@
 .header ul:first-child li a {
   height: 58px;
   padding-top: 18px;
+}
+.navbar {
+  border-radius: 0;
+}
+@media (min-width: 768px) {
+  .navbar-collapse .navbar-nav.navbar-left:first-child {
+    margin-left: 0;
+  }
+  .navbar-collapse .navbar-nav.navbar-left:first-child > li:first-child a {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
 .am-fade-and-scale {
   -webkit-animation-duration: 0.3s;

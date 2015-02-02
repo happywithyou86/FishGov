@@ -1,5 +1,5 @@
 
-  <nav class="navbar navbar-default header" role="navigation" ng-cloak>
+  <nav class="navbar navbar-inverse navbar-sm" role="navigation" ng-cloak>
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -26,7 +26,7 @@
             </a>
           </li>
           <li ng-show='vm.isAuthenticated()'>
-            <a href='#'>
+            <a href='#' class="active">
               Welcome!!! <strong ng-bind="username"></strong>
             </a>
           </li>
@@ -35,10 +35,10 @@
               <i class="ion ion-log-out" title="Logout"></i>
             </a>
           </li>
-          <li ng-hide='vm.isAuthenticated()' class="dropdown login">
+          <li ng-hide='vm.isAuthenticated()' class="dropdown loginDropDown">
             <a href='#' class="dropdown-toggle" data-toggle="dropdown" data-animation="am-fade-and-scale" data-placement="center">
-              <i class="ion ion-log-in" title="Login"></i>
-              <span class="caret"></span>
+              <i class="ion ion-log-in" title="Login"><span class="caret"></span></i>
+
             </a>
             <ul class="dropdown-menu" role="menu">
               <li class='local-login text-center'>
@@ -49,13 +49,13 @@
               </li>
               <li class='login-facebook text-center'>
                 <a href="#" ng-click="vm.authenticate('facebook')">
-                  <span class='ion-social-facebook'></span>
+                  <span class="fui-facebook"></span>
                   Sign in with Facebook
                 </a>
               </li>
               <li class='google-plus text-center'>
                 <a href="#" ng-click="vm.authenticate('google')">
-                  <span class='ion-social-googleplus'></span>
+                  <span class="fui-google-plus"></span>
                   Sign in with Google
                 </a>
               </li>

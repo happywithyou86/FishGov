@@ -19,6 +19,7 @@
 
     {# bowerComponents #}
     <link rel="stylesheet" href="/bowerComponents/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bowerComponents/flat-ui/dist/css/flat-ui.min.css"/>
     <link rel="stylesheet" href="/bowerComponents/toastr/toastr.min.css"/>
     <link rel="stylesheet" href="/bowerComponents/angular-loading-bar/src/loading-bar.css"/>
     <link rel="stylesheet" href="/bowerComponents/ionicons/css/ionicons.css"/>
@@ -31,9 +32,7 @@
   <body>
 
     <!-- <div ui-view=''></div> -->
-
     {% include 'commons/header.html' %}
-
     <section id="content" class="ui-view-container" >
       <div data-ng-controller="Shell as vm" ng-cloak>
         <div ui-view></div>
