@@ -1,9 +1,8 @@
 (function() {
   'use strict';
 
-  var node = app_require('services/module.config'),
+  var node = appRequire('services/module.config'),
     router = node.express.Router();
-
 
   router.use(function timeLog(req, res, next) {
     console.log('Time: ', Date.now());

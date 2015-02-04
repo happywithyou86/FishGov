@@ -2,24 +2,24 @@
   'use strict';
 
   angular
-    .module( 'app.services' )
-    .factory( 'authToken', authToken );
+    .module('app.services')
+    .factory('authToken', authToken);
 
-    authToken.$inject = [ '$window' ];
+    authToken.$inject = ['$window'];
 
-  function authToken( $window ) {
+  function authToken($window) {
     var storage = $window.localStorage;
     var cachedToken;
-    var userToken = 'satellizer_token';
+    var userToken = 'magens_token';
 
     var authUserToken = {
-      setToken: function( token ) {
+      setToken: function(token) {
         cachedToken = token;
-        storage.setItem( 'userToken', token );
+        storage.setItem('userToken', token);
       },
       getToken: function() {
-        if( !cachedToken ) {
-          cachedToken = storage.getItem( userToken );
+        if (!cachedToken) {
+          cachedToken = storage.getItem(userToken);
         }
 
         return cachedToken;
@@ -29,7 +29,7 @@
       },
       removeToken: function() {
         cachedToken = null;
-        storage.removeItem( userToken );
+        storage.removeItem(userToken);
       }
     };
 

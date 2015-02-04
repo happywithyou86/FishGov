@@ -1,4 +1,4 @@
-  <!doctype html>
+<!doctype html>
 <html data-ng-app='ngAPI'>
   <head>
     <meta charset='utf-8' />
@@ -17,17 +17,19 @@
         }
     </style>
 
-    {# bowerComponents #}
-    <link rel="stylesheet" href="/bowerComponents/bootstrap/dist/css/bootstrap.css"/>
-    <link rel="stylesheet" href="/bowerComponents/flat-ui/dist/css/flat-ui.min.css"/>
-    <link rel="stylesheet" href="/bowerComponents/toastr/toastr.min.css"/>
-    <link rel="stylesheet" href="/bowerComponents/angular-loading-bar/src/loading-bar.css"/>
-    <link rel="stylesheet" href="/bowerComponents/ionicons/css/ionicons.css"/>
-    {# END bowerComponents #}
+    <!-- bower:css -->
+    <link rel="stylesheet" href="/bowerComponents/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/bowerComponents/angular-motion/dist/angular-motion.css" />
+    <link rel="stylesheet" href="/bowerComponents/angular-loading-bar/build/loading-bar.css" />
+    <link rel="stylesheet" href="/bowerComponents/toastr/toastr.css" />
+    <link rel="stylesheet" href="/bowerComponents/ionicons/css/ionicons.css" />
+    <link rel="stylesheet" href="/bowerComponents/videojs/dist/video-js/video-js.css" />
+    <link rel="stylesheet" href="/bowerComponents/flat-ui/dist/css/flat-ui.css" />
+    <!-- endbower -->
 
-    {# LINKS #}
-    <link rel="stylesheet" href="/compiledCss/stylus/app.css"/>
-    {# LINKS END #}
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/compiledCss/stylus/app.css">
+    <!-- endinject -->
   </head>
   <body>
 
@@ -39,64 +41,59 @@
       </div>
     </section>
 
+    <!-- bower:js -->
+    <script src="/bowerComponents/jquery/dist/jquery.js"></script>
+    <script src="/bowerComponents/angular/angular.js"></script>
+    <script src="/bowerComponents/angular-animate/angular-animate.js"></script>
+    <script src="/bowerComponents/angular-strap/dist/angular-strap.js"></script>
+    <script src="/bowerComponents/angular-strap/dist/angular-strap.tpl.js"></script>
+    <script src="/bowerComponents/angular-loading-bar/build/loading-bar.js"></script>
+    <script src="/bowerComponents/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/bowerComponents/lodash/dist/lodash.compat.js"></script>
+    <script src="/bowerComponents/restangular/dist/restangular.js"></script>
+    <script src="/bowerComponents/satellizer/satellizer.js"></script>
+    <script src="/bowerComponents/toastr/toastr.js"></script>
+    <script src="/bowerComponents/videojs/dist/video-js/video.js"></script>
+    <script src="/bowerComponents/flat-ui/dist/js/flat-ui.js"></script>
+    <!-- endbower -->
 
-    <script type="text/javascript" src="/bowerComponents/jquery/dist/jquery.js"></script>
-    <script type="text/javascript" src="/bowerComponents/angular/angular.js"></script>
-    <script type="text/javascript" src="/bowerComponents/angular-animate/angular-animate.min.js"></script>
-    <script type="text/javascript" src="/bowerComponents/bootstrap/dist/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/bowerComponents/angular-ui-router/release/angular-ui-router.js"></script>
-    <script type="text/javascript" src="/bowerComponents/lodash/dist/lodash.compat.js"></script>
-    <script type="text/javascript" src="/bowerComponents/restangular/dist/restangular.js"></script>
-    <script type="text/javascript" src="/bowerComponents/toastr/toastr.min.js"></script>
-    <script type="text/javascript" src="/bowerComponents/angular-strap/dist/angular-strap.js"></script>
-    <script type="text/javascript" src="/bowerComponents/angular-strap/dist/angular-strap.tpl.js"></script>
-    <script type="text/javascript" src="/bowerComponents/satellizer/satellizer.js"></script>
-    <script type="text/javascript" src="/bowerComponents/angular-loading-bar/src/loading-bar.js"></script>
-
-    <script type="text/javascript" src="/js/app.js"></script>
-
-    <script type="text/javascript" src="/js/routes/client/main/main.module.js"></script>
-    <script type="text/javascript" src="/js/routes/client/main/main.js"></script>
-    <script type="text/javascript" src="/js/routes/client/main/config.route.js"></script>
-
-    <script type="text/javascript" src="/js/routes/client/sample/sample.module.js"></script>
-    <script type="text/javascript" src="/js/routes/client/sample/sample.js"></script>
-    <script type="text/javascript" src="/js/routes/client/sample/config.route.js"></script>
-
-    <script type="text/javascript" src="/js/exception/exception.module.js"></script>
-    <script type="text/javascript" src="/js/exception/exception.js"></script>
-    <script type="text/javascript" src="/js/exception/exception-handler.provider.js"></script>
-
-    <script type="text/javascript" src="/js/logger/logger.module.js"></script>
-    <script type="text/javascript" src="/js/logger/logger.js"></script>
-
-    <script type="text/javascript" src="/js/router/router.module.js"></script>
-    <script type="text/javascript" src="/js/router/routerhelper.js"></script>
-
-    <script type="text/javascript" src="/js/registerNsignIn/registerNsignIn.module.js"></script>
-    <script type="text/javascript" src="/js/registerNsignIn/registerNsignIn.js"></script>
-
-    <script type="text/javascript" src="/js/strapModuleBW/strap.module.js"></script>
-    <script type="text/javascript" src="/js/strapModuleBW/strap.js"></script>
-
-    <script type="text/javascript" src="/js/commons/commons.module.js"></script>
-    <script type="text/javascript" src="/js/commons/commons.js"></script>
-    <script type="text/javascript" src="/js/commons/dataservice.js"></script>
-    <script type="text/javascript" src="/js/commons/viewContentLoaded.js"></script>
-
-    <script type="text/javascript" src="/js/core/core.module.js"></script>
-    <script type="text/javascript" src="/js/core/constants.js"></script>
-    <script type="text/javascript" src="/js/core/config.js"></script>
-
-    <script type="text/javascript" src="/js/layout/layout.module.js"></script>
-    <script type="text/javascript" src="/js/layout/shell.js"></script>
-
-    <script type="text/javascript" src="/js/services/services.module.js"></script>
-    <script type="text/javascript" src="/js/services/restangular.js"></script>
-    <script type="text/javascript" src="/js/services/authToken.js"></script>
-    <script type="text/javascript" src="/js/services/authInterceptor.js"></script>
-    <script type="text/javascript" src="/js/services/strapModuleBW/modal.js"></script>
-    <script type="text/javascript" src="/js/services/strapModuleBW/alert.js"></script>
-
+    <!-- inject:js -->
+    <script src="/js/commons/commons.module.js"></script>
+    <script src="/js/core/core.module.js"></script>
+    <script src="/js/exception/exception.module.js"></script>
+    <script src="/js/layout/layout.module.js"></script>
+    <script src="/js/logger/logger.module.js"></script>
+    <script src="/js/registerNsignIn/registerNsignIn.module.js"></script>
+    <script src="/js/router/router.module.js"></script>
+    <script src="/js/services/services.module.js"></script>
+    <script src="/js/strapModuleBW/strap.module.js"></script>
+    <script src="/js/widgets/widgets.module.js"></script>
+    <script src="/js/routes/client/main/main.module.js"></script>
+    <script src="/js/routes/client/sample/sample.module.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/commons/commons.js"></script>
+    <script src="/js/commons/dataservice.js"></script>
+    <script src="/js/commons/viewContentLoaded.js"></script>
+    <script src="/js/core/config.js"></script>
+    <script src="/js/core/constants.js"></script>
+    <script src="/js/custom/layout.js"></script>
+    <script src="/js/exception/exception-handler.provider.js"></script>
+    <script src="/js/exception/exception.js"></script>
+    <script src="/js/layout/shell.js"></script>
+    <script src="/js/logger/logger.js"></script>
+    <script src="/js/registerNsignIn/registerNsignIn.js"></script>
+    <script src="/js/router/routerhelper.js"></script>
+    <script src="/js/services/authInterceptor.js"></script>
+    <script src="/js/services/authToken.js"></script>
+    <script src="/js/services/restangular.js"></script>
+    <script src="/js/strapModuleBW/strap.js"></script>
+    <script src="/js/widgets/switches.js"></script>
+    <script src="/js/services/strapModuleBW/alert.js"></script>
+    <script src="/js/services/strapModuleBW/modal.js"></script>
+    <script src="/js/routes/client/main/config.route.js"></script>
+    <script src="/js/routes/client/main/main.js"></script>
+    <script src="/js/routes/client/sample/config.route.js"></script>
+    <script src="/js/routes/client/sample/sample.js"></script>
+    <!-- endinject -->
   </body>
 </html>

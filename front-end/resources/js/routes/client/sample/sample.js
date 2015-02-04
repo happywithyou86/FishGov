@@ -5,12 +5,12 @@
   .module('app.sample')
   .controller('Sample', Sample);
 
-  Sample.$inject = ['logger'];
+  Sample.$inject = ['logger', 'viewContentLoaded'];
 
-  function Sample( logger ) {
+  function Sample(logger, viewContentLoaded) {
     var vm = this;
 
-    logger.success( 'Sample View Activated' );
+    logger.success('Sample View Activated');
 
   }
 })();

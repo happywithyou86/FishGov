@@ -18,7 +18,8 @@
     "restangular": "~1.4.0",
     "satellizer": "~0.8.7",
     "toastr": "~2.0.3",
-    "ionicons": "~2.0.1"
+    "ionicons": "~2.0.1",
+    "flat-ui": "~2.2.2"
   },
   "devDependencies": {}
 }

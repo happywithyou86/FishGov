@@ -1,5 +1,5 @@
 (function() {
   'use strict';
 
-  angular.module( 'app.male', [] );
+  angular.module('app.widgets', []);
 }());

@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var node = app_require('services/module.config');
+  var node = appRequire('services/module.config');
 
   /*Express Configuration*/
   module.exports = function(app) {
@@ -16,8 +16,8 @@
       }
     });
     app.set('x-powered-by', false);
-    app.set('port', process.env.PORT || 3000);
-    app.set('env', process.env.NODE_ENV || 'development');
+    app.set('port', node.port);
+    app.set('env', node.environment);
     app.set('view engine', 'html');
     app.use(node.compression());
     app.use(node.favicon(node.faviconPath));

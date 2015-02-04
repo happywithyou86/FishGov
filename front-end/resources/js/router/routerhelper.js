@@ -25,8 +25,8 @@
       };
     }
 
-    function routehelper( $location, $rootScope, $q, $state, $timeout, $window,
-      logger, routehelperConfig ) {
+    function routehelper($location, $rootScope, $q, $state, $timeout, $window,
+      logger, routehelperConfig) {
         var handlingRouteChangeError = false;
         var routeCounts = {
             errors: 0,
@@ -47,8 +47,9 @@
         function configureRoutes(routes) {
           routes.forEach(function(route) {
               route.config.resolve =
-                  angular.extend( route.config.resolve || {}, routehelperConfig.config.resolveAlways );
-              $stateProvider.state( route.state, route.config );
+                  angular.extend(route.config.resolve || {},
+                  routehelperConfig.config.resolveAlwaysq);
+              $stateProvider.state(route.state, route.config);
           });
           $urlRouterProvider.otherwise('/');
         }
@@ -64,8 +65,8 @@
               }
               routeCounts.errors++;
               handlingRouteChangeError = true;
-              var destination = (current && (current.title || current.name || current.loadedTemplateUrl)) ||
-                  'unknown target';
+              var destination = (current && (current.title || current.name ||
+                current.loadedTemplateUrl)) || 'unknown target';
               var msg = 'Error routing to ' + destination + '. ' + (rejection.msg || '');
               logger.warning(msg, [current]);
               $location.path('/');

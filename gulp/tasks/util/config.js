@@ -77,7 +77,7 @@ exports.module = function () {
 		'/js/app.js'
 	]
 
-	moduleFiles.forEach( function (path) {
+	moduleFiles.forEach(function (path) {
 		module.push('app/public' + path)
 	})
 	return module;
@@ -89,7 +89,7 @@ exports.services = function () {
 		'/js/services/*.js'
 	]
 
-	serviceFiles.forEach( function (path) {
+	serviceFiles.forEach(function (path) {
 		services.push('app/public' + path)
 	})
 	return services;
@@ -114,7 +114,7 @@ exports.directives = function () {
 		'/js/directives/*.js'
 	]
 
-	directivesFiles.forEach( function (path) {
+	directivesFiles.forEach(function (path) {
 		directives.push('app/public' + path)
 	})
 	return directives

@@ -31,6 +31,53 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
+  .navbar-collapse .navbar-nav.navbar-right:last-child>.dropdown:last-child>a {
+    border-radius: 0;
+  }
+}
+.loginUserAccount .form-control {
+  padding-left: 40px;
+}
+.loginUserAccount .form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+.loginUserAccount .form-group .col-xs-12 {
+  padding: 0;
+  margin-bottom: 20px;
+}
+.loginUserAccount .form-control + .glyphicon {
+  position: absolute;
+  left: 0;
+  padding: 10px 12px;
+}
+.loginUserAccount .modal-footer {
+  border-top: 0;
+}
+.loginUserAccount .modal-footer input {
+  width: 100%;
+}
+.register .form-control {
+  padding-left: 40px;
+}
+.register .form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+.register .form-group .col-xs-12 {
+  padding: 0;
+  margin-bottom: 20px;
+}
+.register .form-control + .glyphicon {
+  position: absolute;
+  left: 0;
+  padding: 10px 12px;
+}
+.register .modal-footer {
+  border-top: 0;
+}
+.register .modal-footer input {
+  width: 100%;
 }
 .am-fade-and-scale {
   -webkit-animation-duration: 0.3s;
@@ -86,18 +133,12 @@
   -ms-animation-play-state: running;
   animation-play-state: running;
 }
-.modal-backdrop {
-  opacity: 0.6;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-  filter: alpha(opacity=60);
-}
 @-webkit-keyframes fadeAndScaleIn {
   from {
     opacity: 0;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: alpha(opacity=0);
     -webkit-transform: scale(0.7);
-    -ms-transform: scale(0.7);
     transform: scale(0.7);
   }
   to {
@@ -113,7 +154,6 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: alpha(opacity=0);
     -webkit-transform: scale(0.7);
-    -ms-transform: scale(0.7);
     transform: scale(0.7);
   }
   to {
@@ -135,7 +175,6 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: alpha(opacity=0);
     -webkit-transform: scale(0.7);
-    -ms-transform: scale(0.7);
     transform: scale(0.7);
   }
 }
@@ -151,7 +190,6 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: alpha(opacity=0);
     -webkit-transform: scale(0.7);
-    -ms-transform: scale(0.7);
     transform: scale(0.7);
   }
 }

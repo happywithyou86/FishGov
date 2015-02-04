@@ -16,7 +16,12 @@
           url: '/sample',
           templateUrl: '/client/sample/index.html',
           controller: 'Sample as vm',
-          title: 'Sample'
+          title: 'Sample',
+          resolve: {
+            flatUi: function(viewContentLoaded) {
+              viewContentLoaded.carouselScript();
+            }
+          }
         }
       }];
     }

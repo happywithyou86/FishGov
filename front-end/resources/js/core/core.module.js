@@ -17,6 +17,7 @@
         'app.services',
         'app.registerNsignIn',
         'app.layout',
+        'app.widgets',
         /*
          * Our reusable cross app code modules
          */

@@ -8,12 +8,11 @@
     };
 
     angular
-      .module( 'app.core' )
-      .value( 'config', config )
+      .module('app.core')
+      .value('config', config)
       .config(configure)
-      .config( toastrConfig )
-      .config( registerNsignInConfig );
-
+      .config(toastrConfig)
+      .config(registerNsignInConfig);
 
     /* @ngInject */
     function toastrConfig(toastr) {
@@ -21,11 +20,11 @@
         toastr.options.positionClass = 'toast-bottom-right';
     }
 
-    function registerNsignInConfig( $authProvider, cfpLoadingBarProvider ) {
+    function registerNsignInConfig($authProvider, cfpLoadingBarProvider) {
       cfpLoadingBarProvider.latencyThreshold = 100;
       $authProvider.loginUrl    = 'http://localhost:3000/userApi/userLogIn';
       $authProvider.signupUrl   = 'http://localhost:3000/userApi/userRegister';
-      $authProvider.tokenPrefix = 'rappler';
+      $authProvider.tokenPrefix = 'magens';
 
       $authProvider.facebook({
         clientId: '789445017793242',
@@ -39,11 +38,13 @@
     }
 
     /* @ngInject */
-    function configure ( $httpProvider, $locationProvider, $logProvider, $urlRouterProvider, $stateProvider,
-      exceptionHandlerProvider, routehelperConfigProvider ) {
+    function configure ($httpProvider, $locationProvider, $logProvider, $urlRouterProvider,
+      $stateProvider, exceptionHandlerProvider, routehelperConfigProvider) {
 
         $locationProvider.html5Mode(true);
-        if ($logProvider.debugEnabled)  $logProvider.debugEnabled(true);
+        if ($logProvider.debugEnabled) {
+          $logProvider.debugEnabled(true);
+        }
 
         routehelperConfigProvider.config.$stateProvider = $stateProvider;
         routehelperConfigProvider.config.$urlRouterProvider = $urlRouterProvider;

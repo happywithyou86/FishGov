@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-  .module( 'app.services' )
-  .service( 'strapAlert', strapModal );
+  .module('app.services')
+  .service('strapAlert', strapModal);
 
-  strapModal.$inject = [ '$alert' ];
+  strapModal.$inject = ['$alert'];
 
-  function strapModal( $alert ) {
+  function strapModal($alert) {
     var vm = this;
 
     /* Literals */
@@ -17,16 +17,15 @@
     vm.show  = show;
     vm.hide  = hide;
 
-
-    function show( title, content, container, type ) {
-      vm.alerObj = vm.alert( title, content, container, type );
+    function show(title, content, container, type) {
+      vm.alerObj = vm.alert(title, content, container, type);
     }
 
     function hide() {
       vm.alerObj.hide();
     }
 
-    function alert( title, content, container, type ) {
+    function alert(title, content, container, type) {
       var strapAlert = $alert({
         title: title,
         content: content,

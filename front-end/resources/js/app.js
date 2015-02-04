@@ -23,7 +23,5 @@
         //'app.avengers',
         'app.main',
         'app.sample',
-
-
     ]);
 })();

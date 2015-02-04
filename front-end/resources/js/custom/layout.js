@@ -1,4 +1,4 @@
-+ function( $ ) { "use strict";
+(function($) { 'use strict';
 
   var Layout = function (SidebarWidth) {
     this.jcaSideBarWidth = SidebarWidth;
@@ -6,7 +6,7 @@
   };
 
   Layout.prototype.init = function () {
-    console.log( 'Layout.js is running ');
+    console.log('Layout.js is running');
     this.carousel();
     this.fullPage();
 
@@ -14,11 +14,21 @@
   };
 
   Layout.prototype.carousel = function() {
-    $('.carousel').carousel({
-      interval: 3000,
-      pause: "hover",
-      wrap: true
-    });
+    // $('[data-toggle="switch"]').bootstrapSwitch('onSwitchChange',function() {
+    //   var self = this;
+    //   var switchObj = $(':checkbox');
+    //   /* Get the state of this */
+    //   var state = $(self).bootstrapSwitch('state');
+    //   console.log(self );
+    //   for(var i=0;i<=2;i++) {
+    //     if(switchObj[i] !== self )
+    //       $(switchObj[i]).bootstrapSwitch('state', false);
+    //   }
+    // });
+
+    if ($('[data-toggle="switch"]').length) {
+      $('[data-toggle="switch"]').bootstrapSwitch();
+    }
   };
 
   Layout.prototype.fullPage = function() {
@@ -54,20 +64,19 @@
         slideSelector: '.slide',
 
         //events
-        onLeave: function(index, nextIndex, direction){},
-        afterLoad: function(anchorLink, index){},
-        afterRender: function(){},
-        afterResize: function(){},
-        afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){},
-        onSlideLeave: function(anchorLink, index, slideIndex, direction){}
+        onLeave: function(index, nextIndex, direction) {},
+        afterLoad: function(anchorLink, index) {},
+        afterRender: function() {},
+        afterResize: function() {},
+        afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {},
+        onSlideLeave: function(anchorLink, index, slideIndex, direction) {}
       });
 
       $('.selectSection').on('click', function() {
-        console.log( 'select Section' );
         $.fn.fullpage.moveSectionDown();
       });
 
   };
   window.jcaLayout = new Layout();
 
-}( jQuery );
+}($));

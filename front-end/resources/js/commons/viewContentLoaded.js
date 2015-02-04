@@ -5,9 +5,9 @@
     .module('app.commons')
     .factory('viewContentLoaded', viewContentLoaded);
 
-    viewContentLoaded.$inject = [ '$rootScope', 'logger' ];
+    viewContentLoaded.$inject = ['$rootScope', 'logger'];
 
-    function viewContentLoaded ( $rootScope, logger ) {
+    function viewContentLoaded ($rootScope, logger) {
       /***
       ** Sample external jquery call
       ***/
