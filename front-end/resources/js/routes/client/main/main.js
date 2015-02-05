@@ -7,6 +7,7 @@
 
     Main.$inject = ['$rootScope'];
 
+    /* @ngInject */
     function Main($rootScope) {
       var vm = this;
 

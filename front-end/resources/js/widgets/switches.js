@@ -5,6 +5,7 @@
     .module('app.widgets')
     .directive('tabSwitches', tabSwitches);
 
+    /* @ngInject */
     function tabSwitches() {
       var directive = {
         restrict: 'AEC',
@@ -12,6 +13,7 @@
       };
 
       return directive;
+      
       function link(scope, element, attrs) {
         element.bootstrapSwitch('onSwitchChange', function() {
           var switchObj = $('[data-toggle="switch"]');

@@ -8,6 +8,8 @@
   .provider('exceptionHandler', exceptionHandlerProvider)
   .config(config);
 
+  extendExceptionHandler.$inject = ['$delegate', 'exceptionHandler', 'logger'];
+
   /**
   * Must configure the exception handling
   * @return {[type]}
@@ -34,6 +36,8 @@
   * @return {[type]}
   * @ngInject
   */
+  /*@ngInject*/
+  config.$inject = ['$provide'];
   function config($provide) {
     $provide.decorator('$exceptionHandler', extendExceptionHandler);
   }

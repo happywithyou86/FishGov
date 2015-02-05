@@ -7,6 +7,7 @@
 
     commonsDataService.$inject = ['authToken', 'userInfoServiceApi', 'exception'];
 
+    /* @ngInject */
     function commonsDataService(authToken, userInfoServiceApi, exception) {
       var service = {
         authorize : authorize,

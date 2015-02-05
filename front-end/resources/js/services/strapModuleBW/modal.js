@@ -6,7 +6,7 @@
     .service('strapModal', strapModal);
 
     strapModal.$inject = ['$modal'];
-
+    /* @ngInject */
     function strapModal($modal) {
       var vm = this;
 

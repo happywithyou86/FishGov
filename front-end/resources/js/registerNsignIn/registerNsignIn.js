@@ -8,6 +8,7 @@
     RegisterNSignIn.$inject = ['$q', '$timeout', '$auth', '$rootScope', 'authToken',
     'strapAlert', 'strapModal', 'commonsDataService'];
 
+    /*@ngInject*/
     function RegisterNSignIn($q, $timeout, $auth, $rootScope, authToken,
       strapAlert, strapModal, commonsDataService) {
       var vm = this;

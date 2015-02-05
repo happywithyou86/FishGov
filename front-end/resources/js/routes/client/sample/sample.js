@@ -7,6 +7,7 @@
 
   Sample.$inject = ['logger', 'viewContentLoaded'];
 
+  /* @ngInject */
   function Sample(logger, viewContentLoaded) {
     var vm = this;
 

@@ -1,5 +1,5 @@
 <!doctype html>
-<html data-ng-app='ngAPI'>
+<html data-ng-app='ngAPI' ng-strict-di>
   <head>
     <meta charset='utf-8' />
     <meta http-equiv='X-UA-Compatible', content='IE=edge' />
@@ -17,46 +17,52 @@
         }
     </style>
 
+    <!-- build:css /css/vendor.css-->
     <!-- bower:css -->
-    <link rel="stylesheet" href="/bowerComponents/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="/bowerComponents/angular-motion/dist/angular-motion.css" />
-    <link rel="stylesheet" href="/bowerComponents/angular-loading-bar/build/loading-bar.css" />
-    <link rel="stylesheet" href="/bowerComponents/toastr/toastr.css" />
-    <link rel="stylesheet" href="/bowerComponents/ionicons/css/ionicons.css" />
-    <link rel="stylesheet" href="/bowerComponents/videojs/dist/video-js/video-js.css" />
-    <link rel="stylesheet" href="/bowerComponents/flat-ui/dist/css/flat-ui.css" />
+    <link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/bower/angular-motion/dist/angular-motion.css" />
+    <link rel="stylesheet" href="/bower/angular-loading-bar/build/loading-bar.css" />
+    <link rel="stylesheet" href="/bower/toastr/toastr.css" />
+    <link rel="stylesheet" href="/bower/ionicons/css/ionicons.css" />
+    <link rel="stylesheet" href="/bower/videojs/dist/video-js/video-js.css" />
+    <link rel="stylesheet" href="/bower/flat-ui/dist/css/flat-ui.css" />
     <!-- endbower -->
+    <!-- endbuild -->
 
+    <!-- build:css /css/app.css-->
     <!-- inject:css -->
-    <link rel="stylesheet" href="/compiledCss/stylus/app.css">
+    <link rel="stylesheet" href="/.tmp/stylus/app.css">
     <!-- endinject -->
+    <!-- endbuild -->
   </head>
   <body>
 
-    <!-- <div ui-view=''></div> -->
-    {% include 'commons/header.html' %}
+    <section ng-include="'commons/header.html'"></section>
     <section id="content" class="ui-view-container" >
       <div data-ng-controller="Shell as vm" ng-cloak>
         <div ui-view></div>
       </div>
     </section>
 
+    <!-- build:js /js/vendor.js-->
     <!-- bower:js -->
-    <script src="/bowerComponents/jquery/dist/jquery.js"></script>
-    <script src="/bowerComponents/angular/angular.js"></script>
-    <script src="/bowerComponents/angular-animate/angular-animate.js"></script>
-    <script src="/bowerComponents/angular-strap/dist/angular-strap.js"></script>
-    <script src="/bowerComponents/angular-strap/dist/angular-strap.tpl.js"></script>
-    <script src="/bowerComponents/angular-loading-bar/build/loading-bar.js"></script>
-    <script src="/bowerComponents/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="/bowerComponents/lodash/dist/lodash.compat.js"></script>
-    <script src="/bowerComponents/restangular/dist/restangular.js"></script>
-    <script src="/bowerComponents/satellizer/satellizer.js"></script>
-    <script src="/bowerComponents/toastr/toastr.js"></script>
-    <script src="/bowerComponents/videojs/dist/video-js/video.js"></script>
-    <script src="/bowerComponents/flat-ui/dist/js/flat-ui.js"></script>
+    <script src="/bower/jquery/dist/jquery.js"></script>
+    <script src="/bower/angular/angular.js"></script>
+    <script src="/bower/angular-animate/angular-animate.js"></script>
+    <script src="/bower/angular-strap/dist/angular-strap.js"></script>
+    <script src="/bower/angular-strap/dist/angular-strap.tpl.js"></script>
+    <script src="/bower/angular-loading-bar/build/loading-bar.js"></script>
+    <script src="/bower/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/bower/lodash/dist/lodash.compat.js"></script>
+    <script src="/bower/restangular/dist/restangular.js"></script>
+    <script src="/bower/satellizer/satellizer.js"></script>
+    <script src="/bower/toastr/toastr.js"></script>
+    <script src="/bower/videojs/dist/video-js/video.js"></script>
+    <script src="/bower/flat-ui/dist/js/flat-ui.js"></script>
     <!-- endbower -->
+    <!-- endbuild-->
 
+    <!-- build:js /js/app.js-->
     <!-- inject:js -->
     <script src="/js/commons/commons.module.js"></script>
     <script src="/js/core/core.module.js"></script>
@@ -95,5 +101,10 @@
     <script src="/js/routes/client/sample/config.route.js"></script>
     <script src="/js/routes/client/sample/sample.js"></script>
     <!-- endinject -->
+
+    <!-- inject:templates:js -->
+    <!-- endinject -->
+
+    <!-- endbuild -->
   </body>
 </html>

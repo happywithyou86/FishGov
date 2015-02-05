@@ -23,10 +23,5 @@
       .on('error', handleErrors )
       .pipe(gulp.dest('front-end/.tmp/stylus' ));
     });
-
-    gulp.task('clean-stylus', function(done) {
-      var path = 'front-end/.tmp/**/*.css';
-      clean(del, util, logger, path, done);
-    });
   };
 }());

@@ -6,7 +6,7 @@
   .service('strapAlert', strapModal);
 
   strapModal.$inject = ['$alert'];
-
+  /* @ngInject */
   function strapModal($alert) {
     var vm = this;
 

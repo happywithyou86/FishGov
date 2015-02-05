@@ -34,6 +34,8 @@
     nunjucks          : require('nunjucks'),
     nunjucksEnv       : new nunjucks.Environment(new nunjucks.FileSystemLoader
       (path.join(rootPath, 'views'))),
+    nunjucksEnvBuild  : new nunjucks.Environment(new nunjucks.FileSystemLoader
+      (path.join(rootPath, 'build'))),
     passport          : require('passport'),
     Promise           : require('bluebird'),
     qs                : require('querystring'),
@@ -45,6 +47,7 @@
 
     faviconPath       : rootPath + 'front-end/resources/favicon.ico',
     nunjucksPath      : path.join(rootPath, 'front-end/views'),
+    nunjucksPathBuild : path.join(rootPath, 'build'),
     css               : path.join(rootPath, 'front-end/resources/css'),
     fonts             : path.join(rootPath, 'front-end/resources/fonts'),
     img               : path.join(rootPath, 'front-end/resources/img'),
@@ -52,5 +55,11 @@
     compiledCss       : path.join(rootPath, 'front-end/.tmp'),
     bowerComponents   : path.join(rootPath, 'front-end/bower'),
     commonViews       : path.join(rootPath, 'front-end/views/commons'),
+
+    buildCss          : path.join(rootPath, 'build/css'),
+    buildFonts        : path.join(rootPath, 'build/fonts'),
+    buildImg          : path.join(rootPath, 'build/img'),
+    buildJs           : path.join(rootPath, 'build/js'),
+    commonViewsBuild  : path.join(rootPath, 'build/commons')
   };
 }());

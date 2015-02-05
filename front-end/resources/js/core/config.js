@@ -14,12 +14,15 @@
       .config(toastrConfig)
       .config(registerNsignInConfig);
 
+    toastrConfig.$inject = ['toastr'];
     /* @ngInject */
     function toastrConfig(toastr) {
         toastr.options.timeOut = 4000;
         toastr.options.positionClass = 'toast-bottom-right';
     }
 
+    registerNsignInConfig.$inject = ['$authProvider', 'cfpLoadingBarProvider'];
+    /* @ngInject */
     function registerNsignInConfig($authProvider, cfpLoadingBarProvider) {
       cfpLoadingBarProvider.latencyThreshold = 100;
       $authProvider.loginUrl    = 'http://localhost:3000/userApi/userLogIn';
@@ -37,6 +40,8 @@
       });
     }
 
+    configure.$inject = ['$httpProvider', '$locationProvider', '$logProvider', '$urlRouterProvider',
+      '$stateProvider', 'exceptionHandlerProvider', 'routehelperConfigProvider'];
     /* @ngInject */
     function configure ($httpProvider, $locationProvider, $logProvider, $urlRouterProvider,
       $stateProvider, exceptionHandlerProvider, routehelperConfigProvider) {

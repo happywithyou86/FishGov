@@ -3,20 +3,37 @@
 
   module.exports = function() {
     var config = {
+      adminRoutes: 'front-end/views/admin/**/*.*',
+
       alljs: [
         'front-end/resources/js/**/*.js',
         './*.js',
         'back-end/**/*.js'
       ],
-      client: 'front-end/views',
+      build: './build/',
+      client: 'front-end/views/',
+      clientRoutes: 'front-end/views/client/**/*.*',
+      commons: 'front-end/views/commons/**/*.*',
+      css: 'front-end/.tmp/stylus/app.css',
+      fonts: ['front-end/resources/fonts/**/*.*', 'front-end/bower/bootstrap/fonts/*.*',
+        'front-end/bower/ionicons/fonts/*.*', 'front-end/bower/flat-ui/fonts/**/*.*'],
+      htmlTemplates: 'front-end/views/**/*.html',
+      images: 'front-end/resources/img/**/*.*',
       index: 'front-end/views/index.html',
       js: [
         'front-end/resources/js/**/*.module.js',
         'front-end/resources/js/**/*.js'
       ],
-      css: 'front-end/.tmp/stylus/app.css',
       stylus: 'front-end/resources/css/stylus/app.styl',
       server: './back-end',
+      temp: 'front-end/.tmp/',
+      templateCache: {
+        file: 'templates.js',
+        options: {
+          module: 'app.core',
+          standalone: false,
+        }
+      },
       /*Bower and Npm Configurations*/
       bower: {
         json: require('./bower.json'),
@@ -26,8 +43,8 @@
         fileTypes: {
           html: {
             replace: {
-              js: '<script src="/bowerComponents{{filePath}}"></script>',
-              css: '<link rel="stylesheet" href="/bowerComponents{{filePath}}" />'
+              js: '<script src="/bower{{filePath}}"></script>',
+              css: '<link rel="stylesheet" href="/bower{{filePath}}" />'
             }
           }
         }

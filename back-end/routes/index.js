@@ -10,7 +10,12 @@
   });
 
   router.get('*', node.xPoweredBy, function(req, res) {
-    res.render('index.html');
+    if (process.env.NODE_ENV === 'production') {
+      res.render('index.html');
+    } else {
+      res.render('index.html');
+    }
+
   });
 
   module.exports = router;

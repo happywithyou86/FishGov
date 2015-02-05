@@ -7,6 +7,7 @@
 
     authInterceptor.$inject = ['authToken'];
 
+    /* @ngInject */
     function authInterceptor(authToken) {
       return {
         request: function(config) {

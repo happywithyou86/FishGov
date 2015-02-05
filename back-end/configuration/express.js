@@ -5,16 +5,30 @@
 
   /*Express Configuration*/
   module.exports = function(app) {
-    node.nunjucksEnv.express(app);
-    node.nunjucks.configure(node.nunjucksPath, {
-      autoescape: true,
-      express: app,
-      watch: true,
-      tags: {
-        variableStart: '<$',
-        variableEnd: '$>',
-      }
-    });
+    if(process.env.NODE_ENV === 'production') {
+      node.nunjucksEnvBuild.express(app);
+      node.nunjucks.configure(node.nunjucksPathBuild, {
+        autoescape: true,
+        express: app,
+        watch: true,
+        tags: {
+          variableStart: '<$',
+          variableEnd: '$>',
+        }
+      });
+    } else {
+      node.nunjucksEnv.express(app);
+      node.nunjucks.configure(node.nunjucksPath, {
+        autoescape: true,
+        express: app,
+        watch: true,
+        tags: {
+          variableStart: '<$',
+          variableEnd: '$>',
+        }
+      });
+    }
+
     app.set('x-powered-by', false);
     app.set('port', node.port);
     app.set('env', node.environment);
@@ -36,19 +50,22 @@
     }));
     app.use(node.passport.initialize());
 
-    app.use('/css', node.express.static(node.css));
-    app.use('/fonts', node.express.static(node.fonts));
-    app.use('/img', node.express.static(node.img));
-    app.use('/js', node.express.static(node.js));
-    app.use('/bowerComponents', node.express.static(node.bowerComponents));
-    app.use('/commonViews', node.express.static(node.commonViews));
-    app.use('/compiledCss', node.express.static(node.compiledCss));
-
-    /*Environment SetUP*/
+    /*Environment Setup*/
     if (process.env.NODE_ENV === 'production') {
       app.set('json spaces', 0);
+      app.use('/css', node.express.static(node.buildCss));
+      app.use('/js', node.express.static(node.buildJs));
+      app.use('/fonts', node.express.static(node.buildFonts));
+      app.use('commons', node.express.static(node.commonViewsBuild));
     } else {
       app.set('json spaces', 2);
+      app.use('/css', node.express.static(node.css));
+      app.use('/fonts', node.express.static(node.fonts));
+      app.use('/img', node.express.static(node.img));
+      app.use('/js', node.express.static(node.js));
+      app.use('/bower', node.express.static(node.bowerComponents));
+      app.use('/commons', node.express.static(node.commonViews));
+      app.use('/.tmp', node.express.static(node.compiledCss));
     }
     /*Setup for CORS*/
     app.use(function(req, res, next) {

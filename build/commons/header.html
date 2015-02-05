@@ -1,0 +1,69 @@
+
+  <nav class="navbar navbar-inverse navbar-sm" role="navigation" ng-cloak>
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand ion ion-ios-home" ui-sref='main' ui-sref-active="active"></a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-left">
+          <li ui-sref-active="active">
+            <a ui-sref="sample"> Sample </a>
+          </li>
+        </ul>
+        <ul class='nav navbar-nav navbar-right' ng-controller='StrapModuleBW as vm'>
+          <li ng-hide='vm.isAuthenticated()' class="register">
+            <a href='#' ng-click='vm.registerUser()'>
+              <i class="ion ion-power" title="register"></i>
+            </a>
+          </li>
+          <li ng-show='vm.isAuthenticated()'>
+            <a href='#' class="active">
+              Welcome!!! <strong ng-bind="username"></strong>
+            </a>
+          </li>
+          <li ng-show='vm.isAuthenticated()' class="logout">
+            <a href='#' ng-click='vm.logOut()' data-animation="am-fade-and-scale" data-placement="center" ng-cloak>
+              <i class="ion ion-log-out" title="Logout"></i>
+            </a>
+          </li>
+          <li ng-hide='vm.isAuthenticated()' class="dropdown loginDropDown">
+            <a href='#' class="dropdown-toggle" data-toggle="dropdown" data-animation="am-fade-and-scale" data-placement="center">
+              <i class="ion ion-log-in" title="Login"><span class="caret"></span></i>
+
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li class='local-login text-center'>
+                <a href="#" ng-click="vm.logInUser()">
+                  <span class='ion-android-happy'></span>
+                  Local
+                </a>
+              </li>
+              <li class='login-facebook text-center'>
+                <a href="#" ng-click="vm.authenticate('facebook')">
+                  <span class="fui-facebook"></span>
+                  Sign in with Facebook
+                </a>
+              </li>
+              <li class='google-plus text-center'>
+                <a href="#" ng-click="vm.authenticate('google')">
+                  <span class="fui-google-plus"></span>
+                  Sign in with Google
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <alert-info></alert-info>

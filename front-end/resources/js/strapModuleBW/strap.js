@@ -7,6 +7,7 @@
 
     StrapModuleBW.$inject = ['$q', '$rootScope', '$auth', 'commonsDataService', 'strapModal'];
 
+    /* @ngInject */
     function StrapModuleBW($q, $rootScope, $auth, commonsDataService, strapModal) {
       var vm = this;
 
@@ -35,11 +36,11 @@
       }
 
       function registerUser() {
-        strapModal.show('am-fade-and-scale', 'center', '/commonViews/register.html');
+        strapModal.show('am-fade-and-scale', 'center', 'commons/register.html');
       }
 
       function logInUser() {
-        strapModal.show('am-fade-and-scale', 'center', '/commonViews/login.html');
+        strapModal.show('am-fade-and-scale', 'center', 'commons/login.html');
       }
 
       function logOut() {

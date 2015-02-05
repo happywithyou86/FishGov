@@ -2,7 +2,7 @@
   'use strict';
 
   module.exports = function(gulp, config ) {
-    gulp.task('watch', function () {
+    gulp.task('watch-stylus', function () {
       gulp.watch(config.stylus, ['stylus'] );
     });
   };
