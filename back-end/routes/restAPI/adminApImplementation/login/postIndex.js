@@ -1,11 +1,6 @@
 (function() {
   'use strict';
 
-
-  exports.registerUser = function(req, res, next) {
-    global.io.createSendToken(global.io, req.user, res);
-  };
-
   exports.postUserLogin = function(req, res, next) {
     global.io.passport.authenticate('local-login', function(err, user) {
      if (err) {next(err);}

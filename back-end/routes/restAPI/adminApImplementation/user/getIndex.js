@@ -1,7 +1,6 @@
 (function() {
   'use strict';
 
-
   exports.getUserInfo = function(req, res, next) {
    if (!req.headers.authorization) {return res.json({data:null});}
     var token   = req.headers.authorization.split(' ')[1],
@@ -22,17 +21,5 @@
       } catch (e) {
         return res.json('Unauthorized: TOKEN ERROR');
       }
-  };
-
-  exports.getEmail = function(req, res, next) {
-    var query = global.io.url.parse(req.url, true).query,
-        options = {
-          find: query.email,
-          io  : global.io,
-          name: 'User',
-          res : res
-        };
-    global.io.mongoDB(global.io.config.dbName)
-      .then(global.io.get.findOne(options));
   };
 }());

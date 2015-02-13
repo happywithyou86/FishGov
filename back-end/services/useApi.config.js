@@ -6,7 +6,8 @@
 
     var useApi = {
       login   : require(routesApi + 'login'),
-      register: require(routesApi + 'register')
+      register: require(routesApi + 'register'),
+      user    : require(routesApi + 'user')
     };
     return useApi;
   };

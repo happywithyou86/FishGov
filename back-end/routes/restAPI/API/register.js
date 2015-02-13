@@ -4,8 +4,8 @@
   var  io = global.io,
       app = global.io.express(),
 
-      GETEMAILINFO       = require('../adminApImplementation/registerNsignIn/getIndex.js'),
-      POSTREGISTERUSER   = require('../adminApImplementation/registerNsignIn/postIndex.js');
+      GETEMAILINFO       = require('../adminApImplementation/register/getIndex.js'),
+      POSTREGISTERUSER   = require('../adminApImplementation/register/postIndex.js');
 
   app.route('/userRegister')
     .post(io.passport.authenticate('local-register'), POSTREGISTERUSER.registerUser);

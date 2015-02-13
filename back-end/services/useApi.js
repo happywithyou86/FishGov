@@ -9,6 +9,9 @@
     }, {
       name: '/userApi',
       url: global.io.useApiConfig().login
+    }, {
+      name: '/userApi',
+      url: global.io.useApiConfig().user
     }]);
 
     function useApi(param) {
