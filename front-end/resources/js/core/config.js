@@ -25,18 +25,19 @@
     /* @ngInject */
     function registerNsignInConfig($authProvider, cfpLoadingBarProvider) {
       cfpLoadingBarProvider.latencyThreshold = 100;
-      $authProvider.loginUrl    = 'http://localhost:3000/userApi/userLogIn';
-      $authProvider.signupUrl   = 'http://localhost:3000/userApi/userRegister';
+      console.log(window.location.origin);
+      $authProvider.loginUrl    = window.location.origin + '/userApi/userLogIn';
+      $authProvider.signupUrl   = window.location.origin + '/userApi/userRegister';
       $authProvider.tokenPrefix = 'magens';
 
       $authProvider.facebook({
         clientId: '789445017793242',
-        url: 'http://localhost:3000/userApi/logInUserFacebook'
+        url: window.location.origin + '/userApi/logInUserFacebook'
       });
 
       $authProvider.google({
         clientId: '514855305579-vmrkir3l76c0v2t6b5mtnphh38uf9irp.apps.googleusercontent.com',
-        url: 'http://localhost:3000/userApi/logInUserGoogle'
+        url: window.location.origin + '/userApi/logInUserGoogle'
       });
     }
 

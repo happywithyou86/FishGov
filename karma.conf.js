@@ -1,57 +1,60 @@
-// Karma configuration
-// Generated on Tue Feb 03 2015 09:59:37 GMT+0800 (PHT)
-
 module.exports = function(config) {
   'use strict';
+    var gulpConfig = require('./gulp.config')();
 
-  config.set({
+    config.set({
+        // base path that will be used to resolve all patterns (eg. files, exclude)
+        basePath: './',
 
-    // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+        // frameworks to use
+        // some available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+        frameworks: ['jasmine', 'chai', 'sinon', 'chai-sinon'],
 
-    // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+        // list of files / patterns to load in the browser
+        files: gulpConfig.karma.files,
 
-    // list of files / patterns to load in the browser
-    files: [
-      'front-end/bower/angular/angular.js',
-      'front-end/resources/js/app.js'
-    ],
+        // list of files to exclude
+        exclude: gulpConfig.karma.exclude,
 
-    // list of files to exclude
-    exclude: [
-    ],
+        proxies: {
+            '/': 'http://localhost:8888/'
+        },
 
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-    },
+        // preprocess matching files before serving them to the browser
+        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+        preprocessors: gulpConfig.karma.preprocessors,
 
-    // test results reporter to use
-    // possible values: 'dots', 'progress'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+        // test results reporter to use
+        // possible values: 'dots', 'progress', 'coverage'
+        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+        reporters: ['progress', 'coverage'],
 
-    // web server port
-    port: 9876,
+        coverageReporter: {
+            dir: gulpConfig.karma.coverage.dir,
+            reporters: gulpConfig.karma.coverage.reporters
+        },
 
-    // enable / disable colors in the output (reporters and logs)
-    colors: true,
+        // web server port
+        port: 9876,
 
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+        // enable / disable colors in the output (reporters and logs)
+        colors: true,
 
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+        // level of logging
+        // possible values: config.LOG_DISABLE || config.LOG_ERROR ||
+        // config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+        logLevel: config.LOG_INFO,
 
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+        // enable / disable watching file and executing tests whenever any file changes
+        autoWatch: true,
 
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
-  });
+        // start these browsers
+        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+        //        browsers: ['Chrome', 'ChromeCanary', 'FirefoxAurora', 'Safari', 'PhantomJS'],
+        browsers: ['PhantomJS'],
+
+        // Continuous Integration mode
+        // if true, Karma captures browsers, runs the tests and exits
+        singleRun: false
+    });
 };

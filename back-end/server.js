@@ -5,50 +5,31 @@
     return require(__dirname + '/' + name);
   };
 
-  var node      = appRequire('services/module.config'),
-      main      = require('./routes/client/main'),
-      sample    = require('./routes/client/sample'),
+  global.io = appRequire('services/module.config');
 
-      registerUserApi = require('./routes/restApi/API/registerNsignInApi'),
-      catchAll  = require('./routes');
+  var  catchAll  = require('./routes');
 
   /*Configuration File NoSQL Database*/
   require('./configuration/mongodb'); //mongodb integration
+
   /*Start our Express Server*/
-  var app = node.express();
+  var app = global.io.express();
+
   /*Require our Configuration Files*/
   require('./configuration/express')(app);
-  require('./configuration/passport')(node.passport);
+  require('./configuration/passport')(global.io.passport);
+
   /*Routes*/
-  useApp([main, sample, registerUserApi]);
-  useApi([{
-    name: '/userApi',
-    url: registerUserApi
-  }]);
+  global.io.useApp(app);
+  global.io.useApi(app);
   app.use('*', catchAll);
 
-  /*node.cluster Configuration*/
-  if (node.cluster.isMaster) {
-    node.clusterService(node);
-  } else {
-    app.listen(node.port, function() {
-      console.log(node.chalk.red.reset.underline('listening to port ') +  node.chalk.cyan.bold((node.port)));
+  /*global.io.cluster Configuration*/
+  if (global.io.cluster.isMaster) {global.io.clusterService(global.io);}
+  else {
+    app.listen(global.io.port, function() {
+      console.log(global.io.chalk.red.reset.underline('listening to port ') +
+      global.io.chalk.cyan.bold((global.io.port)));
     });
   }
-
-  function useApp(param) {
-    param.forEach(function(name) {
-      app.use('/', name);
-    });
-  }
-
-  function useApi(param) {
-    for (var key in param) {
-     if (param.hasOwnProperty(key)) {
-        var obj = param[key];
-        app.use(obj.name, obj.url);
-      }
-    }
-  }
-
 }());

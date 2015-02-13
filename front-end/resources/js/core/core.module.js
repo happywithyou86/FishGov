@@ -13,9 +13,9 @@
          * Commons module
         **/
         'app.commons',
-        'app.strap',
         'app.services',
-        'app.registerNsignIn',
+        'app.register',
+        'app.login',
         'app.layout',
         'app.widgets',
         /*

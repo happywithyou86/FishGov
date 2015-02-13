@@ -13,7 +13,7 @@
       };
 
       return directive;
-      
+
       function link(scope, element, attrs) {
         element.bootstrapSwitch('onSwitchChange', function() {
           var switchObj = $('[data-toggle="switch"]');

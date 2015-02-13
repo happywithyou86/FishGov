@@ -1,14 +1,11 @@
 (function() {
   'use strict';
 
-  module.exports = function(node, dbName) {
-    if (node.mongoose.connection.readyState !== 1) {
-      var db = node.Promise.all([node.mongoose.connect(process.env.MONGODB ||
-        'mongodb://localhost:27017/' + dbName)]);
-      return db;
+  module.exports = function (dbName) {
+    if( global.io.mongoose.connection.readyState === 0 ) {
+      return global.io.mongoose.connectAsync(dbName);
     } else {
-      return node.Promise.all([node.mongoose]);
+      return global.io.mongoose.disconnectAsync();
     }
   };
-
 }());

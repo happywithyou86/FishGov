@@ -51,4 +51,5 @@
   require('./gulp/tasks/templateCache')(gulp, minifyHtml, templateCache, util, logger, config);
   require('./gulp/tasks/optimize')(gulp, annotate, csso, filter, inject, uglify, useref, util, logger, config);
   require('./gulp/tasks/copy')(gulp, util, logger, config);
+  require('./gulp/tasks/test')(gulp, util, logger, config);
 }());

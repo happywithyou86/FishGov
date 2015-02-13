@@ -10,10 +10,10 @@
     function strapModal($modal) {
       var vm = this;
 
+      vm.modalObj = null;
       vm.modal    = modal;
       vm.show     = show;
       vm.hide     = hide;
-      vm.modalObj = null;
 
       function show(animation, placement, template) {
         vm.modalObj = vm.modal(animation, placement, template);

@@ -2,6 +2,8 @@
   'use strict';
 
   module.exports = function() {
+    var wiredep = require('wiredep');
+    var bowerFiles = wiredep({devDependencies: true})['js'];
     var config = {
       adminRoutes: 'front-end/views/admin/**/*.*',
 
@@ -49,8 +51,10 @@
           }
         }
       },
+      specHelpers: ['front-end/test-helpers/*.js'],
+      serverIntegrationSpecs: ['front-end/tests/server-integration/**/*.spec.js'],
       /* Node Server*/
-      defaultPort: 3000,
+      defaultPort: 3004,
       nodeServer: './back-end/server.js'
     };
 
@@ -64,6 +68,36 @@
       };
       return options;
     };
+
+    config.karma = getKarmaOptions();
+
     return config;
+
+    function getKarmaOptions() {
+      var options = {
+        files: [].concat(
+          bowerFiles,
+          config.specHelpers,
+          'front-end/resources/js/**/*.module.js',
+          'front-end/resources/js/**/*.js',
+          'front-end/.tmp/templates.js'
+          //config.serverIntegrationSpecs
+        ),
+        exclude: [],
+        coverage: {
+          dir: './report/coverage',
+          reporters: [
+            {type: 'html', subdir: 'report-html'},
+            {type: 'lcov', subdir: 'report-lcov'},
+            {type: 'text-summary'}
+          ]
+        },
+        preprocessors: {
+
+        }
+      };
+      options.preprocessors['front-end/' + '**/!(*.spec)+(.js)'] = ['coverage'];
+      return options;
+    }
   };
 }());

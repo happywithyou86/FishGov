@@ -5,10 +5,10 @@
     .module('app.commons')
     .factory('commonsDataService', commonsDataService);
 
-    commonsDataService.$inject = ['authToken', 'userInfoServiceApi', 'exception'];
+    commonsDataService.$inject = ['authToken',  'exception', 'Restangular', 'userInfoServiceApi'];
 
     /* @ngInject */
-    function commonsDataService(authToken, userInfoServiceApi, exception) {
+    function commonsDataService(authToken, exception, Restangular, userInfoServiceApi ) {
       var service = {
         authorize : authorize,
         checkEmail: checkEmail
@@ -24,8 +24,8 @@
 
           });
 
-        function authorizeCallBack(response, statuse, header, config) {
-          return response.data;
+        function authorizeCallBack(response, status, header, config) {
+          return Restangular.stripRestangular(response);
         }
       }
 

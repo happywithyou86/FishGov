@@ -9,7 +9,7 @@
     GOOGLE_ACESS_TOKEN_URL    : 'https://accounts.google.com/o/oauth2/token',
     GOOGLE_API_URL            : 'https://www.googleapis.com/plus/v1/people/me/openIdConnect',
     EMAIL_SECRET              : 'something',
-    dbName                    : 'magens',
+    dbName                    : 'mongodb://localhost:27017/magens',
     API                       : true
   };
 }());

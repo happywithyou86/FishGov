@@ -1,8 +1,8 @@
 (function() {
   'use strict';
 
-  module.exports = function(node, params, res) {
-    node.request(node.config.GOOGLE_ACESS_TOKEN_URL, {
+  module.exports = function(io, params, res) {
+    io.request(io.config.GOOGLE_ACESS_TOKEN_URL, {
       form: params,
       json: true,
       method: 'POST'
@@ -11,30 +11,30 @@
       var headers = {
         Authorization: 'Bearer ' + accessToken
       };
-      return node.request({
-        url: node.config.GOOGLE_API_URL,
+      return io.request({
+        url: io.config.GOOGLE_API_URL,
         headers: headers,
         json: true,
         method: 'GET'
       });
     }).then(function(profile, handleError) {
-      node.mongoDB(node, node.config.dbName);
+      io.mongoDB(io.config.dbName);
       return profile;
     }).then(function(googleData) {
-      node.User.findOne({
+      io.User.findOne({
         googleId: googleData.sub
       }, findUser);
 
       function findUser(err, foundUser) {
        if (foundUser) {
-          node.createSendToken(node, foundUser, res);
+          io.createSendToken(io, foundUser, res);
         } else {
-          node.User.findOne({
+          io.User.findOne({
             email: googleData.email
           }, function(err, user) {
            if (err) {throw err;}
            if (user) {
-              node.User.findOneAndUpdate({email: user.email},
+              io.User.findOneAndUpdate({email: user.email},
                 {
                   firstName:googleData.given_name,
                   lastName: googleData.family_name,
@@ -42,10 +42,10 @@
                   displayName: googleData.name
                 },
                 function(err, user) {
-                  node.createSendToken(node, user, res);
+                  io.createSendToken(io, user, res);
                 });
             } else {
-              var newUser = node.User({
+              var newUser = io.User({
                 email: googleData.email,
                 firstName: googleData.given_name,
                 lastName: googleData.family_name,
@@ -53,7 +53,7 @@
                 displayName: googleData.name
               });
               newUser.save(function(err) {
-                node.createSendToken(node, newUser, res);
+                io.createSendToken(io, newUser, res);
               });
             }
           });

@@ -3,11 +3,11 @@
 
   angular
   .module('app.services')
-  .service('strapAlert', strapModal);
+  .service('strapAlert', strapAlert);
 
-  strapModal.$inject = ['$alert'];
+  strapAlert.$inject = ['$alert'];
   /* @ngInject */
-  function strapModal($alert) {
+  function strapAlert($alert) {
     var vm = this;
 
     /* Literals */

@@ -1,19 +1,18 @@
 (function() {
   'use strict';
 
-  var node = appRequire('services/module.config');
 
   exports.registerUser = function(req, res, next) {
-    node.createSendToken(node, req.user, res);
+    global.io.createSendToken(global.io, req.user, res);
   };
 
   exports.postUserLogin = function(req, res, next) {
-    node.passport.authenticate('local-login', function(err, user) {
+    global.io.passport.authenticate('local-login', function(err, user) {
      if (err) {next(err);}
 
       req.login(user, function(err) {
        if (err) {return next(err);}
-        node.createSendToken(node, user, res);
+        global.io.createSendToken(global.io, user, res);
       });
     })(req, res, next);
   };
@@ -24,26 +23,20 @@
       redirect_uri: req.body.redirectUri,
       code: req.body.code,
       grant_type: 'authorization_code',
-      client_secret: node.config.GOOGLE_SECRET,
+      client_secret: global.io.config.GOOGLE_SECRET,
     };
 
-    node.googleAuth(node, params, res);
+    global.io.googleAuth(global.io, params, res);
   };
 
   exports.postFacebookLogin = function(req, res, next) {
     var params = {
       client_id: req.body.clientId,
       redirect_uri: req.body.redirectUri,
-      client_secret: node.config.FACEBOOK_SECRET,
+      client_secret: global.io.config.FACEBOOK_SECRET,
       code: req.body.code
     };
 
-    node.facebookAuth(node, params, res);
-  };
-
-  /*mike*/
-  exports.postUserRegistration = function(req, res, next) {
-    console.log(req.body);
-    res.json('MIKE LOVEs GLAI');
+    global.io.facebookAuth(global.io, params, res);
   };
 }());

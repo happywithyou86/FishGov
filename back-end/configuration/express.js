@@ -5,7 +5,7 @@
 
   /*Express Configuration*/
   module.exports = function(app) {
-    if(process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production') {
       node.nunjucksEnvBuild.express(app);
       node.nunjucks.configure(node.nunjucksPathBuild, {
         autoescape: true,
@@ -67,6 +67,19 @@
       app.use('/commons', node.express.static(node.commonViews));
       app.use('/.tmp', node.express.static(node.compiledCss));
     }
+
+    app.use(function (req, res, next) {
+      var afterResponse = function() {
+        global.io.mongoose.connection.close(function () {
+          console.log('Mongoose connection disconnected');
+        });
+      };
+      res.on('finish', afterResponse);
+      res.on('close', afterResponse);
+
+      next();
+    });
+    
     /*Setup for CORS*/
     app.use(function(req, res, next) {
       res.setHeader('Access-Control-Allow-Origin', '*');

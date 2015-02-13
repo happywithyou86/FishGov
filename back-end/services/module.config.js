@@ -2,20 +2,28 @@
   'use strict';
 
   var path     = require('path'),
+      mongoose    = require('mongoose'),
       nunjucks = require('nunjucks'),
       Promise  = require('bluebird'),
       rootPath = path.normalize(__dirname + '/../../');
 
   module.exports = {
+    rootPath          : rootPath,
     authorize         : require('./authorize'),
     clusterService    : require('./cluster'),
     config            : require('./config'),
     createSendToken   : require('./createSendToken'),
+    error             : require('./error'),
     facebookAuth      : require('./facebookAuth'),
+    get               : require('./get'),
     googleAuth        : require('./googleAuth'),
     User              : require('../model/User'),
     mongoDB           : require('../configuration/mongodb'),
     xPoweredBy        : require('./xPoweredBy'),
+    useApp            : require('./useApp'),
+    useAppConfig      : require('./useApp.config'),
+    useApi           : require('./useApi'),
+    useApiConfig      : require('./useApi.config'),
     bodyParser        : require('body-parser'),
     chalk             : require('chalk'),
     cluster           : require('cluster'),
@@ -28,7 +36,7 @@
     logger            : require('morgan'),
     methodOverride    : require('method-override'),
     moment            : require('moment'),
-    mongoose          : require('mongoose'),
+    mongoose          : Promise.promisifyAll(mongoose),
     multer            : require('multer'),
     numCPUs           : require('os').cpus().length,
     nunjucks          : require('nunjucks'),
