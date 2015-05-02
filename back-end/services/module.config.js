@@ -22,7 +22,7 @@
     xPoweredBy        : require('./xPoweredBy'),
     useApp            : require('./useApp'),
     useAppConfig      : require('./useApp.config'),
-    useApi           : require('./useApi'),
+    useApi            : require('./useApi'),
     useApiConfig      : require('./useApi.config'),
     bodyParser        : require('body-parser'),
     chalk             : require('chalk'),

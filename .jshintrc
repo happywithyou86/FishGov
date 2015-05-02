@@ -57,6 +57,7 @@
     "globals": {
         "angular": false,
         "appRequire": false,
+        "io": false,
         "jcaLayout": false,
         "$": false
     }

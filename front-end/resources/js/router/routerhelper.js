@@ -28,10 +28,10 @@
     function routehelper($location, $rootScope, $q, $state, $timeout, $window,
       logger, routehelperConfig) {
         var handlingRouteChangeError = false;
-        var routeCounts = {
-            errors: 0,
-            changes: 0
-        };
+        // var routeCounts = {
+        //     errors: 0,
+        //     changes: 0
+        // };
 
         var $stateProvider = routehelperConfig.config.$stateProvider;
         var $urlRouterProvider = routehelperConfig.config.$urlRouterProvider;
@@ -48,7 +48,7 @@
           routes.forEach(function(route) {
               route.config.resolve =
                   angular.extend(route.config.resolve || {},
-                  routehelperConfig.config.resolveAlwaysq);
+                  routehelperConfig.config.resolveAlways);
               $stateProvider.state(route.state, route.config);
           });
           $urlRouterProvider.otherwise('/');
@@ -63,7 +63,7 @@
               if (handlingRouteChangeError) {
                   return;
               }
-              routeCounts.errors++;
+              //routeCounts.errors++;
               handlingRouteChangeError = true;
               var destination = (current && (current.title || current.name ||
                 current.loadedTemplateUrl)) || 'unknown target';
@@ -82,7 +82,7 @@
         function updateDocTitle() {
           $rootScope.$on('$stateChangeSuccess',
             function(event, toState, toParams, fromState, fromParams) {
-              routeCounts.changes++;
+              //routeCounts.changes++;
               handlingRouteChangeError = false;
               var title = routehelperConfig.config.docTitle + ' ' + (toState.title || '');
               $rootScope.title = title;

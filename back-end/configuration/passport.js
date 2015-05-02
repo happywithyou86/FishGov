@@ -11,7 +11,7 @@
     passport.use('local-login', new node.LocalStrategy({
       usernameField: 'email'
     }, function(email, password, done) {
-      node.mongoDB(node, node.config.dbName)
+      node.mongoDB(node.config.dbName)
       .then(function(connection) {
         node.User.findOne({
           email: email

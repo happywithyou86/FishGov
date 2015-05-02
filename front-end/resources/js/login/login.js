@@ -71,7 +71,6 @@
       function authenticate(provider) {
         $auth.authenticate(provider)
         .then(function(response) {
-          console.log(response);
           $rootScope.username = response.data.user.displayName || response.data.user.username;
           vm.isAuthenticated = $auth.isAuthenticated;
         }, function(err) {

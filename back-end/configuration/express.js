@@ -74,12 +74,12 @@
           console.log('Mongoose connection disconnected');
         });
       };
-      res.on('finish', afterResponse);
       res.on('close', afterResponse);
+      res.on('finish', afterResponse);
 
       next();
     });
-    
+
     /*Setup for CORS*/
     app.use(function(req, res, next) {
       res.setHeader('Access-Control-Allow-Origin', '*');
