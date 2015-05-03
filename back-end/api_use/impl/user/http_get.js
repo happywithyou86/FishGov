@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  exports.getUserInfo = function(req, res, next) {
+  exports.info = function(req, res, next) {
    if (!req.headers.authorization) {return res.json({data:null});}
     var token   = req.headers.authorization.split(' ')[1],
         payLoad,

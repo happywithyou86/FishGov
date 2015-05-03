@@ -1,29 +1,31 @@
 (function() {
   'use strict';
 
-  var path     = require('path'),
-      mongoose    = require('mongoose'),
-      nunjucks = require('nunjucks'),
-      Promise  = require('bluebird'),
-      rootPath = path.normalize(__dirname + '/../../');
+  var path      = require('path'),
+      mongoose  = require('mongoose'),
+      nunjucks  = require('nunjucks'),
+      Promise   = require('bluebird'),
+      rootPath  = path.normalize(__dirname + '/../../'),
+      service   = '../services/';
 
   module.exports = {
+
     rootPath          : rootPath,
-    authorize         : require('./authorize'),
-    clusterService    : require('./cluster'),
-    config            : require('./config'),
-    createSendToken   : require('./createSendToken'),
-    error             : require('./error'),
-    facebookAuth      : require('./facebookAuth'),
-    get               : require('./get'),
-    googleAuth        : require('./googleAuth'),
+    authorize         : require(service + 'authorize'),
+    clusterService    : require(service + './cluster'),
+    config            : require('./settings.config'),
+    createSendToken   : require(service + './createSendToken'),
+    error             : require(service + './error'),
+    facebookAuth      : require(service + './facebookAuth'),
+    get               : require(service + './get'),
+    googleAuth        : require(service + './googleAuth'),
     User              : require('../model/User'),
     mongoDB           : require('../configuration/mongodb'),
-    xPoweredBy        : require('./xPoweredBy'),
-    useApp            : require('./useApp'),
-    useAppConfig      : require('./useApp.config'),
-    useApi            : require('./useApi'),
-    useApiConfig      : require('./useApi.config'),
+    xPoweredBy        : require(service + './xPoweredBy'),
+    use_app           : require('./use_app.config'),
+    use_api           : require('./use_api.config'),
+
+    args              : require('yargs').argv,
     bodyParser        : require('body-parser'),
     chalk             : require('chalk'),
     cluster           : require('cluster'),

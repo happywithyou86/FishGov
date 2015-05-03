@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  exports.getEmail = function(req, res, next) {
+  exports.info = function(req, res, next) {
     var query = global.io.url.parse(req.url, true).query,
         options = {
           find: query.email,

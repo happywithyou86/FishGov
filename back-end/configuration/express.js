@@ -1,13 +1,11 @@
 (function() {
   'use strict';
 
-  var node = appRequire('services/module.config');
-
   /*Express Configuration*/
   module.exports = function(app) {
-    if (process.env.NODE_ENV === 'production') {
-      node.nunjucksEnvBuild.express(app);
-      node.nunjucks.configure(node.nunjucksPathBuild, {
+    if (process.env.io_ENV === 'production') {
+      io.nunjucksEnvBuild.express(app);
+      io.nunjucks.configure(io.nunjucksPathBuild, {
         autoescape: true,
         express: app,
         watch: true,
@@ -17,8 +15,8 @@
         }
       });
     } else {
-      node.nunjucksEnv.express(app);
-      node.nunjucks.configure(node.nunjucksPath, {
+      io.nunjucksEnv.express(app);
+      io.nunjucks.configure(io.nunjucksPath, {
         autoescape: true,
         express: app,
         watch: true,
@@ -30,42 +28,42 @@
     }
 
     app.set('x-powered-by', false);
-    app.set('port', node.port);
-    app.set('env', node.environment);
+    app.set('port', io.port);
+    app.set('env', io.environment);
     app.set('view engine', 'html');
-    app.use(node.compression());
-    app.use(node.favicon(node.faviconPath));
-    app.use(node.logger('dev'));
-    app.use(node.bodyParser.urlencoded({
+    app.use(io.compression());
+    app.use(io.favicon(io.faviconPath));
+    app.use(io.logger('dev'));
+    app.use(io.bodyParser.urlencoded({
       extended: true
     }));
-    app.use(node.bodyParser.json());
-    app.use(node.multer());
-    app.use(node.methodOverride(function(req, res) {
+    app.use(io.bodyParser.json());
+    app.use(io.multer());
+    app.use(io.methodOverride(function(req, res) {
       if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         var method = req.body._method;
         delete req.body._method;
         return method;
       }
     }));
-    app.use(node.passport.initialize());
+    app.use(io.passport.initialize());
 
     /*Environment Setup*/
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.io_ENV === 'production') {
       app.set('json spaces', 0);
-      app.use('/css', node.express.static(node.buildCss));
-      app.use('/js', node.express.static(node.buildJs));
-      app.use('/fonts', node.express.static(node.buildFonts));
-      app.use('commons', node.express.static(node.commonViewsBuild));
+      app.use('/css', io.express.static(io.buildCss));
+      app.use('/js', io.express.static(io.buildJs));
+      app.use('/fonts', io.express.static(io.buildFonts));
+      app.use('commons', io.express.static(io.commonViewsBuild));
     } else {
       app.set('json spaces', 2);
-      app.use('/css', node.express.static(node.css));
-      app.use('/fonts', node.express.static(node.fonts));
-      app.use('/img', node.express.static(node.img));
-      app.use('/js', node.express.static(node.js));
-      app.use('/bower', node.express.static(node.bowerComponents));
-      app.use('/commons', node.express.static(node.commonViews));
-      app.use('/.tmp', node.express.static(node.compiledCss));
+      app.use('/css', io.express.static(io.css));
+      app.use('/fonts', io.express.static(io.fonts));
+      app.use('/img', io.express.static(io.img));
+      app.use('/js', io.express.static(io.js));
+      app.use('/bower', io.express.static(io.bowerComponents));
+      app.use('/commons', io.express.static(io.commonViews));
+      app.use('/.tmp', io.express.static(io.compiledCss));
     }
 
     app.use(function (req, res, next) {

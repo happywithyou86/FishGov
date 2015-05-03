@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  exports.postUserLogin = function(req, res, next) {
+  exports.facebook = function(req, res, next) {
     global.io.passport.authenticate('local-login', function(err, user) {
      if (err) {next(err);}
 
@@ -12,7 +12,7 @@
     })(req, res, next);
   };
 
-  exports.postGoogleLogin = function(req, res, next) {
+  exports.google = function(req, res, next) {
     var params = {
       client_id: req.body.clientId,
       redirect_uri: req.body.redirectUri,
@@ -24,7 +24,7 @@
     global.io.googleAuth(global.io, params, res);
   };
 
-  exports.postFacebookLogin = function(req, res, next) {
+  exports.user = function(req, res, next) {
     var params = {
       client_id: req.body.clientId,
       redirect_uri: req.body.redirectUri,
