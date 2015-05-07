@@ -1,25 +1,3 @@
-.header .ion-ios-home {
-  font-size: 24px;
-}
-.header ul:nth-child(2) .register {
-  font-size: 2em;
-}
-.header ul:nth-child(2) .loginDropDown {
-  font-size: 2em;
-}
-.header ul:nth-child(2) .logout {
-  font-size: 2em;
-}
-.header ul:first-child {
-  height: 58px;
-}
-.header ul:first-child li {
-  height: 58px;
-}
-.header ul:first-child li a {
-  height: 58px;
-  padding-top: 18px;
-}
 .navbar {
   border-radius: 0;
 }
@@ -56,6 +34,14 @@
 }
 .loginUserAccount .modal-footer input {
   width: 100%;
+}
+.main .isActive {
+  border-color: #1abc9c;
+}
+.main .isActive .search {
+  color: #1abc9c;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 .register .form-control {
   padding-left: 40px;
