@@ -15,7 +15,7 @@
 
       vm.search         = search;
       vm.search_result  = [];
-      
+      vm.keyword        = $rootScope.search_keyword;
       function search() {
         $window.location.href = '/search?q=' + vm.keyword;
 

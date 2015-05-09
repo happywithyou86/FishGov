@@ -28,6 +28,7 @@
           resolve: {/*@ngInject*/
             search: function($location, $q, $rootScope, commonsDataService, elasticsearchServiceApi) {
               if ($location.search().q) {
+                $rootScope.search_keyword = $location.search().q;
                 $q.all([searchCallback()])
                   .then(function(response) {
                     $rootScope.search_result = response[0].data;
