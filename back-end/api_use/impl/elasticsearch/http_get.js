@@ -6,7 +6,7 @@
   exports.results = function(req, res, next) {
     var query = io.url.parse(req.url, true).query;
     var client = new elasticsearch.Client({
-      host: '192.96.159.94:9200',
+      host: '127.0.0.1:9200',
       //log: 'trace'
     });
 
