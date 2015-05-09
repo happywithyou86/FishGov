@@ -25,6 +25,7 @@
           url: '/search',
           templateUrl: '/client/main/search.html',
           controller: 'Main as vm',
+          reloadOnSearch: false,
           resolve: {/*@ngInject*/
             search: function($location, $q, $rootScope, commonsDataService, elasticsearchServiceApi) {
               if ($location.search().q) {
