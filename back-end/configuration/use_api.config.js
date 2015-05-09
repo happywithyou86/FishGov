@@ -7,6 +7,7 @@
     var routes_api_client = io.rootPath + 'back-end/api_use/client/';
 
     var use_api_client = {
+        elastic_search: require(routes_api_client + 'elastic_search'),
         login   : require(routes_api_client + 'login'),
         register: require(routes_api_client + 'register'),
         user    : require(routes_api_client + 'user')
@@ -20,6 +21,9 @@
     }, {
       name: '/userApi',
       url: use_api_client.user
+    }, {
+      name: '/elasticsearchApi',
+      url: use_api_client.elastic_search
     }]);
 
     function useApi(param) {

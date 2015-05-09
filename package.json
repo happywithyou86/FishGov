@@ -55,6 +55,7 @@
     "body-parser": "~1.4.3",
     "chalk": "^0.5.1",
     "compression": "^1.2.0",
+    "elasticsearch": "^4.0.2",
     "express": "~4.4.3",
     "express-session": "^1.10.1",
     "jwt-simple": "^0.2.0",

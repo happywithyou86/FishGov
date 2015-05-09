@@ -7,6 +7,7 @@
          */
         'ngAnimate',
         'ui.router',
+        'ngSanitize',
         'restangular',
         //'ngSanitize',
         /*

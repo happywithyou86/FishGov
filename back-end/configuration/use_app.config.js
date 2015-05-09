@@ -7,12 +7,14 @@
           about     : require(clientRoutes + 'about'),
           main      : require(clientRoutes + 'main'),
           sample    : require(clientRoutes + 'sample'),
+          search    : require(clientRoutes + 'search'),
         };
 
     return useApp([
       use_app_client.about,
       use_app_client.main,
-      use_app_client.sample
+      use_app_client.sample,
+      use_app_client.search
     ]);
 
     function useApp(param) {

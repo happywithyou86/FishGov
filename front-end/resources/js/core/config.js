@@ -3,7 +3,7 @@
 
     var config = {
       appErrorPrefix: '[Magens Error] ', //Configure the exceptionHandler decorator
-      appTitle: 'UDAYS Pageant: @by League of Outstanding Programmers',
+      appTitle: 'FISH GOV DEVELOPMENT MODE',
       version: '0.0.0'
     };
 

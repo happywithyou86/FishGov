@@ -2,11 +2,12 @@
   'use strict';
 
   angular.module('app.services')
-  .factory('userInfoServiceApi', userInfoServiceApi);
-
-  userInfoServiceApi.$inject = ['Restangular'];
-
-  function userInfoServiceApi(Restangular) {
+  /*ngInject*/
+  .factory('userInfoServiceApi', ['Restangular', function (Restangular) {
     return Restangular.all('userApi');
-  }
+  }])
+  /*ngInject*/
+  .factory('elasticsearchServiceApi', ['Restangular', function(Restangular) {
+    return Restangular.all('elasticsearchApi');
+  }]);
 }());

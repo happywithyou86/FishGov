@@ -1,0 +1,52 @@
+<section ng-include="'commons/header.html'"></section>
+
+<div class="containter search">
+  <!-- <div class="col-lg-8 col-lg-offset-2 text-center">
+    <img src="/img/GovFish.png"/>
+    <p>Helping You Catch Government Business Opportunities</p>
+  </div> -->
+  <div class="col-lg-8 col-lg-offset-2">
+    <div class="input-group input-group-hg input-group-rounded" ng-controller="Main as vm">
+      <input type="text" class="form-control" placeholder="Opportunity Keywords Here" ng-model="vm.keyword" is-active>
+      <span class="input-group-btn">
+        <button class="btn is-active" ng-click="vm.search()"><span class="fui-search"></span></button>
+      </span>
+    </div>
+    <!-- <p class="text-center">Currently sourcing opportunities from FedBizOpps(<a href="">fbo.gov</a>)</p> -->
+  </div>
+  <div class="col-lg-12 container" style="margin-top:40px">
+    <div ng-controller="Main as vm">
+      <!-- {{vm.search_result}} -->
+      <!-- <div class="decode-html"></div> -->
+      <div ng-repeat="result in search_result">
+        <div class="col-lg-12">
+          <h5 style="font-size: 20px">
+            <a href="{{result._source.listing_url}}" target="_blank">{{result._source.title}}</a>
+          </h5>
+          <div class="row">
+            <div class="col-lg-4 col-sm-3">
+              <p style="font-weight:600;opacity:0.7">Solicitation Number: {{result._source.solnbr}}</p>
+            </div>
+            <div class="col-lg-4 col-sm-3">
+              <p>Due Date: {{result._source.close_dt | date}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-sm-3">
+              <p>Agency: {{result._source.agency}}</p>
+            </div>
+            <div class="col-lg-4 col-sm-3">
+              <p>Posted Date: {{result._source.posted_dt | date}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <p>Office: {{result._source.office}}</p>
+            </div>
+          </div>
+          <p class="description" ng-bind-html="result.highlight.description[0]"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
