@@ -24,7 +24,7 @@
     registerNsignInConfig.$inject = ['$authProvider', 'cfpLoadingBarProvider'];
     /* @ngInject */
     function registerNsignInConfig($authProvider, cfpLoadingBarProvider) {
-      cfpLoadingBarProvider.latencyThreshold = 100;
+      cfpLoadingBarProvider.latencyThreshold = 400;
       console.log(window.location.origin);
       $authProvider.loginUrl    = window.location.origin + '/userApi/userLogIn';
       $authProvider.signupUrl   = window.location.origin + '/userApi/userRegister';
