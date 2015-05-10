@@ -17,6 +17,11 @@
       vm.search_result  = [];
       vm.keyword        = $rootScope.search_keyword;
       vm.searchResult   = searchResult;
+      $rootScope.urlForm        = urlForm;
+
+      function urlForm(index) {
+        console.log(index);
+      }
 
       $rootScope.$watch(function() {
         if ($location.search().q) {
@@ -24,7 +29,7 @@
         }
       }, function(newValue, oldValue) {
           if (newValue !== oldValue) {
-            vm.keyword        = $location.search().q;
+            vm.keyword = $location.search().q;
             searchResult();
           }
         }, true);
@@ -34,16 +39,22 @@
       }
 
       function searchResult() {
-        $location.search('q', vm.keyword);
         $q.all([searchCallback()])
           .then(function(response) {
-            $rootScope.search_result = response[0].data;
+            $rootScope.search_result = response[0].data.hits;
+            vm.pageTotal = parseInt(response[0].data.total);
+            //$rootScope.pageTotal = new Array(parseInt(response[0].data.total));
+            $rootScope.p = $location.search().p;
+            $rootScope.q = $location.search().q;
+            $rootScope.resultPerPage = vm.pageTotal/20;
+            $rootScope.resultPerPage = new Array(Math.ceil($rootScope.resultPerPage));
+            $location.search('q', vm.keyword).search('p', '1');
           });
       }
 
       function searchCallback() {
         return commonsDataService
-          .httpGETQueryParams('search', {keyword:vm.keyword}, elasticsearchServiceApi)
+          .httpGETQueryParams('search', {keyword:vm.keyword, p: 1}, elasticsearchServiceApi)
           .then(function(response) {
             return response;
           });

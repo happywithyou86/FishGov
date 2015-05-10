@@ -32,15 +32,19 @@
                 $rootScope.search_keyword = $location.search().q;
                 $q.all([searchCallback()])
                   .then(function(response) {
-                    $rootScope.search_result = response[0].data;
-                    //console.log($rootScope.search_result);
-                    //$rootScope.$broadcast('decode_html', $rootScope.search_result);
+                    $rootScope.pageTotal      = parseInt(response[0].data.total);
+                    $rootScope.search_result  = response[0].data.hits;
+                    $rootScope.p              = $location.search().p;
+                    $rootScope.q              = $location.search().q;
+                    $rootScope.resultPerPage  =  $rootScope.pageTotal/20;
+                    $rootScope.resultPerPage  = new Array(Math.ceil($rootScope.resultPerPage));
                   });
               }
 
               function searchCallback() {
                 return commonsDataService
-                  .httpGETQueryParams('search', {keyword:$location.search().q}, elasticsearchServiceApi)
+                  .httpGETQueryParams('search', {keyword:$location.search().q, p: $location.search().p},
+                    elasticsearchServiceApi)
                   .then(function(response) {
                     return response;
                   });
