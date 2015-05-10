@@ -3,34 +3,30 @@
 
   angular
     .module('app.main')
-    .controller('Main', Main);
+    .controller('Search', Search);
 
-    Main.$inject = ['$location', '$q', '$rootScope', '$scope', '$state', '$timeout', '$window',
+    Search.$inject = ['$location', '$q', '$rootScope', '$scope', '$state', '$timeout', '$window',
     'commonsDataService', 'elasticsearchServiceApi'];
 
     /* @ngInject */
-    function Main($location, $q, $rootScope, $scope, $state, $timeout, $window,
+    function Search($location, $q, $rootScope, $scope, $state, $timeout, $window,
     commonsDataService, elasticsearchServiceApi) {
       var vm = this;
 
-      vm.search         = search;
-      vm.search_result  = [];
       vm.searchResult   = searchResult;
       vm.keyword        = $rootScope.search_keyword;
-      vm.index          = null;
-
-      //vm.temp_new_value = null;
-
-      function search() {
-        $location.path('/search').search({q: vm.keyword, p: 1});
-      }
+      vm.change_page    = change_page;
 
       $rootScope.$watchCollection(function() {
         if ($location.search().p) {
           return $location.search().p;
         }
       }, function(newValue, oldValue) {
-            if (newValue !== oldValue && newValue) {
+            // console.log(oldValue);
+
+            if (newValue !== oldValue) {
+              console.log('temp value: ' + vm.temp_new_value );
+              console.log('newValue: ' + newValue);
               vm.keyword = $location.search().q;
               searchResult(newValue, newValue);
             }
@@ -48,14 +44,16 @@
           }
         }, true);
 
+      function change_page(page) {
+        $location.search('q', $location.search().q).search('p', page);
+      }
       //change in page
-      function searchResult(page, newValue) {
-        // console.log('jories');
-        vm.temp_new_value = newValue;
 
+
+      function searchResult(page, newValue) {
+        console.log('jories');
         $q.all([searchCallback(page)])
           .then(function(response) {
-            $location.search('q', vm.keyword).search('p', page);
             $rootScope.search_result = response[0].data.hits;
             vm.pageTotal = parseInt(response[0].data.total);
             //$rootScope.p = $location.search().p;

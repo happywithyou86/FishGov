@@ -24,7 +24,7 @@
         config: {
           url: '/search',
           templateUrl: '/client/main/search.html',
-          controller: 'Main as vm',
+          controller: 'Search as vm',
           reloadOnSearch: false,
           resolve: {/*@ngInject*/
             search: function($location, $q, $rootScope, commonsDataService, elasticsearchServiceApi) {
