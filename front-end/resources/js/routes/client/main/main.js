@@ -17,7 +17,7 @@
       vm.search_result  = [];
       vm.keyword        = $rootScope.search_keyword;
       vm.searchResult   = searchResult;
-      
+
       $rootScope.$watch(function() {
         if ($location.search().q) {
           return $location.search().q;
@@ -25,7 +25,7 @@
       }, function(newValue, oldValue) {
           if (newValue !== oldValue) {
             vm.keyword        = $location.search().q;
-            searchResult();
+            searchCallback();
           }
         }, true);
 
