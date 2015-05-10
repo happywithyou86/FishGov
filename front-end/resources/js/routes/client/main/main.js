@@ -38,8 +38,9 @@
         $location.path('/search').search({q: vm.keyword});
       }
 
-      function searchResult() {
-        $q.all([searchCallback()])
+      function searchResult(index) {
+        console.log(index);
+        $q.all([searchCallback(index)])
           .then(function(response) {
             $rootScope.search_result = response[0].data.hits;
             vm.pageTotal = parseInt(response[0].data.total);
@@ -48,13 +49,13 @@
             $rootScope.q = $location.search().q;
             $rootScope.resultPerPage = vm.pageTotal/20;
             $rootScope.resultPerPage = new Array(Math.ceil($rootScope.resultPerPage));
-            $location.search('q', vm.keyword).search('p', '1');
+            $location.search('q', vm.keyword).search('p', index);
           });
       }
 
-      function searchCallback() {
+      function searchCallback(index) {
         return commonsDataService
-          .httpGETQueryParams('search', {keyword:vm.keyword, p: 1}, elasticsearchServiceApi)
+          .httpGETQueryParams('search', {keyword:vm.keyword, p: index}, elasticsearchServiceApi)
           .then(function(response) {
             return response;
           });
