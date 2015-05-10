@@ -17,27 +17,27 @@
       vm.search_result  = [];
       vm.keyword        = $rootScope.search_keyword;
       vm.searchResult   = searchResult;
-      function search() {
-        $window.location.href = '/search?q=' + vm.keyword;
+      
+      $rootScope.$watch(function() {
+        if ($location.search().q) {
+          return $location.search().q;
+        }
+      }, function(newValue, oldValue) {
+          if (newValue !== oldValue) {
+            vm.keyword        = $location.search().q;
+            searchResult();
+          }
+        }, true);
 
-        // $q.all([searchCallback()])
-        //   .then(function(response) {
-        //     $rootScope.search_result = response[0].data;
-        //     console.log($rootScope.search_result);
-        //     vm.bindHtml = '<span>jories</span>';
-        //     $rootScope.$broadcast('decode_html', $rootScope.search_result);
-        //   });
+      function search() {
+        $location.path('/search').search({q: vm.keyword});
       }
 
       function searchResult() {
-        console.log('yes');
         $location.search('q', vm.keyword);
         $q.all([searchCallback()])
           .then(function(response) {
-
             $rootScope.search_result = response[0].data;
-            //console.log($rootScope.search_result);
-            //$rootScope.$broadcast('decode_html', $rootScope.search_result);
           });
       }
 

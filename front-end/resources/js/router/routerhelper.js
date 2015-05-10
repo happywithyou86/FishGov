@@ -82,6 +82,7 @@
         function updateDocTitle() {
           $rootScope.$on('$stateChangeSuccess',
             function(event, toState, toParams, fromState, fromParams) {
+              // console.log('changeSuccess');
               //routeCounts.changes++;
               handlingRouteChangeError = false;
               var title = routehelperConfig.config.docTitle + ' ' + (toState.title || '');
