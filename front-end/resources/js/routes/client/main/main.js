@@ -25,7 +25,7 @@
       }, function(newValue, oldValue) {
           if (newValue !== oldValue) {
             vm.keyword        = $location.search().q;
-            searchCallback();
+            searchResult();
           }
         }, true);
 
