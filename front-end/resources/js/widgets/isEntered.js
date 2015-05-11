@@ -17,7 +17,6 @@
       function link(scope, element, attrs) {
         element.keypress(function(event) {
           if (event.which === 13) {
-            console.log(attrs);
             scope.$broadcast(attrs.isEntered);
           }
         });

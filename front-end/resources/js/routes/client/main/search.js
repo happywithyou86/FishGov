@@ -17,6 +17,7 @@
       vm.keyword        = $rootScope.search_keyword;
       vm.change_page    = change_page;
       vm.change_keyword = change_keyword;
+      vm.is_change_page = false;
 
       $scope.$on('search', function() {
         $timeout(function() {
@@ -33,15 +34,12 @@
           return $location.search().p;
         }
       }, function(newValue, oldValue) {
-            // console.log(oldValue);
-
+          if (vm.is_change_page !== true) {
             if (newValue !== oldValue) {
-              console.log('temp value: ' + vm.temp_new_value );
-              console.log('newValue: ' + newValue);
               vm.keyword = $location.search().q;
               searchResult(newValue, newValue);
             }
-          // }
+          }
         }, true);
 
       $rootScope.$watch(function() {
@@ -49,24 +47,25 @@
           return $location.search().q;
         }
       }, function(newValue, oldValue) {
-          if (newValue !== oldValue) {
-            vm.keyword = $location.search().q;
-            keyword_search(newValue);
+          if (vm.is_change_page !== true) {
+            if (newValue !== oldValue) {
+              vm.keyword = $location.search().q;
+              keyword_search(newValue);
+            }
           }
         }, true);
 
       function change_page(page) {
-        $location.search('q', $location.search().q).search('p', page);
+        vm.is_change_page = true;
+        $location.path('/search').search('q', $location.search().q).search('p', page);
       }
 
       function change_keyword(page) {
+        vm.is_change_page = true;
         $location.search('q', vm.keyword).search('p', page);
       }
-      //change in page
-
 
       function searchResult(page, newValue) {
-        console.log('jories');
         $q.all([searchCallback(page)])
           .then(function(response) {
             $rootScope.search_result = response[0].data.hits;
