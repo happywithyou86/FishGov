@@ -16,6 +16,7 @@
       vm.searchResult   = searchResult;
       vm.keyword        = $rootScope.search_keyword;
       vm.change_page    = change_page;
+      vm.change_keyword = change_keyword;
 
       $rootScope.$watchCollection(function() {
         if ($location.search().p) {
@@ -46,6 +47,10 @@
 
       function change_page(page) {
         $location.search('q', $location.search().q).search('p', page);
+      }
+
+      function change_keyword(page) {
+        $location.search('q', vm.keyword).search('p', page);
       }
       //change in page
 
