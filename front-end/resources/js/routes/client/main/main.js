@@ -21,6 +21,12 @@
 
       //vm.temp_new_value = null;
 
+      $scope.$on('search', function() {
+        $timeout(function() {
+          search();
+        }, 0);
+      });
+
       function search() {
         $location.path('/search').search({q: vm.keyword, p: 1});
       }

@@ -18,6 +18,16 @@
       vm.change_page    = change_page;
       vm.change_keyword = change_keyword;
 
+      $scope.$on('search', function() {
+        $timeout(function() {
+          search();
+        }, 0);
+      });
+
+      function search() {
+        $location.path('/search').search({q: vm.keyword, p: 1});
+      }
+
       $rootScope.$watchCollection(function() {
         if ($location.search().p) {
           return $location.search().p;
