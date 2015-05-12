@@ -6,7 +6,7 @@
   exports.results = function(req, res, next) {
     var query = io.url.parse(req.url, true).query;
     var page = query.p;
-    var fromPage = (page - 1) * 3;
+    var fromPage = (page - 1) * 5;
     /*var sanitizeHtml = require('sanitize-html');*/
     var client = new elasticsearch.Client({
       host: '127.0.0.1:9200',

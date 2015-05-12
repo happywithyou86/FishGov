@@ -83,8 +83,9 @@
             //$rootScope.p = $location.search().p;
             $rootScope.p = page;
             $rootScope.q = $location.search().q;
-            $rootScope.resultPerPage = vm.pageTotal/3;
+            $rootScope.resultPerPage = vm.pageTotal/5;
             $rootScope.result = Math.ceil($rootScope.resultPerPage);
+            console.log($rootScope.result);
             var marginal_pagination = 5;
             var url_pagination = $location.search().p;
             var cpagination = 1;

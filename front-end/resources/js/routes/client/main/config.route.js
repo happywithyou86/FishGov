@@ -39,7 +39,7 @@
                     //$rootScope.p = $location.search().p;
                     $rootScope.p = $location.search().p;
                     $rootScope.q = $location.search().q;
-                    $rootScope.resultPerPage = pageTotal/3;
+                    $rootScope.resultPerPage = pageTotal/5;
                     $rootScope.result = Math.ceil($rootScope.resultPerPage);
                     var marginal_pagination = 5;
                     var url_pagination = $location.search().p;
