@@ -46,7 +46,7 @@
                     // analyzer: 'strip_html',
                     query: '{{keyword}}',
                     fields: ['title', 'description'],
-                    analyzer: 'strip_html'
+                    // analyzer: 'strip_html'
                   }
                 }
               }
