@@ -25,6 +25,13 @@
         }, 0);
       });
 
+      $scope.$on('initiate', function() {
+        $timeout(function() {
+          console.log('initiate');
+        }, 0);
+      });
+
+
       function search() {
         $location.path('/search').search({q: vm.keyword, p: 1});
       }
@@ -42,20 +49,21 @@
           }
         }, true);
 
-      $rootScope.$watch(function() {
+      $rootScope.$watchCollection(function() {
         if ($location.search().q) {
           return $location.search().q;
         }
       }, function(newValue, oldValue) {
+        vm.keyword = $location.search().q;
           if (vm.is_change_page !== true) {
             if (newValue !== oldValue) {
-              vm.keyword = $location.search().q;
               keyword_search(newValue);
             }
           }
         }, true);
 
-      function change_page(page) {
+      function change_page(page, page_total) {
+        if (page === 0 || (page > $rootScope.result)) {return;}
         vm.is_change_page = true;
         $location.path('/search').search('q', $location.search().q).search('p', page);
       }
@@ -68,19 +76,43 @@
       function searchResult(page, newValue) {
         $q.all([searchCallback(page)])
           .then(function(response) {
+            /*make a new pagination array*/
+            $rootScope.paginateResult = [];
             $rootScope.search_result = response[0].data.hits;
             vm.pageTotal = parseInt(response[0].data.total);
             //$rootScope.p = $location.search().p;
             $rootScope.p = page;
             $rootScope.q = $location.search().q;
-            $rootScope.resultPerPage = vm.pageTotal/20;
-            $rootScope.resultPerPage = new Array(Math.ceil($rootScope.resultPerPage));
-            vm.main_search_is_click = false;
+            $rootScope.resultPerPage = vm.pageTotal/3;
+            $rootScope.result = Math.ceil($rootScope.resultPerPage);
+            var marginal_pagination = 5;
+            var url_pagination = $location.search().p;
+            var cpagination = 1;
+            var end_pagination = 9;
+            if ($rootScope.result > 8) {
+              if (url_pagination <= marginal_pagination) {
+                cpagination = 1;
+              } else {
+                cpagination = (url_pagination + 1) - marginal_pagination;
+                end_pagination = cpagination + 8;
+                if (end_pagination > $rootScope.result) {
+                  end_pagination = $rootScope.result;
+                  cpagination = $rootScope.result - 8;
+                }
+              }
+            } else {
+              end_pagination = $rootScope.result;
+            }
+
+            for (var i = cpagination; i <= end_pagination; i++) {
+              $rootScope.paginateResult.push(i);
+            }
           });
       }
 
       //change in keyworkd
       function keyword_search(keyword) {
+        console.log(vm.keyword);
         $q.all([searchCallback($location.search().q)])
           .then(function(response) {
             $location.search('q', keyword).search('p', $location.search().p);

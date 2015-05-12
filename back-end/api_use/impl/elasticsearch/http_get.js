@@ -6,26 +6,47 @@
   exports.results = function(req, res, next) {
     var query = io.url.parse(req.url, true).query;
     var page = query.p;
-    var fromPage = (page - 1) * 20;
-    console.log(query);
+    var fromPage = (page - 1) * 3;
+    /*var sanitizeHtml = require('sanitize-html');*/
     var client = new elasticsearch.Client({
       host: '127.0.0.1:9200',
-      //log: 'trace'
     });
 
+    var settings = {
+      'analysis' : {
+        'analyzer': {
+          'strip_html': {
+            'tokenizer':     'standard',
+            'char_filter': ['html_strip' ]
+          }
+        }
+      },
+      'mappings': {
+        'data': {
+          'properties': {
+            'description': {
+              'type': 'string',
+              'analyzer': 'strip_html'
+            },
+          }
+        }
+      }
+    };
     client.search({
       index: 'fishgov',
       type: 'data',
       body: {
-        from : fromPage, size : 20,
+        from : fromPage, size : 5,
         query: {
           template: {
             query: {
               filtered: {
                 query: {
                   multi_match: {
+                    // analyzer: 'strip_html',
                     query: '{{keyword}}',
-                    fields: ['title', 'description']
+                    fields: ['title', 'description'],
+                    analyzer: 'strip_html'
                   }
                 }
               }

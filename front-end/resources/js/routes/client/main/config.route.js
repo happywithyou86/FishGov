@@ -32,12 +32,36 @@
                 $rootScope.search_keyword = $location.search().q;
                 $q.all([searchCallback()])
                   .then(function(response) {
-                    $rootScope.pageTotal      = parseInt(response[0].data.total);
-                    $rootScope.search_result  = response[0].data.hits;
-                    $rootScope.p              = $location.search().p;
-                    $rootScope.q              = $location.search().q;
-                    $rootScope.resultPerPage  =  $rootScope.pageTotal/20;
-                    $rootScope.resultPerPage  = new Array(Math.ceil($rootScope.resultPerPage));
+                    /*make a new pagination array*/
+                    $rootScope.paginateResult = [];
+                    $rootScope.search_result = response[0].data.hits;
+                    var pageTotal = parseInt(response[0].data.total);
+                    //$rootScope.p = $location.search().p;
+                    $rootScope.p = $location.search().p;
+                    $rootScope.q = $location.search().q;
+                    $rootScope.resultPerPage = pageTotal/3;
+                    $rootScope.result = Math.ceil($rootScope.resultPerPage);
+                    var marginal_pagination = 5;
+                    var url_pagination = $location.search().p;
+                    var cpagination = 1;
+                    var end_pagination = 9;
+                    if ($rootScope.result > 8) {
+                      if (url_pagination <= marginal_pagination) {
+                        cpagination = 1;
+                      } else {
+                        cpagination = (url_pagination + 1) - marginal_pagination;
+                        end_pagination = cpagination + 8;
+                        if (end_pagination > $rootScope.result) {
+                          end_pagination = $rootScope.result;
+                          cpagination = $rootScope.result - 8;
+                        }
+                      }
+                    } else {
+                      end_pagination = $rootScope.result;
+                    }
+                    for (var i = cpagination; i <= end_pagination; i++) {
+                      $rootScope.paginateResult.push(i);
+                    }
                   });
               }
 
