@@ -51,7 +51,7 @@
                       if (url_pagination <= marginal_pagination) {
                         cpagination = 1;
                       } else {
-                        cpagination = (url_pagination + 1) - marginal_pagination;
+                        cpagination = (parseInt(url_pagination) + 1) - marginal_pagination;
                         end_pagination = cpagination + 8;
                         if (end_pagination > $rootScope.result) {
                           end_pagination = $rootScope.result;

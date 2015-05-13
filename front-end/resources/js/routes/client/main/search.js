@@ -13,25 +13,17 @@
     commonsDataService, elasticsearchServiceApi) {
       var vm = this;
 
-      vm.searchResult   = searchResult;
-      vm.keyword        = $rootScope.search_keyword;
-      vm.change_page    = change_page;
-      vm.change_keyword = change_keyword;
+      vm.searchResult           = searchResult;
+      vm.keyword                = $rootScope.search_keyword;
+      vm.change_page            = change_page;
+      vm.change_keyword         = change_keyword;
       $rootScope.is_change_page = false;
-      $rootScope.counter        = 0;
 
       $scope.$on('search', function() {
         $timeout(function() {
           search();
         }, 0);
       });
-
-      $scope.$on('initiate', function() {
-        $timeout(function() {
-          console.log('initiate');
-        }, 0);
-      });
-
 
       function search() {
         $location.path('/search').search({q: vm.keyword, p: 1});
@@ -46,7 +38,6 @@
               $rootScope.is_change_page = !$rootScope.is_change_page;
               vm.keyword = $location.search().q;
               searchResult(newValue);
-              console.log('watch page change');
           }
         });
 
@@ -58,7 +49,6 @@
         vm.keyword = $location.search().q;
           if (newValue !== oldValue && $rootScope.is_change_page !== true) {
             $rootScope.is_change_page = !$rootScope.is_change_page;
-            console.log('watch page change');
             keyword_search(newValue);
           }
         }, true);
@@ -75,9 +65,6 @@
       }
 
       function searchResult(page) {
-        // console.log(resultsPage);
-        // $rootScope.counter++;
-        console.log($rootScope.counter);
         $q.all([searchCallback(page)])
           .then(function(response) {
             /*make a new pagination array*/
@@ -98,7 +85,7 @@
               if (url_pagination <= marginal_pagination) {
                 cpagination = 1;
               } else {
-                cpagination = (url_pagination + 1) - marginal_pagination;
+                cpagination = (parseInt(url_pagination) + 1)- marginal_pagination;
                 end_pagination = cpagination + 8;
                 if (end_pagination > $rootScope.result) {
                   end_pagination = $rootScope.result;
