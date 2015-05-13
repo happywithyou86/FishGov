@@ -17,7 +17,8 @@
       vm.keyword        = $rootScope.search_keyword;
       vm.change_page    = change_page;
       vm.change_keyword = change_keyword;
-      vm.is_change_page = false;
+      $rootScope.is_change_page = false;
+      $rootScope.counter        = 0;
 
       $scope.$on('search', function() {
         $timeout(function() {
@@ -41,13 +42,13 @@
           return $location.search().p;
         }
       }, function(newValue, oldValue) {
-          if (vm.is_change_page !== true) {
-            if (newValue !== oldValue) {
+          if (newValue !== oldValue && $rootScope.is_change_page !== true) {
+              $rootScope.is_change_page = !$rootScope.is_change_page;
               vm.keyword = $location.search().q;
-              searchResult(newValue, newValue);
-            }
+              searchResult(newValue);
+              console.log('watch page change');
           }
-        }, true);
+        });
 
       $rootScope.$watchCollection(function() {
         if ($location.search().q) {
@@ -55,25 +56,28 @@
         }
       }, function(newValue, oldValue) {
         vm.keyword = $location.search().q;
-          if (vm.is_change_page !== true) {
-            if (newValue !== oldValue) {
-              keyword_search(newValue);
-            }
+          if (newValue !== oldValue && $rootScope.is_change_page !== true) {
+            $rootScope.is_change_page = !$rootScope.is_change_page;
+            console.log('watch page change');
+            keyword_search(newValue);
           }
         }, true);
 
       function change_page(page, page_total) {
         if (page === 0 || (page > $rootScope.result)) {return;}
-        vm.is_change_page = true;
+        $rootScope.is_change_page = false;
         $location.path('/search').search('q', $location.search().q).search('p', page);
       }
 
       function change_keyword(page) {
-        vm.is_change_page = true;
+        // vm.is_change_page = true;
         $location.search('q', vm.keyword).search('p', page);
       }
 
-      function searchResult(page, newValue) {
+      function searchResult(page) {
+        // console.log(resultsPage);
+        // $rootScope.counter++;
+        console.log($rootScope.counter);
         $q.all([searchCallback(page)])
           .then(function(response) {
             /*make a new pagination array*/
@@ -85,7 +89,7 @@
             $rootScope.q = $location.search().q;
             $rootScope.resultPerPage = vm.pageTotal/5;
             $rootScope.result = Math.ceil($rootScope.resultPerPage);
-            console.log($rootScope.result);
+            // console.log($rootScope.result);
             var marginal_pagination = 5;
             var url_pagination = $location.search().p;
             var cpagination = 1;
@@ -108,6 +112,7 @@
             for (var i = cpagination; i <= end_pagination; i++) {
               $rootScope.paginateResult.push(i);
             }
+            $rootScope.is_change_page = false;
           });
       }
 

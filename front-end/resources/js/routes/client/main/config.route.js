@@ -32,6 +32,8 @@
                 $rootScope.search_keyword = $location.search().q;
                 $q.all([searchCallback()])
                   .then(function(response) {
+                    /*make the watch happens once*/
+                    $rootScope.refresh_change = true;
                     /*make a new pagination array*/
                     $rootScope.paginateResult = [];
                     $rootScope.search_result = response[0].data.hits;

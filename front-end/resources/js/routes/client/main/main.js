@@ -31,28 +31,28 @@
         $location.path('/search').search({q: vm.keyword, p: 1});
       }
 
-      $rootScope.$watchCollection(function() {
-        if ($location.search().p) {
-          return $location.search().p;
-        }
-      }, function(newValue, oldValue) {
-            if (newValue !== oldValue && newValue) {
-              vm.keyword = $location.search().q;
-              searchResult(newValue, newValue);
-            }
-          // }
-        }, true);
-
-      $rootScope.$watch(function() {
-        if ($location.search().q) {
-          return $location.search().q;
-        }
-      }, function(newValue, oldValue) {
-          if (newValue !== oldValue) {
-            vm.keyword = $location.search().q;
-            keyword_search(newValue);
-          }
-        }, true);
+      // $rootScope.$watchCollection(function() {
+      //   if ($location.search().p) {
+      //     return $location.search().p;
+      //   }
+      // }, function(newValue, oldValue) {
+      //       if (newValue !== oldValue && newValue) {
+      //         vm.keyword = $location.search().q;
+      //         searchResult(newValue, newValue);
+      //       }
+      //     // }
+      //   }, true);
+      //
+      // $rootScope.$watch(function() {
+      //   if ($location.search().q) {
+      //     return $location.search().q;
+      //   }
+      // }, function(newValue, oldValue) {
+      //     if (newValue !== oldValue) {
+      //       vm.keyword = $location.search().q;
+      //       keyword_search(newValue);
+      //     }
+      //   }, true);
 
       //change in page
       function searchResult(page, newValue) {
