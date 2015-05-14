@@ -11,7 +11,14 @@
   </div>
   <div class="col-lg-12 container" style="margin-top:40px">
     <div ng-show="pageTotal === 0" class="text-center">No Search Result for <strong><em>{{tempKeyword}}</em></strong></div>
-    <div ng-show="pageTotal !== 0" class="pull-left">{{showStart}} - {{showEnd}} of {{pageTotal}}</div>
+    <div ng-show="pageTotal !== 0" class="pull-left">
+      <span ng-bind="showStart"></span>
+      <span ng-bind="dash"></span>
+      <span ng-bind="showEnd"></span>
+      <span ng-bind="of"></span>
+      <span ng-bind="pageTotal"></span>
+      <!-- {{showStart}} {{dash}} {{showEnd}} {{of}} {{pageTotal}} -->
+    </div>
     <ul class="pagination-plain pull-right" ng-show="pageTotal !== 0">
       <li class="previous" ng-show="previous_hide">
         <a href="" ng-click="vm.change_page(p - 1)">Previous</a>
@@ -59,7 +66,13 @@
     </div>
   </div>
   <div class="col-lg-12">
-    <div ng-show="pageTotal !== 0" class="pull-left">{{showStart}} - {{showEnd}} of {{pageTotal}}</div>
+    <div ng-show="pageTotal !== 0" class="pull-left">
+      <span ng-bind="showStart"></span>
+      <span ng-bind="dash"></span>
+      <span ng-bind="showEnd"></span>
+      <span ng-bind="of"></span>
+      <span ng-bind="pageTotal"></span>
+    </div>
     <ul class="pagination-plain pull-right" ng-show="pageTotal !== 0">
       <li class="previous" ng-show="previous_hide">
         <a href="" ng-click="vm.change_page(p - 1)">Previous</a>
@@ -68,7 +81,7 @@
         <a href="#" ng-click="vm.change_page(n)">{{n}}</a>
       </li>
       <li class="next" ng-show="next_hide">
-        <a href="" ng-click="vm.change_page(p + 1, paginateResult.length)">Newer</a>
+        <a href="" ng-click="vm.change_page(p + 1, paginateResult.length)">Next</a>
       </li>
     </ul>
   </div>

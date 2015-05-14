@@ -82,6 +82,8 @@
                     }
                     /*set the tempkeyword*/
                     $rootScope.tempKeyword = $location.search().q;
+                    $rootScope.dash           = '-';
+                    $rootScope.of             = 'of';
                     $rootScope.search_result = response[0].data.hits;
                   });
               }

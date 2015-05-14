@@ -19,6 +19,7 @@
       vm.change_keyword         = change_keyword;
       $rootScope.is_change_page = false;
 
+
       $scope.$on('search', function() {
         $timeout(function() {
           search();
@@ -116,6 +117,8 @@
             } else {
               $rootScope.next_hide = false;
             }
+            $rootScope.dash          = '-';
+            $rootScope.of            = 'of';
             $rootScope.search_result = response[0].data.hits;
           });
       }
