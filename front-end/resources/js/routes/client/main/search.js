@@ -61,6 +61,7 @@
 
       function change_keyword(page) {
         // vm.is_change_page = true;
+        $rootScope.tempKeyword = vm.keyword;
         $location.search('q', vm.keyword).search('p', page);
       }
 
@@ -69,12 +70,10 @@
           .then(function(response) {
             /*make a new pagination array*/
             $rootScope.paginateResult = [];
-            $rootScope.search_result = response[0].data.hits;
-            vm.pageTotal = parseInt(response[0].data.total);
-            //$rootScope.p = $location.search().p;
+            $rootScope.pageTotal = parseInt(response[0].data.total);
             $rootScope.p = page;
             $rootScope.q = $location.search().q;
-            $rootScope.resultPerPage = vm.pageTotal/5;
+            $rootScope.resultPerPage = $rootScope.pageTotal/5;
             $rootScope.result = Math.ceil($rootScope.resultPerPage);
             // console.log($rootScope.result);
             var marginal_pagination = 5;
@@ -100,6 +99,24 @@
               $rootScope.paginateResult.push(i);
             }
             $rootScope.is_change_page = false;
+            $rootScope.showStart = (((parseInt($rootScope.p) - 1) * 5) + 1);
+            $rootScope.showEnd   = $rootScope.p * 5;
+            if($rootScope.showEnd > $rootScope.pageTotal) {
+              $rootScope.showEnd = $rootScope.pageTotal;
+            }
+            /*set the previous*/
+            if (parseInt($rootScope.p) !== 1) {
+              $rootScope.previous_hide = true;
+            } else {
+              $rootScope.previous_hide = false;
+            }
+            /*set the next*/
+            if (parseInt($rootScope.p) !== $rootScope.result) {
+              $rootScope.next_hide = true;
+            } else {
+              $rootScope.next_hide = false;
+            }
+            $rootScope.search_result = response[0].data.hits;
           });
       }
 
@@ -108,15 +125,55 @@
         console.log(vm.keyword);
         $q.all([searchCallback($location.search().q)])
           .then(function(response) {
-            $location.search('q', keyword).search('p', $location.search().p);
-            $rootScope.search_result = response[0].data.hits;
-            vm.pageTotal = parseInt(response[0].data.total);
-            //$rootScope.p = $location.search().p;
+            /*make a new pagination array*/
+            $rootScope.paginateResult = [];
+            $rootScope.pageTotal = parseInt(response[0].data.total);
             $rootScope.p = $location.search().p;
             $rootScope.q = $location.search().q;
-            $rootScope.resultPerPage = vm.pageTotal/20;
-            $rootScope.resultPerPage = new Array(Math.ceil($rootScope.resultPerPage));
-            vm.main_search_is_click = false;
+            $rootScope.resultPerPage = $rootScope.pageTotal/5;
+            $rootScope.result = Math.ceil($rootScope.resultPerPage);
+            // console.log($rootScope.result);
+            var marginal_pagination = 5;
+            var url_pagination = $location.search().p;
+            var cpagination = 1;
+            var end_pagination = 9;
+            if ($rootScope.result > 8) {
+              if (url_pagination <= marginal_pagination) {
+                cpagination = 1;
+              } else {
+                cpagination = (parseInt(url_pagination) + 1)- marginal_pagination;
+                end_pagination = cpagination + 8;
+                if (end_pagination > $rootScope.result) {
+                  end_pagination = $rootScope.result;
+                  cpagination = $rootScope.result - 8;
+                }
+              }
+            } else {
+              end_pagination = $rootScope.result;
+            }
+
+            for (var i = cpagination; i <= end_pagination; i++) {
+              $rootScope.paginateResult.push(i);
+            }
+            $rootScope.is_change_page = false;
+            $rootScope.showStart = (((parseInt($rootScope.p) - 1) * 5) + 1);
+            $rootScope.showEnd   = $rootScope.p * 5;
+            if($rootScope.showEnd > $rootScope.pageTotal) {
+              $rootScope.showEnd = $rootScope.pageTotal;
+            }
+            /*set the previous*/
+            if (parseInt($rootScope.p) !== 1) {
+              $rootScope.previous_hide = true;
+            } else {
+              $rootScope.previous_hide = false;
+            }
+            /*set the next*/
+            if (parseInt($rootScope.p) !== $rootScope.result) {
+              $rootScope.next_hide = true;
+            } else {
+              $rootScope.next_hide = false;
+            }
+            $rootScope.search_result = response[0].data.hits;
           });
       }
 

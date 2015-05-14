@@ -3,7 +3,7 @@
 
   /*Express Configuration*/
   module.exports = function(app) {
-    if (process.env.io_ENV === 'production') {
+    if (process.env.io_ENV === 'production' || process.env.NODE_ENV === 'production') {
       io.nunjucksEnvBuild.express(app);
       io.nunjucks.configure(io.nunjucksPathBuild, {
         autoescape: true,
@@ -49,10 +49,11 @@
     app.use(io.passport.initialize());
 
     /*Environment Setup*/
-    if (process.env.io_ENV === 'production') {
+    if (process.env.io_ENV === 'production' || process.env.NODE_ENV === 'production') {
       app.set('json spaces', 0);
       app.use('/css', io.express.static(io.buildCss));
       app.use('/js', io.express.static(io.buildJs));
+      app.use('/img', io.express.static(io.img));
       app.use('/fonts', io.express.static(io.buildFonts));
       app.use('commons', io.express.static(io.commonViewsBuild));
     } else {

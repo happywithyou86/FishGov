@@ -10,15 +10,17 @@
     </div>
   </div>
   <div class="col-lg-12 container" style="margin-top:40px">
-    <ul class="pagination-plain pull-right">
-      <li class="previous">
+    <div ng-show="pageTotal === 0" class="text-center">No Search Result for <strong><em>{{tempKeyword}}</em></strong></div>
+    <div ng-show="pageTotal !== 0" class="pull-left">{{showStart}} - {{showEnd}} of {{pageTotal}}</div>
+    <ul class="pagination-plain pull-right" ng-show="pageTotal !== 0">
+      <li class="previous" ng-show="previous_hide">
         <a href="" ng-click="vm.change_page(p - 1)">Previous</a>
       </li>
       <li ng-repeat="n in paginateResult" ng-class="{active: {{n}} == p}">
         <a href="#" ng-click="vm.change_page(n)">{{n}}</a>
       </li>
-      <li class="next">
-        <a href="" ng-click="vm.change_page(p + 1, vm.pageTotal)">Newer</a>
+      <li class="next"  ng-show="next_hide">
+        <a href="" ng-click="vm.change_page(p + 1, vm.pageTotal)">Next</a>
       </li>
     </ul>
   </div>
@@ -57,14 +59,15 @@
     </div>
   </div>
   <div class="col-lg-12">
-    <ul class="pagination-plain pull-right">
-      <li class="previous">
-        <a href="#">Previous</a>
+    <div ng-show="pageTotal !== 0" class="pull-left">{{showStart}} - {{showEnd}} of {{pageTotal}}</div>
+    <ul class="pagination-plain pull-right" ng-show="pageTotal !== 0">
+      <li class="previous" ng-show="previous_hide">
+        <a href="" ng-click="vm.change_page(p - 1)">Previous</a>
       </li>
       <li ng-repeat="n in paginateResult" ng-class="{active: {{n}} == p}">
         <a href="#" ng-click="vm.change_page(n)">{{n}}</a>
       </li>
-      <li class="next">
+      <li class="next" ng-show="next_hide">
         <a href="" ng-click="vm.change_page(p + 1, paginateResult.length)">Newer</a>
       </li>
     </ul>

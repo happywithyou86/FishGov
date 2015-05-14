@@ -36,12 +36,11 @@
                     $rootScope.refresh_change = true;
                     /*make a new pagination array*/
                     $rootScope.paginateResult = [];
-                    $rootScope.search_result = response[0].data.hits;
-                    var pageTotal = parseInt(response[0].data.total);
+                    $rootScope.pageTotal = parseInt(response[0].data.total);
                     //$rootScope.p = $location.search().p;
                     $rootScope.p = $location.search().p;
                     $rootScope.q = $location.search().q;
-                    $rootScope.resultPerPage = pageTotal/5;
+                    $rootScope.resultPerPage = $rootScope.pageTotal/5;
                     $rootScope.result = Math.ceil($rootScope.resultPerPage);
                     var marginal_pagination = 5;
                     var url_pagination = $location.search().p;
@@ -64,6 +63,26 @@
                     for (var i = cpagination; i <= end_pagination; i++) {
                       $rootScope.paginateResult.push(i);
                     }
+                    $rootScope.showStart = (((parseInt($rootScope.p) - 1) * 5) + 1);
+                    $rootScope.showEnd   = $rootScope.p * 5;
+                    if($rootScope.showEnd > $rootScope.pageTotal) {
+                      $rootScope.showEnd = $rootScope.pageTotal;
+                    }
+                    /*set the previous*/
+                    if (parseInt($rootScope.p) !== 1) {
+                      $rootScope.previous_hide = true;
+                    } else {
+                      $rootScope.previous_hide = false;
+                    }
+                    /*set the next*/
+                    if (parseInt($rootScope.p) !== $rootScope.result) {
+                      $rootScope.next_hide = true;
+                    } else {
+                      $rootScope.next_hide = false;
+                    }
+                    /*set the tempkeyword*/
+                    $rootScope.tempKeyword = $location.search().q;
+                    $rootScope.search_result = response[0].data.hits;
                   });
               }
 
