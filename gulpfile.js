@@ -12,6 +12,7 @@
       jshint        = require('gulp-jshint'),
       jscs          = require('gulp-jscs'),
       minifyHtml    = require('gulp-minify-html'),
+      ngConstant    = require('gulp-ng-constant'),
       nodemon       = require('gulp-nodemon'),
       prefixer      = require('gulp-autoprefixer'),
       print         = require('gulp-print'),
@@ -52,4 +53,5 @@
   require('./gulp/tasks/optimize')(gulp, annotate, csso, filter, inject, uglify, useref, util, logger, config);
   require('./gulp/tasks/copy')(gulp, util, logger, config);
   require('./gulp/tasks/test')(gulp, util, logger, config);
+  require('./gulp/tasks/constants')(gulp, ngConstant, util, logger);
 }());

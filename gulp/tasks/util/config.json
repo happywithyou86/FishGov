@@ -1,0 +1,4 @@
+{
+  "development": { "isLogger": true },
+  "production": { "isLogger": false }
+}

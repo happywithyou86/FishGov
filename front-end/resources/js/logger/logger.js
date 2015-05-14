@@ -5,11 +5,12 @@
       .module('blocks.logger')
       .factory('logger', logger);
 
-  logger.$inject = ['$log', 'toastr'];
+  logger.$inject = ['$log', 'toastr', 'isLogger'];
 
-  function logger($log, toastr) {
+  /*@ngInject*/
+  function logger($log, toastr, isLogger) {
       var service = {
-          showToasts: true,
+          showToasts: isLogger,
           error   : error,
           info    : info,
           success : success,

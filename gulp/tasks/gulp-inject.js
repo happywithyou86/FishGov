@@ -2,7 +2,7 @@
   'use strict';
 
   module.exports = function(gulp, inject, util, wiredep, logger, config) {
-    gulp.task('inject', ['wiredep', 'stylus', 'templatecache'], function() {
+    gulp.task('inject', ['constants', 'wiredep', 'stylus', 'templatecache'], function() {
       logger(util, 'Wire up the app.css into the html, then call wiredep' );
       return gulp
         .src(config.index)

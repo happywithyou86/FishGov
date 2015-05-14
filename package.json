@@ -21,6 +21,7 @@
     "gulp-load-plugins": "^0.7.0",
     "gulp-minify-html": "^0.1.8",
     "gulp-ng-annotate": "^0.5.2",
+    "gulp-ng-constant": "^0.3.0",
     "gulp-nodemon": "^1.0.5",
     "gulp-notify": "^2.0.0",
     "gulp-print": "^1.1.0",
