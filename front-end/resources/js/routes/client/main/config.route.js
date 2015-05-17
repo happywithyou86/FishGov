@@ -18,7 +18,7 @@
           templateUrl: '/client/main/index.html',
           controller: 'Main as vm',
           title: 'Main',
-          resolve: {
+          resolve: {/*@ngInject*/
             total_search: function($q, $rootScope, commonsDataService, elasticsearchServiceApi) {
               $q.all([total_searchCallback()])
                 .then(function(response) {
@@ -123,7 +123,7 @@
           templateUrl: '/client/main/item_search.html',
           controller: 'Item_Search as vm',
           title: 'Item Search',
-          resolve: {
+          resolve: {/*@ngInject*/
             search_item: function($q, $rootScope, $stateParams, commonsDataService, elasticsearchServiceApi) {
               $q.all([search_itemCallback()])
                 .then(function(response) {

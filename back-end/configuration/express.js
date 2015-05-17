@@ -55,7 +55,7 @@
       app.use('/js', io.express.static(io.buildJs));
       app.use('/img', io.express.static(io.img));
       app.use('/fonts', io.express.static(io.buildFonts));
-      app.use('commons', io.express.static(io.commonViewsBuild));
+      app.use('/commons', io.express.static(io.commonViewsBuild));
     } else {
       app.set('json spaces', 2);
       app.use('/css', io.express.static(io.css));
