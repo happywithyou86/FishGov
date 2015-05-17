@@ -1,0 +1,76 @@
+<section ng-include="'commons/header.html'"></section>
+
+<div class="container item_search">
+  <div class="col-lg-12">
+    <div class="col-lg-8 col-md-8 col-sm-8">
+      <h5 class="title" ng-bind-html="itemObj._source.title">
+      </h5>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <p class="default">Source: <a href="{{itemObj._source.listing_url}}">FBO</a></p>
+    </div>
+  </div>
+
+  <div class="col-lg-12">
+    <div class="col-lg-8 col-md-8 col-sm-8">
+      <p style="font-weight:600;opacity:0.7">Solicitation Number: {{itemObj._source.solnbr}}</p>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <p>Due Date: {{itemObj._source.close_date | date}}</p>
+    </div>
+
+    <div class="col-lg-8 col-md-8 col-sm-8">
+      <p>Agency: {{itemObj._source.agency}}</p>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <p>Posted Date: {{itemObj._source.posted_date | date}}</p>
+    </div>
+
+    <div class="col-lg-12">
+      <p>Office: {{itemObj._source.office}}</p>
+    </div>
+
+    <div class="col-lg-8 col-md-8 col-sm-8">
+      <p class="default">LOCATION: {{itemObj._source.location}}</p>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <p class="default">Notice Type: {{itemObj._source.notice_type}}</p>
+    </div>
+
+    <div class="col-lg-8 col-md-8 col-sm-8" style="margin-top:20px">
+      <p class="description">{{itemObj._source.description}}</p>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <div class="col-lg-12">
+        <p class="default">Set Aside: {{itemObj._source.set_aside}}</p>
+      </div>
+      <div class="col-lg-12">
+        <p class="default">Classification Code: <span ng-bind-html="itemObj._source.classification_code"></span></p>
+      </div>
+      <div class="col-lg-12">
+        <p class="default">NAICS Code: <span ng-bind-html="itemObj._source.naics_code"></span></p>
+      </div>
+    </div>
+
+    <div class="col-lg-8 col-md-8 col-sm-8 attachments">
+      <div ng-repeat="attachment in itemObj._source.attachments">
+        <p class="default attachment_child">
+          <a href="{{attachment.url}}">
+            {{attachment.title}}
+          </a>
+          <p class="default" ng-bind-html="attachment.description"></p>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="item_search container-fluid">
+  <p class="default">
+    NOTE: For full details about this opportunity, you can read the official version of this
+    solicitation and download the appropriate forms and rules regarding your submission in the
+    link below.
+  </p>
+  <p class="default">
+    The official link for this solicitation is: <a href="{{itemObj._source.listing_url}}">{{itemObj._source.listing_url}}</a>
+  </p>
+</div>

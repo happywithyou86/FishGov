@@ -35,7 +35,7 @@
           return $location.search().p;
         }
       }, function(newValue, oldValue) {
-          if (newValue !== oldValue && $rootScope.is_change_page !== true) {
+          if (newValue !== oldValue) {
               $rootScope.is_change_page = !$rootScope.is_change_page;
               vm.keyword = $location.search().q;
               searchResult(newValue);
@@ -48,7 +48,7 @@
         }
       }, function(newValue, oldValue) {
         vm.keyword = $location.search().q;
-          if (newValue !== oldValue && $rootScope.is_change_page !== true) {
+          if (newValue !== oldValue) {
             $rootScope.is_change_page = !$rootScope.is_change_page;
             keyword_search(newValue);
           }
@@ -125,9 +125,10 @@
 
       //change in keyworkd
       function keyword_search(keyword) {
-        console.log(vm.keyword);
         $q.all([searchCallback($location.search().q)])
           .then(function(response) {
+            /*change the tempKeyword*/
+            $rootScope.tempKeyword = $location.search().q;
             /*make a new pagination array*/
             $rootScope.paginateResult = [];
             $rootScope.pageTotal = parseInt(response[0].data.total);

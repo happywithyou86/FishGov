@@ -17,7 +17,23 @@
           url: '/',
           templateUrl: '/client/main/index.html',
           controller: 'Main as vm',
-          title: 'Main'
+          title: 'Main',
+          resolve: {
+            total_search: function($q, $rootScope, commonsDataService, elasticsearchServiceApi) {
+              $q.all([total_searchCallback()])
+                .then(function(response) {
+                  $rootScope.totalObj = response[0].data.total;
+                });
+
+              function total_searchCallback() {
+                return commonsDataService
+                  .httpGETQueryParams('total', {}, elasticsearchServiceApi)
+                  .then(function(response) {
+                    return response;
+                  });
+              }
+            }
+          }
         }
       }, {
         state: 'search',
@@ -61,7 +77,7 @@
                       end_pagination = $rootScope.result;
                     }
                     for (var i = cpagination; i <= end_pagination; i++) {
-                      $rootScope.paginateResult.push(i);
+                      if ($rootScope.result !== 1) {$rootScope.paginateResult.push(i);}
                     }
                     $rootScope.showStart = (((parseInt($rootScope.p) - 1) * 5) + 1);
                     $rootScope.showEnd   = $rootScope.p * 5;
@@ -84,6 +100,7 @@
                     $rootScope.tempKeyword = $location.search().q;
                     $rootScope.dash           = '-';
                     $rootScope.of             = 'of';
+                    console.log(response[0].data);
                     $rootScope.search_result = response[0].data.hits;
                   });
               }
@@ -92,6 +109,31 @@
                 return commonsDataService
                   .httpGETQueryParams('search', {keyword:$location.search().q, p: $location.search().p},
                     elasticsearchServiceApi)
+                  .then(function(response) {
+                    return response;
+                  });
+              }
+            }
+          }
+        }
+      }, {
+        state: 'search_item',
+        config: {
+          url: '/item/:id',
+          templateUrl: '/client/main/item_search.html',
+          controller: 'Item_Search as vm',
+          title: 'Item Search',
+          resolve: {
+            search_item: function($q, $rootScope, $stateParams, commonsDataService, elasticsearchServiceApi) {
+              $q.all([search_itemCallback()])
+                .then(function(response) {
+                  $rootScope.itemObj = response[0].data.hits[0];
+                  console.log($rootScope.itemObj);
+                });
+
+              function search_itemCallback() {
+                return commonsDataService
+                  .httpGETRouteParams('search', $stateParams.id, elasticsearchServiceApi)
                   .then(function(response) {
                     return response;
                   });

@@ -2,15 +2,15 @@
   'use strict';
 
   var elasticsearch = require('elasticsearch');
+  var client = new elasticsearch.Client({
+    host: '127.0.0.1:9200',
+  });
 
   exports.results = function(req, res, next) {
     var query = io.url.parse(req.url, true).query;
     var page = query.p;
     var fromPage = (page - 1) * 5;
     /*var sanitizeHtml = require('sanitize-html');*/
-    var client = new elasticsearch.Client({
-      host: '127.0.0.1:9200',
-    });
 
     var settings = {
       'analysis' : {
@@ -78,6 +78,42 @@
        res.json(404, {
         message: 'Check Email',
         status: 404
+      });
+    });
+  };
+
+  exports.item = function(req, res, next) {
+    client.search({
+      index: 'fishgov',
+      type: 'data',
+      body: {
+        query: {
+          filtered: {
+            /* first step we must know if the socket id is present*/
+            filter: { term: { _id: req.params.id }}
+          }
+        }
+      }
+    }).then(function(body) {
+      var hits = body.hits.hits;
+      res.json({
+        message: 'Item Result',
+        status: 200,
+        data: {hits: hits}
+      });
+    });
+  };
+
+  exports.total = function(req, res, next) {
+    client.search({
+      index: 'fishgov',
+      type: 'data'
+    }).then(function(body) {
+      var total = body.hits.total;
+      res.json({
+        message: 'Item Result',
+        status: 200,
+        data: {total: total}
       });
     });
   };

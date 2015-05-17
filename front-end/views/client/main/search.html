@@ -1,6 +1,6 @@
 <section ng-include="'commons/header.html'"></section>
 
-<div class="containter search" ng-controller="Search as vm">
+<div class="containter search">
   <div class="col-lg-8 col-lg-offset-2">
     <div class="input-group input-group-hg input-group-rounded">
       <input type="text" class="form-control" placeholder="Opportunity Keywords Here" ng-model="vm.keyword" is-active is-entered="search">
@@ -37,14 +37,14 @@
       <div ng-repeat="result in search_result">
         <div class="col-lg-12">
           <h5 style="font-size: 20px">
-            <a href="{{result._source.listing_url}}" target="_blank">{{result._source.title}}</a>
+            <a href="/item/{{result._id}}">{{result._source.title}}</a>
           </h5>
           <div class="row">
             <div class="col-lg-4 col-sm-3">
               <p style="font-weight:600;opacity:0.7">Solicitation Number: {{result._source.solnbr}}</p>
             </div>
             <div class="col-lg-4 col-sm-3">
-              <p>Due Date: {{result._source.close_dt | date}}</p>
+              <p>Due Date: {{result._source.close_date | date}}</p>
             </div>
           </div>
           <div class="row">
@@ -52,7 +52,7 @@
               <p>Agency: {{result._source.agency}}</p>
             </div>
             <div class="col-lg-4 col-sm-3">
-              <p>Posted Date: {{result._source.posted_dt | date}}</p>
+              <p>Posted Date: {{result._source.posted_date | date}}</p>
             </div>
           </div>
           <div class="row">

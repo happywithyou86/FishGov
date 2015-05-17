@@ -3,7 +3,7 @@
 <div class="containter main">
   <div class="col-lg-8 col-lg-offset-2 text-center">
     <img src="/img/GovFish.png"/>
-    <p>Helping You Catch Government Business Opportunities</p>
+    <p>Catch a government business opportunity</p>
   </div>
   <div class="col-lg-8 col-lg-offset-2">
     <div class="input-group input-group-hg input-group-rounded" ng-controller="Main as vm">
@@ -12,6 +12,7 @@
         <button class="btn is-active" ng-click="vm.search()"><span class="fui-search"></span></button>
       </span>
     </div>
-    <p class="text-center">Currently sourcing opportunities from FedBizOpps(<a href="https://www.fbo.gov" target="_blank">fbo.gov</a>)</p>
+
+    <p class="text-center">In beta development, currently sourcing <span ng-bind="totalObj" class="total"></span> opportunities from FedBizOpps (<a href="https://www.fbo.gov" target="_blank">fbo.gov</a>)</p>
   </div>
 </div>

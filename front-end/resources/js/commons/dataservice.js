@@ -10,7 +10,8 @@
     /* @ngInject */
     function commonsDataService(authToken, exception, Restangular) {
       var service = {
-        httpGETQueryParams    : httpGETQueryParams
+        httpGETQueryParams    : httpGETQueryParams,
+        httpGETRouteParams    : httpGETRouteParams
       };
       return service;
 
@@ -23,6 +24,19 @@
           });
 
         function httpGETQueryParamsCallback(response, status, header, config) {
+          return Restangular.stripRestangular(response);
+        }
+      }
+
+      function httpGETRouteParams(api, routeParam, apiService) {
+        return apiService.one(api, routeParam)
+          .get()
+          .then(httpGETRouteParamsCallback)
+          .catch(function(message) {
+
+          });
+
+        function httpGETRouteParamsCallback(response, status, header, config) {
           return Restangular.stripRestangular(response);
         }
       }

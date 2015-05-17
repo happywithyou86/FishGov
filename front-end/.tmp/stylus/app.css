@@ -43,6 +43,20 @@
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
+.main .total {
+  quotes: "“" "”" "‘" "’";
+  font-weight: 600;
+  font-style: italic;
+  color: #16a085;
+}
+.main .total:before {
+  color: #16a085;
+  content: open-quote;
+}
+.main .total:after {
+  color: #16a085;
+  content: close-quote;
+}
 .register .form-control {
   padding-left: 40px;
 }
@@ -89,6 +103,38 @@
   color: #1abc9c;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
+}
+.item_search .title {
+  font-size: 20px;
+  color: #16a085;
+}
+.item_search p {
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0.5;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+}
+.item_search .description {
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 1;
+  -ms-filter: none;
+  -webkit-filter: none;
+          filter: none;
+}
+.item_search .default {
+  opacity: 1;
+  -ms-filter: none;
+  -webkit-filter: none;
+          filter: none;
+}
+.item_search .attachments {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.item_search .attachments .attachment_child {
+  margin: 0;
 }
 .am-fade-and-scale {
   -webkit-animation-duration: 0.3s;

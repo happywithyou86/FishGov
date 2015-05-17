@@ -6,4 +6,18 @@
       transition: all 0.2s ease-in-out
     }
   }
+  .total {
+    quotes: "“" "”" "‘" "’";
+    font-weight: 600;
+    font-style: italic;
+    color: #16a085;
+    &:before {
+      color: #16a085;
+      content: open-quote;
+    }
+    &:after {
+      color: #16a085;
+      content: close-quote;
+    }
+  }
 }
