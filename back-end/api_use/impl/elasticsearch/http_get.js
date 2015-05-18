@@ -83,6 +83,7 @@
   };
 
   exports.item = function(req, res, next) {
+    var query = io.url.parse(req.url, true).query;
     client.search({
       index: 'fishgov',
       type: 'data',
@@ -90,7 +91,25 @@
         query: {
           filtered: {
             /* first step we must know if the socket id is present*/
-            filter: { term: { _id: req.params.id }}
+            filter: { term: { _id: req.params.id }},
+            query: {
+              multi_match: {
+                // analyzer: 'strip_html',
+                query: query.keyword,
+                fields: ['description'],
+                // analyzer: 'strip_html'
+              }
+            }
+          }
+        },
+        highlight : {
+          tags_schema : 'styled',
+          fields : {
+            description : {
+              fragment_size: 10000,
+              number_of_fragments: 1,
+              no_match_size: 10000
+            }
           }
         }
       }

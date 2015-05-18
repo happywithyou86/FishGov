@@ -124,16 +124,19 @@
           controller: 'Item_Search as vm',
           title: 'Item Search',
           resolve: {/*@ngInject*/
-            search_item: function($q, $rootScope, $stateParams, commonsDataService, elasticsearchServiceApi) {
+            search_item: function($location, $q, $rootScope, $stateParams, commonsDataService,
+            elasticsearchServiceApi) {
               $q.all([search_itemCallback()])
                 .then(function(response) {
                   $rootScope.itemObj = response[0].data.hits[0];
-                  console.log($rootScope.itemObj);
+                  $rootScope.item_description = response[0].data.hits[0].highlight.description[0];
+                  console.log(response[0].data.hits[0].highlight.description[0]);
                 });
 
               function search_itemCallback() {
                 return commonsDataService
-                  .httpGETRouteParams('search', $stateParams.id, elasticsearchServiceApi)
+                  .httpGETRouteParams('search', $stateParams.id, {keyword: $location.search().keyword},
+                    elasticsearchServiceApi)
                   .then(function(response) {
                     return response;
                   });

@@ -1,4 +1,7 @@
 .item_search {
+  .hlt1 {
+    font-weight: 800;
+  }
   .title {
     font-size: 20px
     color: #16a085
@@ -10,6 +13,7 @@
   }
   .description {
     font-size: 14px;
+    font-style: oblique;
     line-height: 1.5;
     opacity: 1;
   }
@@ -17,10 +21,45 @@
     opacity: 1;
   }
   .attachments {
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 20px;
     .attachment_child {
-      margin: 0;
+      margin-bottom: 5px;
+      .attach {
+        font-size: 14px;
+      }
     }
+  }
+  .same {
+    font-weight:600;
+    opacity:0.7;
+  }
+  .set_aside {
+    padding: 0;
+  }
+  .note {
+    quotes: "“" "”" "‘" "’";
+    padding: 10px;
+    font-size: 14px
+    font-style: italic;
+    opacity: 1;
+    border: 3px dotted #16a085
+    background: papayawhip;
+    &:before {
+      color: #16a085;
+      content: open-quote;
+    }
+    &:after {
+      color: #16a085;
+      content: close-quote;
+    }
+  }
+  .bottom {
+    margin-bottom: 30px;
+  }
+  .bold {
+    font-weight: 600;
+    color: #111;
+    opacity: 1;
   }
 }

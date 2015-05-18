@@ -37,11 +37,11 @@
       <div ng-repeat="result in search_result">
         <div class="col-lg-12">
           <h5 style="font-size: 20px">
-            <a href="/item/{{result._id}}">{{result._source.title}}</a>
+            <a href="/item/{{result._id}}?keyword={{vm.keyword}}" target="_blank">{{result._source.title}}</a>
           </h5>
           <div class="row">
             <div class="col-lg-4 col-sm-3">
-              <p style="font-weight:600;opacity:0.7">Solicitation Number: {{result._source.solnbr}}</p>
+              <p class="same">Solicitation Number: {{result._source.solnbr}}</p>
             </div>
             <div class="col-lg-4 col-sm-3">
               <p>Due Date: {{result._source.close_date | date}}</p>

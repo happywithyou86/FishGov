@@ -28,9 +28,9 @@
         }
       }
 
-      function httpGETRouteParams(api, routeParam, apiService) {
+      function httpGETRouteParams(api, routeParam, queryparam, apiService) {
         return apiService.one(api, routeParam)
-          .get()
+          .get(queryparam)
           .then(httpGETRouteParamsCallback)
           .catch(function(message) {
 
