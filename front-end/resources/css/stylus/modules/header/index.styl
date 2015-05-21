@@ -3,7 +3,46 @@
 .navbar {
   border-radius: 0;
 }
+
+.navbar-right {
+  li:first-child {
+    padding-top: 20px;
+    a {
+      width: 100%
+      color: #fff;
+      &:hover {
+        color: #fff;
+        background-color: #205081;
+      }
+      .fa-linkedin:before {
+        content: "\f0e1  Sign in with Linkedln";
+        font-weight: lighter;
+      }
+    }
+  }
+}
+
 @media (min-width: 768px) {
+.navbar-right {
+  li:first-child {
+    padding-top: 20px;
+    a {
+      width: 34px;
+      color: #fff;
+      &:hover {
+        color: #fff;
+        background-color: #205081;
+      }
+      .fa-linkedin:before {
+        content: "\f0e1";
+        font-weight: lighter;
+      }
+    }
+  }
+}
+  .navbar-lg .navbar-nav > li > a {
+    padding-bottom: 0;
+  }
   .navbar-collapse .navbar-nav.navbar-left:first-child {
     margin-left: 0;
     > li:first-child a {
