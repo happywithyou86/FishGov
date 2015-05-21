@@ -1,0 +1,5 @@
+selenium==2.45.0
+beautifulsoup4==4.3.2
+requests==2.7.0
+html5lib==0.999
+html2text==2015.4.14
