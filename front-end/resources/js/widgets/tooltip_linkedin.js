@@ -17,7 +17,7 @@
 
       function link(scope, element, attrs) {
         var myTooltip = $tooltip(element, {
-          title: 'Login to your linkedin account',
+          title: 'Login with your LinkedIn account',
           placement: 'bottom',
           container: 'body'
         });
