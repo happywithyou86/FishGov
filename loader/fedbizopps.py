@@ -27,10 +27,11 @@ except ImportError:
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
-def get_index():
+def get_index(pageNum):
 	
+    print('Starting webdriver in Chrome...')
     driver = webdriver.Chrome()
-    driver.get("https://www.fbo.gov/index?s=opportunity&mode=list&tab=list&tabmode=list&pp=100")
+    driver.get("https://www.fbo.gov/index?s=opportunity&mode=list&tab=list&tabmode=list&pp=100&pageID="+str(pageNum))
     driver.refresh()
     html = driver.page_source
     driver.quit()
@@ -41,6 +42,7 @@ def parse_index(html):
     def parse_link(url, i=0):
         
         #print("%d. URL: " % i + url)
+		
         data = {}
         html = requests.get(url).text
         
@@ -172,11 +174,12 @@ def parse_index(html):
     
 
 def main():
-    print ('starting selenium server...')
-    print ('automating browser to download index...')
-    html = get_index()
-    print ('downloading solicitation data...')
-    parse_index(html)
+
+
+    for num in range(1,3):
+        html = get_index(num)
+        print ('Downloading solicitation data from page ' + str(num))
+        parse_index(html)
 
 
 if __name__ == '__main__':
