@@ -1,29 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2009, James Turk
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without modification,
-# are permitted provided that the following conditions are met:
-#
-# * Redistributions of source code must retain the above copyright notice,
-# this list of conditions and the following disclaimer.
-# * Redistributions in binary form must reproduce the above copyright notice,
-# this list of conditions and the following disclaimer in the documentation
-# and/or other materials provided with the distribution.
-# * Neither the name of James Turk, Sunlight Foundation, Sunlight Labs
-# nor the names of its contributors may be used to endorse or promote products
-# derived from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
-# EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
-# THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
-# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# Copyright (c) 2015, Stephen McClanahan www.govfish.com
 
 """
     Dependencies:
@@ -37,7 +14,7 @@ import re
 import json
 import requests
 from bs4 import BeautifulSoup
-
+from elasticsearch import Elasticsearch
 from selenium import webdriver
 
 try:
@@ -51,38 +28,19 @@ BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
 def get_index():
-    '''
-        use Selenium to access search result page
-
-        Selenium script is as follows:
-            Under "Documents To Search." select Both Under Opportunity/Procurement Type
-            Select "Awards"
-            Under " Recovery and Reinvestment Act Action." select Yes
-    '''
-
+	
     driver = webdriver.Chrome()
     driver.get("https://www.fbo.gov/index?s=opportunity&mode=list&tab=list&tabmode=list&pp=100")
+    driver.refresh()
     html = driver.page_source
     driver.quit()
     return html
 
-
-last_id = None
-def parse_index(html, filename):
-    global last_id
-    
-    try:
-        with open(os.path.join(BASE_DIR, 'last_id.txt'), 'r') as fh:
-            last_id = int(fh.read())
-    except FileNotFoundError:
-        last_id = 0
-        
+def parse_index(html):
     
     def parse_link(url, i=0):
-        global last_id
         
-        print("%d. URL: " % i + url)
-        
+        #print("%d. URL: " % i + url)
         data = {}
         html = requests.get(url).text
         
@@ -91,16 +49,19 @@ def parse_index(html, filename):
             return None
         
         bs_content = BeautifulSoup(html, "html5lib")
+		
+		# Pull out the "agency-header" block that contains the Title, Solicitation Number, Agency, Office, and Location info
         div = bs_content.find("div", {"class": "agency-header"})
         lines = [line for line in
             re.sub("<[\s\S]*?>", "\n", str(div)).splitlines() if line.strip()]
         
+		# The Title field is in a H2 tag
         try:
             data["title"] = div.find("h2").text.strip()
         except:
             data["title"] = ""
             
-        #print(lines)
+        # The other fields are in-line within other tags and need to be stripped
         for key, start in (
                 ("solnbr", "Solicitation Number:"),
                 ("agency", "Agency:"),
@@ -111,16 +72,18 @@ def parse_index(html, filename):
             for line in lines:
                 if line.startswith(start):
                     data[key] = line.split(":", 2)[1].strip()
-                    
-            #print(key, data[key])
-                    
+                            
         
-        desc = bs_content.find("div",
-            {"id": "dnf_class_values_procurement_notice__description__widget"})
-        desc_text = desc.text
-        date_text = desc.find("div", {"class": "notice_desc_dates"}).text
-        data["description"] = desc_text[len(date_text):].strip()
-        
+        # The Description field can have some date information text before the description begins that needs to be stripped
+        try:
+            desc = bs_content.find("div", {"id": "dnf_class_values_procurement_notice__description__widget"})
+            desc_text = desc.text
+            date_text = desc.find("div", {"class": "notice_desc_dates"}).text
+            data["description"] = desc_text[len(date_text):].strip()
+        except:
+            data["description"] = ""
+			
+		# These fields can be pulled directly from the respective class
         extract = {
             "notice_type": "dnf_class_values_procurement_notice__procurement_type__widget",
             # Original posted date
@@ -152,6 +115,12 @@ def parse_index(html, filename):
             except:
                 data[key] = ""
         
+        if data["notice_type"] == "Award":
+            return ""
+            print("award")
+        if data["notice_type"] == "Award Notice":
+            return ""
+            print("award")			
         # attachments
         attachments = []
         for attachment in \
@@ -168,49 +137,46 @@ def parse_index(html, filename):
         data["listing_url"] = url
         data["data_source"] = "FBO"
         
-        with open(os.path.join(BASE_DIR, 'last_id.txt'), 'w') as fh:
-            fh.write(str(last_id))
         
-        #for key in []:
-        #    data[key] = html2text(data[key]).strip(); 
-        
-        last_id += 1
-        index = {
-            "_index": "fishgov", 
-            "_type": "data", 
-            "_id": last_id
-        }
-        
-        return index, data
-    #parse_link("https://www.fbo.gov/index?s=opportunity&mode=form&id=019c53b73b583455ff71c7bd46332185&tab=core&_cview=0")
+        return data
     
+    es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     data = []
     i = 0
+	
+	# Cycle through all links (solicitations) listed in the main results page
     for link in BeautifulSoup(html).find_all("a", {"class": "lst-lnk-notice"}):
+        # Count for number of links parsed
         i += 1
+		
+		# Get the json data from the solicitation
         new_data = parse_link(urljoin("https://www.fbo.gov/index",
             link["href"].strip()), i)
+        
+        # Add the new JSON entry to the existing JSON
         if new_data:
-            data.extend(new_data)
-    
+            data.append(new_data)
+            #print(data)
+            iD = (new_data["data_source"] + ":" + new_data["solnbr"])
+            print (iD)
+
+            es.index(index='fishgov', doc_type='data', id=iD, body=new_data)
+    	
+
+    # Write the JSON data out
     with open("fedbizopps.json", "w") as out:
         str_ = ""
         for d in data:
             str_ += "\n" + json.dumps(d, indent=4, sort_keys=True)
-        
         out.write(str_);
     
 
 def main():
-    '''
-        create CSV of fedbizopps data
-    '''
     print ('starting selenium server...')
-    #time.sleep(3)   # give the server time to start
     print ('automating browser to download index...')
     html = get_index()
-    print ('downloading contract data...')
-    parse_index(html, 'fedbizopps.csv')
+    print ('downloading solicitation data...')
+    parse_index(html)
 
 
 if __name__ == '__main__':
