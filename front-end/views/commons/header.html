@@ -17,8 +17,8 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class='nav navbar-nav navbar-right'>
-          <li>
-            <a class="btn btn-social-icon btn-linkedin" tooltip-linked-in>
+          <li ng-controller="Login as vm">
+            <a class="btn btn-social-icon btn-linkedin" tooltip-linked-in ng-click="vm.authenticate('linkedin')">
               <i class="fa fa-linkedin"></i>
             </a>
           </li>

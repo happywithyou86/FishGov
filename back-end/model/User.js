@@ -9,12 +9,9 @@
       type: String,
       unique: true,
     },
-    password: String,
-    username: String,
     firstName: String,
     lastName: String,
-    googleId: String,
-    facebookId: String,
+    linkedinId: String,
     displayName: String
   });
 

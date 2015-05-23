@@ -15,22 +15,22 @@
       vm.logInUser       = logInUser;
       vm.logOut          = logOut;
       vm.login           = login;
-      getAuthorization();
+      // getAuthorization();
 
-      function getAuthorization() {
-        return $q.all([getAuthorizationCallBack()])
-        .then(function(response) {
-          $rootScope.username = response[0].displayName;
-          return response;
-        });
-      }
-
-      function getAuthorizationCallBack() {
-        return commonsDataService.authorize()
-          .then(function(response) {
-            return response;
-          });
-      }
+      // function getAuthorization() {
+      //   return $q.all([getAuthorizationCallBack()])
+      //   .then(function(response) {
+      //     $rootScope.username = response[0].displayName;
+      //     return response;
+      //   });
+      // }
+      //
+      // function getAuthorizationCallBack() {
+      //   return commonsDataService.authorize()
+      //     .then(function(response) {
+      //       return response;
+      //     });
+      // }
 
       function logInUser() {
         strapModal.show('am-fade-and-scale', 'center', 'commons/login.html');
@@ -71,8 +71,9 @@
       function authenticate(provider) {
         $auth.authenticate(provider)
         .then(function(response) {
-          $rootScope.username = response.data.user.displayName || response.data.user.username;
-          vm.isAuthenticated = $auth.isAuthenticated;
+          console.log(response);
+          // $rootScope.username = response.data.user.displayName || response.data.user.username;
+          // vm.isAuthenticated = $auth.isAuthenticated;
         }, function(err) {
           if (err) {throw err;}
         });

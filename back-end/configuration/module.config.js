@@ -19,6 +19,7 @@
     facebookAuth      : require(service + './facebookAuth'),
     get               : require(service + './get'),
     googleAuth        : require(service + './googleAuth'),
+    linkedin_auth     : require(service + './linkedin_auth'),
     User              : require('../model/User'),
     mongoDB           : require('../configuration/mongodb'),
     xPoweredBy        : require(service + './xPoweredBy'),

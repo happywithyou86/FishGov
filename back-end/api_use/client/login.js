@@ -11,5 +11,8 @@
   app.route('/login/user')
     .post(login_post.user);
 
+  app.route('/login/linkedin')
+    .post(login_post.linkedin);
+
   module.exports = app;
 }());
