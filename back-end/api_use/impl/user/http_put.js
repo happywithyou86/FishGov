@@ -2,7 +2,6 @@
   'use strict';
 
   exports.clicked_items = function(user, req, res, next) {
-    console.log(user);
     /*todo if the exp is expired*/
 
     if (user.sub) {

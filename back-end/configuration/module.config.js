@@ -15,6 +15,7 @@
     authorizeUponLogin: require(service + 'authorizeUponLogin'),
     clusterService    : require(service + './cluster'),
     createSendToken   : require(service + './createSendToken'),
+    delete            : require(service + './delete'),
     error             : require(service + './error'),
     facebookAuth      : require(service + './facebookAuth'),
     get               : require(service + './get'),

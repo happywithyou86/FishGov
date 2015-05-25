@@ -4,18 +4,17 @@
   exports.saved_items = function(user, req, res, next) {
     var query   = req.body,
         options = {
+          find    : {
+            user_id: user.sub
+          },
           message : 'Saving Data from Saved_Items',
           name    : 'Saved_Items',
-          res     : res,
-          details : {
-            user_id : user.sub,
-            item_id : query.id
-          }
+          res     : res
         };
 
     io.mongoDB(io.config.dbName)
       .then(function() {
-        io.save._(options);
+        io.delete.findOneAndRemove(options);
       });
   };
 }());

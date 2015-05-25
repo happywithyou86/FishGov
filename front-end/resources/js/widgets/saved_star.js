@@ -18,9 +18,9 @@
 
       function link(scope, element, attrs) {
         var saved_items = local_storage.getToken('saved_items');
-        var id          = attrs.saveStar;
+        var item_id     = attrs.saveStar;
 
-        if (saved_items.indexOf(id) !== -1) {
+        if (saved_items.indexOf(item_id) !== -1) {
           element.removeClass('fa-star-o');
           element.addClass('fa-star');
         }
@@ -31,22 +31,38 @@
             element.removeClass('fa-star-o');
             element.addClass('fa-star');
             /*save the star items*/
-            // $q.all([saved_items_data(id)])
-            //   .then(function(response) {
-            //     return response;
-            //   });
+            $q.all([saved_items_data(item_id)])
+              .then(function(response) {
+                return response;
+              });
           } else {
             /*delete the star item*/
             element.addClass('fa-star-o');
             element.removeClass('fa-star');
+            /*delete the star items*/
+            $q.all([saved_items_delete(item_id)])
+              .then(function(response) {
+                return response;
+              });
           }
         });
 
-        function saved_items_data(id) {
+        function saved_items_data(item_id) {
           commonsDataService
             .httpPOSTQueryParams(
               'saved_items',
-              {id: id},
+              {item_id: item_id},
+              userServiceApi
+            ).then(function(response) {
+              return response;
+            });
+        }
+
+        function saved_items_delete(item_id) {
+          commonsDataService
+            .httpDELETEQueryParams(
+              'saved_items',
+              {item_id: item_id},
               userServiceApi
             ).then(function(response) {
               return response;

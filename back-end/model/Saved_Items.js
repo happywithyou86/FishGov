@@ -7,7 +7,6 @@
   var Saved_ItemsSchema = new mongoose.Schema({
     user_id : String,
     item_id : String,
-    clicked : Number,
     date: { type: Date, default: Date.now }
   });
 

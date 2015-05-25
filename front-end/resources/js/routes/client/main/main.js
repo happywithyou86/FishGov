@@ -28,14 +28,13 @@
         console.log(vm.keyword);
         $q.all([saved_keyword()])
           .then(function(response) {
-            console.log(response);
+            $location.path('/search').search({q: vm.keyword, p: 1});
           });
-        //$location.path('/search').search({q: vm.keyword, p: 1});
       }
 
       function saved_keyword() {
         return commonsDataService
-          .httpPOSTQueryParams(
+          .httpPUTQueryParams(
             'search_terms',
             {keyword:vm.keyword},
             userServiceApi
