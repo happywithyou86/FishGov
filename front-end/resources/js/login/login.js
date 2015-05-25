@@ -6,38 +6,29 @@
     .controller('Login', Login);
 
     /*Inject angular related directive*/
-    Login.$inject = ['$q', '$rootScope', '$auth', '$timeout', 'strapAlert', 'strapModal', 'commonsDataService'];
+    Login.$inject = ['$q', '$rootScope', '$auth', '$timeout', 'local_storage',
+    'strapAlert', 'strapModal', 'commonsDataService', 'userServiceApi'];
 
-    function Login($q, $rootScope, $auth, $timeout, strapAlert, strapModal, commonsDataService) {
+    function Login($q, $rootScope, $auth, $timeout, local_storage,
+    strapAlert, strapModal, commonsDataService, userServiceApi) {
       var vm = this;
       vm.isAuthenticated = $auth.isAuthenticated;
       vm.authenticate    = authenticate;
       vm.logInUser       = logInUser;
-      vm.logOut          = logOut;
+      vm.log_out         = log_out;
       vm.login           = login;
-      // getAuthorization();
 
-      // function getAuthorization() {
-      //   return $q.all([getAuthorizationCallBack()])
-      //   .then(function(response) {
-      //     $rootScope.username = response[0].displayName;
-      //     return response;
-      //   });
-      // }
-      //
-      // function getAuthorizationCallBack() {
-      //   return commonsDataService.authorize()
-      //     .then(function(response) {
-      //       return response;
-      //     });
-      // }
+      /*get the photo from local storage*/
+      vm.photo = local_storage.getToken('photo');
 
       function logInUser() {
         strapModal.show('am-fade-and-scale', 'center', 'commons/login.html');
       }
 
-      function logOut() {
+      function log_out() {
         $auth.logout();
+        vm.photo = undefined;
+        local_storage.removeToken('photo');
       }
 
       function login(isLoginFormValid) {
@@ -71,12 +62,33 @@
       function authenticate(provider) {
         $auth.authenticate(provider)
         .then(function(response) {
-          console.log(response);
-          // $rootScope.username = response.data.user.displayName || response.data.user.username;
-          // vm.isAuthenticated = $auth.isAuthenticated;
+          var obj         = response.data;
+          vm.photo        = obj.user.photo;
+          local_storage.setToken('photo', vm.photo);
         }, function(err) {
           if (err) {throw err;}
+        }).then(function() {
+          get_saved_items();
         });
+      }
+
+      function get_saved_items() {
+        return $q.all([get_saved_itemsCallback()])
+          .then(function(response) {
+            console.log(response);
+            return response;
+          });
+      }
+
+      function get_saved_itemsCallback() {
+        return commonsDataService
+          .httpGETQueryParams(
+            'save_items',
+            {},
+            userServiceApi
+          ).then(function(response) {
+            return response;
+          });
       }
     }
 }());

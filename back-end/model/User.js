@@ -11,7 +11,9 @@
     },
     firstName: String,
     lastName: String,
+    photo   : String,
     linkedinId: String,
+    dates_logged_in: Array,
     displayName: String
   });
 

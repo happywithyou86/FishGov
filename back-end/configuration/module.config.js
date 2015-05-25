@@ -13,18 +13,22 @@
     rootPath          : rootPath,
     authorize         : require(service + 'authorize'),
     clusterService    : require(service + './cluster'),
-    config            : require('./settings.config'),
     createSendToken   : require(service + './createSendToken'),
     error             : require(service + './error'),
     facebookAuth      : require(service + './facebookAuth'),
     get               : require(service + './get'),
     googleAuth        : require(service + './googleAuth'),
     linkedin_auth     : require(service + './linkedin_auth'),
-    User              : require('../model/User'),
-    mongoDB           : require('../configuration/mongodb'),
     xPoweredBy        : require(service + './xPoweredBy'),
+
+    config            : require('./settings.config'),
+    mongoDB           : require('../configuration/mongodb'),
     use_app           : require('./use_app.config'),
     use_api           : require('./use_api.config'),
+
+    /*Model*/
+    Saved_Items       : require('../model/Saved_Items'),
+    User              : require('../model/User'),
 
     args              : require('yargs').argv,
     bodyParser        : require('body-parser'),

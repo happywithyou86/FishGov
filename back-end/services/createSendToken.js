@@ -4,7 +4,7 @@
   module.exports = function createSendToken(io, user , res) {
     var payload = {
       sub: user._id.toString(),
-      exp: io.moment().add(10, 'days').unix()
+      exp: io.moment().add(1, 'days').unix()
     };
 
     var token = io.jwt.encode(payload, 'shhh..');

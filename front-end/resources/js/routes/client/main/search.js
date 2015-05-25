@@ -17,6 +17,7 @@
       vm.keyword                = $rootScope.search_keyword;
       vm.change_page            = change_page;
       vm.change_keyword         = change_keyword;
+      vm.star                   = star;
       $rootScope.is_change_page = false;
 
 
@@ -189,5 +190,8 @@
           });
       }
 
+      function star(){
+        console.log('star');
+      }
     }
 }());

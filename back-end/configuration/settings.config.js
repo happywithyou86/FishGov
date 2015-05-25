@@ -12,7 +12,7 @@
     LINKEDIN_ACCESS_TOKEN_URL : 'https://www.linkedin.com/uas/oauth2/accessToken',
     LINKEDIN_API_URL          : 'https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address,picture-url)?format=json',
     EMAIL_SECRET              : 'something',
-    dbName                    : 'mongodb://localhost:27017/magens',
+    dbName                    : 'mongodb://localhost:27017/govfish',
     API                       : true
   };
 }());

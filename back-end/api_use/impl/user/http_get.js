@@ -22,4 +22,18 @@
         return res.json('Unauthorized: TOKEN ERROR');
       }
   };
+
+  exports.save_items = function(user, req, res, next) {
+    if (user.sub) {
+      var options = {
+        find    : user.sub,
+        message : 'Retrieving data from Save_Items',
+        name    : 'Saved_Items',
+        res     : res
+      };
+
+      io.mongoDB(io.config.dbName)
+        .then(io.get.findOneById(options));
+    }
+  };
 }());

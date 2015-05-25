@@ -16,13 +16,21 @@
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class='nav navbar-nav navbar-right'>
-          <li ng-controller="Login as vm">
+        <ul class='nav navbar-nav navbar-right' ng-controller="Login as vm">
+          <li ng-hide="vm.photo !== undefined">
             <a class="btn btn-social-icon btn-linkedin" tooltip-linked-in ng-click="vm.authenticate('linkedin')">
               <i class="fa fa-linkedin"></i>
             </a>
           </li>
-          <li ui-sref-active="active" class="text-center">
+          <li ng-show="vm.photo !== undefined" class="text-center">
+            <img src="{{vm.photo}}" class="img-circle img-responsive" style="height:50px;margin: 0 auto;margin-top:12px;"/>
+          </li>
+          <li ng-show="vm.photo !== undefined" class="text-center">
+            <a href="" ng-click="vm.log_out()">
+              Log Out
+            </a>
+          </li>
+          <li ng-hide="vm.photo !== undefined" ui-sref-active="active" class="text-center">
             <a ui-sref="about">
               About GovFish
             </a>
