@@ -12,10 +12,18 @@
 import os
 import re
 import json
+import base64
 import requests
 from bs4 import BeautifulSoup
 from elasticsearch import Elasticsearch
 from selenium import webdriver
+from json import dumps
+import paramiko
+import select
+import sys
+import time
+import select
+import paramiko
 
 try:
     from urllib.parse import urljoin
@@ -76,13 +84,15 @@ def parse_index(html):
                     data[key] = line.split(":", 2)[1].strip()
                             
         
-        # The Description field can have some date information text before the description begins that needs to be stripped
+			
+		# The Description field can have some date information text before the description begins that needs to be stripped
         try:
             desc = bs_content.find("div", {"id": "dnf_class_values_procurement_notice__description__widget"})
             desc_text = desc.text
             date_text = desc.find("div", {"class": "notice_desc_dates"}).text
             data["description"] = desc_text[len(date_text):].strip()
         except:
+            print(html)
             data["description"] = ""
 			
 		# These fields can be pulled directly from the respective class
@@ -91,7 +101,7 @@ def parse_index(html):
             # Original posted date
             "posted_date": "dnf_class_values_procurement_notice__original_posted_date__widget",
             # Posted date
-            #"posted_date": "dnf_class_values_procurement_notice__posted_date__widget",
+            "last_posted_date": "dnf_class_values_procurement_notice__posted_date__widget",
             "close_date": "dnf_class_values_procurement_notice__response_deadline__widget",
             "set_aside": "dnf_class_values_procurement_notice__set_aside__widget",
             "classification_code": "dnf_class_values_procurement_notice__classification_code__widget",
@@ -117,6 +127,18 @@ def parse_index(html):
             except:
                 data[key] = ""
         
+        # If there was no original posted date as in the case of an original solicitation use last posted date
+        if data["posted_date"] == "":
+            data["posted_date"] = data["last_posted_date"]
+            
+        try:
+            desc = bs_content.find("div", {"class": "agency-logo"})
+            print(str(desc))
+            data["logo_url"]= urljoin("https://www.fbo.gov/index", desc.find("img")["src"].strip())
+            print(data["logo_URL"])
+        except:
+            print("Error getting logo URL")
+        
         if data["notice_type"] == "Award":
             return ""
             print("award")
@@ -127,22 +149,22 @@ def parse_index(html):
         attachments = []
         for attachment in \
                 bs_content.find_all("div", {"class": "notice_attachment_ro"}):
-            attachments.append({
-                "url": urljoin("https://www.fbo.gov/index",
-                    attachment.find("a")["href"].strip()),
-                "title": attachment.find("a").text.strip(),
-                "description": attachment.find_all("div")[-1] \
-                    .text[len("Description:"):].strip(),
-            })
-        data["attachments"] = attachments
-        
+            try:
+                attachments.append({
+                    "url": urljoin("https://www.fbo.gov/index",
+                        attachment.find("a")["href"].strip()),
+                    "title": attachment.find("a").text.strip(),
+                    "description": attachment.find_all("div")[-1] \
+                        .text[len("Description:"):].strip(),
+                })
+            except:
+                print("Got an error in parsing attachment.")
+        data["attachments"] = attachments       
         data["listing_url"] = url
         data["data_source"] = "FBO"
-        
-        
+       
         return data
     
-    es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     data = []
     i = 0
 	
@@ -158,11 +180,20 @@ def parse_index(html):
         # Add the new JSON entry to the existing JSON
         if new_data:
             data.append(new_data)
-            #print(data)
-            iD = (new_data["data_source"] + ":" + new_data["solnbr"])
+            iD = (new_data["data_source"] + "-" + new_data["solnbr"])
             print (iD)
+            index = {
+            "index":{
+            "_id": iD,
+            "_type": "data",
+            "_index": "fishgov"
+            }}
 
-            es.index(index='fishgov', doc_type='data', id=iD, body=new_data)
+            # Write to bulk load file
+            with open("preload_fedbizopps.json", "a") as out:
+                out.write(json.dumps(index) + "\n" + json.dumps(new_data) + "\n")
+
+
     	
 
     # Write the JSON data out
@@ -173,13 +204,71 @@ def parse_index(html):
         out.write(str_);
     
 
+    
+    
+
 def main():
 
+    host = '192.96.159.94'
+    username = 'canino_jories'
+    password = 'joriescanino'
+    port = 22
+        
+    # Setup FTP to push bulk file to server
+    transport = paramiko.Transport((host, port))
+    transport.connect(username=username, password=password)
+    sftp = paramiko.SFTPClient.from_transport(transport)
 
-    for num in range(1,3):
+    # Setup SSH to command curl for PUT of bulk file locally on remote host
+    i = 1
+    while True:
+        print("Trying to connect to %s (%i/30)" % (host, i))
+
+        try:
+            ssh = paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            ssh.connect(host, username=username, password=password)
+            print("Connected to %s" % host)
+            break
+        except paramiko.AuthenticationException:
+            print("Authentication failed when connecting to %s" % host)
+            sys.exit(1)
+        except:
+            print("Could not SSH to %s, waiting for it to start" % host)
+            i += 1
+            time.sleep(2)
+
+        # If we could not connect within time limit
+        if i == 30:
+            print("Could not connect to %s. Giving up" % host)
+            sys.exit(1)
+        
+    # Loop through the different search result pages
+    for num in range(10,12):
         html = get_index(num)
         print ('Downloading solicitation data from page ' + str(num))
         parse_index(html)
+
+        # Upload the bulk file
+        filepath = '/home/'+username+'/Projects/github/preload_fedbizopps.json'
+        localpath = 'C:\\Users\\Stephen\\preload_fedbizopps.json'
+        sftp.put(localpath, filepath)
+    
+        # Command the POST of the bulk file into Elasticsearch
+        stdin, stdout, stderr = ssh.exec_command("curl -s -XPOST localhost:9200/_bulk --data-binary @Projects/github/preload_fedbizopps.json; echo")
+        print(stdout.channel.recv_exit_status())
+        # Wait for the command to terminate
+        while not stdout.channel.exit_status_ready():
+            # Only print data if there is data to read in the channel
+            if stdout.channel.recv_ready():
+               print(stdout.readlines())
+        
+        os.remove('C:\\Users\\Stephen\\preload_fedbizopps.json')
+        
+    # Close up
+    sftp.close()
+    transport.close()
+    ssh.close()
 
 
 if __name__ == '__main__':
