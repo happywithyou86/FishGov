@@ -14,17 +14,14 @@
 
     var localToken = {
       setToken: function(name, value) {
-        cachedToken = value;
+        // cachedToken = value;
         storage.setItem(name, value);
       },
       getToken: function(name) {
-        if (!cachedToken) {
-          cachedToken = storage.getItem(name);
+        var cachedToken = storage.getItem(name);
           if (cachedToken === null) {
             cachedToken = undefined;
           }
-        }
-
         return cachedToken;
       },
       removeToken: function(name) {

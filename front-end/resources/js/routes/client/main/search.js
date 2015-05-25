@@ -6,20 +6,23 @@
     .controller('Search', Search);
 
     Search.$inject = ['$location', '$q', '$rootScope', '$scope', '$state', '$timeout', '$window',
-    'commonsDataService', 'elasticsearchServiceApi'];
+    '$auth', 'commonsDataService', 'elasticsearchServiceApi', 'local_storage'];
 
     /* @ngInject */
     function Search($location, $q, $rootScope, $scope, $state, $timeout, $window,
-    commonsDataService, elasticsearchServiceApi) {
+    $auth, commonsDataService, elasticsearchServiceApi, local_storage) {
       var vm = this;
 
       vm.searchResult           = searchResult;
       vm.keyword                = $rootScope.search_keyword;
       vm.change_page            = change_page;
       vm.change_keyword         = change_keyword;
-      vm.star                   = star;
+      vm.is_saved_star          = is_saved_star;
+      vm.isAuthenticated        = $auth.isAuthenticated();
       $rootScope.is_change_page = false;
 
+      /*get the photo from local storage*/
+      vm.photo = local_storage.getToken('photo');
 
       $scope.$on('search', function() {
         $timeout(function() {
@@ -190,8 +193,25 @@
           });
       }
 
-      function star(){
-        console.log('star');
+      function is_saved_star(id, star) {
+        var saved_items = local_storage.getToken('saved_items');
+
+        var items = saved_items.indexOf(id);
+
+        if (star === true) {
+          if (items !== -1) {
+            return true;
+          }
+        } else {
+          console.log(typeof saved_items);
+          if (saved_items === 'null') {
+            return true;
+          }
+          if (items !== -1 && saved_items !== 'null') {
+            console.log('false');
+            return false;
+          }
+        }
       }
     }
 }());
