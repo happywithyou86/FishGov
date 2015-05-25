@@ -19,9 +19,4 @@
         // io.
       });
   };
-
-  
 }());
-// user_id : String,
-// item_id : String,
-// clicked : Number,

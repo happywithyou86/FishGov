@@ -20,6 +20,7 @@
     get               : require(service + './get'),
     googleAuth        : require(service + './googleAuth'),
     linkedin_auth     : require(service + './linkedin_auth'),
+    save              : require(service + './save'),
     update            : require(service + './update'),
     xPoweredBy        : require(service + './xPoweredBy'),
 
@@ -30,7 +31,9 @@
 
     /*Model*/
     Clicked_Items     : require('../model/Clicked_Items'),
+    Dates_Login       : require('../model/Dates_Login'),
     Saved_Items       : require('../model/Saved_Items'),
+    Search_Terms      : require('../model/Search_Terms'),
     User              : require('../model/User'),
 
     args              : require('yargs').argv,
@@ -41,6 +44,9 @@
     express           : require('express'),
     expressSession    : require('express-session'),
     favicon           : require('serve-favicon'),
+    fs                : require('fs'),
+    http              : require('http'),
+    https             : require('https'),
     jwt               : require('jwt-simple'),
     LocalStrategy     : require('passport-local').Strategy,
     logger            : require('morgan'),

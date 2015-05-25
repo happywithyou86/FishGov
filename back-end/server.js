@@ -40,10 +40,8 @@
   /*io.cluster Configuration*/
   if (io.cluster.isMaster) {io.clusterService(io);}
   else {
-    app.listen(io.port, function() {
-      console.log(io.chalk.red.reset.underline('listening to port ') +
-      io.chalk.cyan.bold((io.port)));
-    });
+    io.http.createServer(app).listen(3000);
+    //io.https.createServer(options, app).listen(8443);
   }
 
   function afterResponse(req, res, next) {

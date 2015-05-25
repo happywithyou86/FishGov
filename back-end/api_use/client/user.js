@@ -15,5 +15,8 @@
   app.route('/clicked_items')
     .put(io.xPoweredBy, io.authorize, user_put.clicked_items);
 
+  app.route('/search_terms')
+    .put(io.xPoweredBy, io.authorize, user_put.search_terms);
+
   module.exports = app;
 }());
