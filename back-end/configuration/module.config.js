@@ -12,18 +12,26 @@
 
     rootPath          : rootPath,
     authorize         : require(service + 'authorize'),
+    authorizeUponLogin: require(service + 'authorizeUponLogin'),
     clusterService    : require(service + './cluster'),
-    config            : require('./settings.config'),
     createSendToken   : require(service + './createSendToken'),
     error             : require(service + './error'),
     facebookAuth      : require(service + './facebookAuth'),
     get               : require(service + './get'),
     googleAuth        : require(service + './googleAuth'),
-    User              : require('../model/User'),
-    mongoDB           : require('../configuration/mongodb'),
+    linkedin_auth     : require(service + './linkedin_auth'),
+    update            : require(service + './update'),
     xPoweredBy        : require(service + './xPoweredBy'),
+
+    config            : require('./settings.config'),
+    mongoDB           : require('../configuration/mongodb'),
     use_app           : require('./use_app.config'),
     use_api           : require('./use_api.config'),
+
+    /*Model*/
+    Clicked_Items     : require('../model/Clicked_Items'),
+    Saved_Items       : require('../model/Saved_Items'),
+    User              : require('../model/User'),
 
     args              : require('yargs').argv,
     bodyParser        : require('body-parser'),
@@ -46,6 +54,7 @@
       (path.join(rootPath, 'views'))),
     nunjucksEnvBuild  : new nunjucks.Environment(new nunjucks.FileSystemLoader
       (path.join(rootPath, 'build'))),
+    ObjectID          : require('mongodb').ObjectID,
     passport          : require('passport'),
     Promise           : require('bluebird'),
     qs                : require('querystring'),

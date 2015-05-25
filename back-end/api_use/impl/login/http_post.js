@@ -24,6 +24,18 @@
     global.io.googleAuth(global.io, params, res);
   };
 
+  exports.linkedin = function(req, res, next) {
+    var params = {
+      client_id: req.body.clientId,
+      redirect_uri: req.body.redirectUri,
+      code: req.body.code,
+      grant_type: 'authorization_code',
+      client_secret:io.config.LINKEDIN_SECRET,
+    };
+
+    io.linkedin_auth(io, params, res, next);
+  };
+
   exports.user = function(req, res, next) {
     var params = {
       client_id: req.body.clientId,
@@ -32,6 +44,6 @@
       code: req.body.code
     };
 
-    global.io.facebookAuth(global.io, params, res);
+    global.io.facebookAuth(global.io, params, res, next);
   };
 }());

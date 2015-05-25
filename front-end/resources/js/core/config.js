@@ -39,6 +39,11 @@
         clientId: '514855305579-vmrkir3l76c0v2t6b5mtnphh38uf9irp.apps.googleusercontent.com',
         url: window.location.origin + '/userApi/logInUserGoogle'
       });
+
+      $authProvider.linkedin({
+        clientId: '75uwishg7c5x02',
+        url: window.location.origin + '/userApi/login/linkedin'
+      });
     }
 
     configure.$inject = ['$httpProvider', '$locationProvider', '$logProvider', '$urlRouterProvider',

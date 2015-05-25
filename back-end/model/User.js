@@ -9,12 +9,11 @@
       type: String,
       unique: true,
     },
-    password: String,
-    username: String,
     firstName: String,
     lastName: String,
-    googleId: String,
-    facebookId: String,
+    photo   : String,
+    linkedinId: String,
+    dates_logged_in: Array,
     displayName: String
   });
 

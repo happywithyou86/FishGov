@@ -7,6 +7,10 @@
     return Restangular.all('userApi');
   }])
   /*ngInject*/
+  .factory('userServiceApi', ['Restangular', function (Restangular) {
+    return Restangular.all('userApi');
+  }])
+  /*ngInject*/
   .factory('elasticsearchServiceApi', ['Restangular', function(Restangular) {
     return Restangular.all('elasticsearchApi');
   }]);

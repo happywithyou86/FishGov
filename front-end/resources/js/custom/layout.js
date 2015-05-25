@@ -14,18 +14,6 @@
   };
 
   Layout.prototype.carousel = function() {
-    // $('[data-toggle="switch"]').bootstrapSwitch('onSwitchChange',function() {
-    //   var self = this;
-    //   var switchObj = $(':checkbox');
-    //   /* Get the state of this */
-    //   var state = $(self).bootstrapSwitch('state');
-    //   console.log(self );
-    //   for(var i=0;i<=2;i++) {
-    //     if(switchObj[i] !== self )
-    //       $(switchObj[i]).bootstrapSwitch('state', false);
-    //   }
-    // });
-
     if ($('[data-toggle="switch"]').length) {
       $('[data-toggle="switch"]').bootstrapSwitch();
     }

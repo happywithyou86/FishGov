@@ -22,4 +22,18 @@
         return res.json('Unauthorized: TOKEN ERROR');
       }
   };
+
+  exports.saved_items = function(foundUser, req, res, next) {
+    if (foundUser) {
+      var options = {
+        find      : foundUser._id,
+        foundUser : foundUser,
+        message   : 'Retrieving data from Save_Items',
+        name      : 'Saved_Items',
+        res       : res
+      };
+
+      io.get.findOneByIdInSavedItems(options);
+    }
+  };
 }());

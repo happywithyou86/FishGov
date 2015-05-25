@@ -21,12 +21,30 @@
       });
   };
 
-  exports.findOneById = function(options) {
-    return options.io[options.name]
-      .findById(options.find)
-      .exec()
+  exports.findOneByIdInSavedItems = function(options) {
+    io[options.name]
+      .findById(options.find.toString())
+      .exec(function(err, result) {
+        return result;
+      })
       .then(function(result) {
-        return options.res.json(result);
+        io.createSendToken(io, options.foundUser, result, options.res);
+      });
+  };
+
+  exports.findOneById = function(options) {
+    return io[options.name]
+      .findById(options.find.toString())
+      .exec(function(err, result) {
+        console.log(err);
+        return result;
+      })
+      .then(function(result) {
+        options.res.json({
+          message: options.message,
+          status: 200,
+          data: result
+        });
       });
   };
 }());

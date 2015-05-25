@@ -34,10 +34,13 @@
 
   <div class="col-lg-12 container">
     <div>
-      <div ng-repeat="result in search_result">
+      <div ng-repeat="result in search_result track by $index">
         <div class="col-lg-12">
           <h5 style="font-size: 20px">
-            <a href="/item/{{result._id}}?keyword={{vm.keyword}}" target="_blank">{{result._source.title}}</a>
+            <a href="/item/{{result._id}}?keyword={{vm.keyword}}" target="_blank" ng-click="vm.clicked_items(result._id)">{{result._source.title}}</a>
+            <a href="" class="pull-right" ng-click="vm.save_items(false, result._id)">
+              <i saved-star="{{result._id}}" class="fa fa-star-o fa-2x" ng-show="vm.isAuthenticated"></i>
+            </a>
           </h5>
           <div class="row">
             <div class="col-lg-4 col-sm-3">
@@ -65,7 +68,7 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-12">
+  <div class="col-lg-12 container">
     <div ng-show="pageTotal !== 0" class="pull-left">
       <span ng-bind="showStart"></span>
       <span ng-bind="dash"></span>
