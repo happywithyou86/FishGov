@@ -23,17 +23,17 @@
       }
   };
 
-  exports.save_items = function(user, req, res, next) {
-    if (user.sub) {
+  exports.saved_items = function(foundUser, req, res, next) {
+    if (foundUser) {
       var options = {
-        find    : user.sub,
-        message : 'Retrieving data from Save_Items',
-        name    : 'Saved_Items',
-        res     : res
+        find      : foundUser._id,
+        foundUser : foundUser,
+        message   : 'Retrieving data from Save_Items',
+        name      : 'Saved_Items',
+        res       : res
       };
 
-      io.mongoDB(io.config.dbName)
-        .then(io.get.findOneById(options));
+      io.get.findOneByIdInSavedItems(options);
     }
   };
 }());

@@ -21,8 +21,18 @@
       });
   };
 
+  exports.findOneByIdInSavedItems = function(options) {
+    io[options.name]
+      .findById(options.find.toString())
+      .exec(function(err, result) {
+        return result;
+      })
+      .then(function(result) {
+        io.createSendToken(io, options.foundUser, result, options.res);
+      });
+  };
+
   exports.findOneById = function(options) {
-    console.log('jories');
     return io[options.name]
       .findById(options.find.toString())
       .exec(function(err, result) {

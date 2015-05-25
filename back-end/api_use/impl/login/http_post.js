@@ -25,7 +25,6 @@
   };
 
   exports.linkedin = function(req, res, next) {
-    console.log(req.body);
     var params = {
       client_id: req.body.clientId,
       redirect_uri: req.body.redirectUri,
@@ -34,7 +33,7 @@
       client_secret:io.config.LINKEDIN_SECRET,
     };
 
-    io.linkedin_auth(io, params, res);
+    io.linkedin_auth(io, params, res, next);
   };
 
   exports.user = function(req, res, next) {
@@ -45,6 +44,6 @@
       code: req.body.code
     };
 
-    global.io.facebookAuth(global.io, params, res);
+    global.io.facebookAuth(global.io, params, res, next);
   };
 }());

@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  module.exports = function(io, params, res) {
+  module.exports = function(io, params, res, next) {
     io.request(io.config.LINKEDIN_ACCESS_TOKEN_URL, {
       form: params,
       json: true,
@@ -27,15 +27,14 @@
 
       function findUser(err, foundUser) {
        if (foundUser) {
-          io.createSendToken(io, foundUser, res);
+          // io.createSendToken(io, foundUser, res);
+          next(foundUser);
         } else {
           io.User.findOne({
             email: linkedin_data.email
           }, function(err, user) {
            if (err) {throw err;}
            if (user) {
-             console.log('founduser');
-             console.log(linkedin_data);
               io.User.findOneAndUpdate({email: user.emailAddress},
                 { firstName:linkedin_data.firstName,
                   lastName: linkedin_data.lastName,

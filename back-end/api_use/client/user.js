@@ -8,7 +8,7 @@
     .get(io.authorize, io.xPoweredBy, user_get.info);
 
   app.route('/save_items')
-    .get(io.xPoweredBy, io.authorize, user_get.save_items);
+    .get(io.xPoweredBy, io.authorize, user_get.saved_items);
 
   module.exports = app;
 }());

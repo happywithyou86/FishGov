@@ -6,10 +6,10 @@
     .controller('Login', Login);
 
     /*Inject angular related directive*/
-    Login.$inject = ['$q', '$rootScope', '$auth', '$timeout', 'local_storage',
+    Login.$inject = ['$q', '$rootScope', '$window', '$auth', '$timeout', 'local_storage',
     'strapAlert', 'strapModal', 'commonsDataService', 'userServiceApi'];
 
-    function Login($q, $rootScope, $auth, $timeout, local_storage,
+    function Login($q, $rootScope, $window, $auth, $timeout, local_storage,
     strapAlert, strapModal, commonsDataService, userServiceApi) {
       var vm = this;
       vm.isAuthenticated = $auth.isAuthenticated;
@@ -29,6 +29,7 @@
         $auth.logout();
         vm.photo = undefined;
         local_storage.removeToken('photo');
+        local_storage.removeToken('saved_items');
       }
 
       function login(isLoginFormValid) {
@@ -62,33 +63,34 @@
       function authenticate(provider) {
         $auth.authenticate(provider)
         .then(function(response) {
+          console.log(response);
           var obj         = response.data;
           vm.photo        = obj.user.photo;
+          vm.saved_items  = obj.saved_items;
           local_storage.setToken('photo', vm.photo);
+          local_storage.setToken('saved_items', vm.saved_items);
         }, function(err) {
           if (err) {throw err;}
-        }).then(function() {
-          get_saved_items();
         });
       }
 
-      function get_saved_items() {
-        return $q.all([get_saved_itemsCallback()])
-          .then(function(response) {
-            console.log(response);
-            return response;
-          });
-      }
-
-      function get_saved_itemsCallback() {
-        return commonsDataService
-          .httpGETQueryParams(
-            'save_items',
-            {},
-            userServiceApi
-          ).then(function(response) {
-            return response;
-          });
-      }
+      // function get_saved_items() {
+      //   return $q.all([get_saved_itemsCallback()])
+      //     .then(function(response) {
+      //       console.log(response);
+      //       return response;
+      //     });
+      // }
+      //
+      // function get_saved_itemsCallback() {
+      //   return commonsDataService
+      //     .httpGETQueryParams(
+      //       'save_items',
+      //       {},
+      //       userServiceApi
+      //     ).then(function(response) {
+      //       return response;
+      //     });
+      // }
     }
 }());

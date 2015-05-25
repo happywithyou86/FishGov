@@ -12,6 +12,7 @@
 
     rootPath          : rootPath,
     authorize         : require(service + 'authorize'),
+    authorizeUponLogin: require(service + 'authorizeUponLogin'),
     clusterService    : require(service + './cluster'),
     createSendToken   : require(service + './createSendToken'),
     error             : require(service + './error'),
