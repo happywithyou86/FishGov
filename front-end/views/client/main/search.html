@@ -37,12 +37,9 @@
       <div ng-repeat="result in search_result track by $index">
         <div class="col-lg-12">
           <h5 style="font-size: 20px">
-            <a href="/item/{{result._id}}?keyword={{vm.keyword}}" target="_blank">{{result._source.title}}</a>
-            <a href="" class="pull-right">
-              <i class="fa fa-star-o fa-2x" ng-show="vm.isAuthenticated &amp;&amp; vm.is_saved_star(result._id, false)"></i>
-            </a>
-            <a href="" class="pull-right">
-              <i class="fa fa-star fa-2x" ng-show="vm.isAuthenticated &amp;&amp; vm.is_saved_star(result._id, true)"></i>
+            <a href="/item/{{result._id}}?keyword={{vm.keyword}}" target="_blank" ng-click="vm.clicked_items(result._id)">{{result._source.title}}</a>
+            <a href="" class="pull-right" ng-click="vm.save_items(false, result._id)">
+              <i saved-star="{{result._id}}" class="fa fa-star-o fa-2x" ng-show="vm.isAuthenticated"></i>
             </a>
           </h5>
           <div class="row">

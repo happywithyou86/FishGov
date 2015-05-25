@@ -6,19 +6,21 @@
     .controller('Search', Search);
 
     Search.$inject = ['$location', '$q', '$rootScope', '$scope', '$state', '$timeout', '$window',
-    '$auth', 'commonsDataService', 'elasticsearchServiceApi', 'local_storage'];
+    '$auth', 'commonsDataService', 'elasticsearchServiceApi', 'local_storage', 'userServiceApi'];
 
     /* @ngInject */
     function Search($location, $q, $rootScope, $scope, $state, $timeout, $window,
-    $auth, commonsDataService, elasticsearchServiceApi, local_storage) {
+    $auth, commonsDataService, elasticsearchServiceApi, local_storage, userServiceApi) {
       var vm = this;
 
+      vm.clicked_items          = clicked_items;
       vm.searchResult           = searchResult;
       vm.keyword                = $rootScope.search_keyword;
       vm.change_page            = change_page;
       vm.change_keyword         = change_keyword;
       vm.is_saved_star          = is_saved_star;
       vm.isAuthenticated        = $auth.isAuthenticated();
+      vm.save_items             = save_items;
       $rootScope.is_change_page = false;
 
       /*get the photo from local storage*/
@@ -29,6 +31,28 @@
           search();
         }, 0);
       });
+
+      function clicked_items(item_id) {
+        if (!vm.isAuthenticated){
+          return;
+        }
+
+        $q.all([save_click_items(item_id)])
+          .then(function(response) {
+            return response;
+          });
+      }
+
+      function save_click_items(item_id) {
+        return commonsDataService
+          .httpPUTQueryParams(
+            'clicked_items',
+            {item_id:item_id},
+            userServiceApi
+          ).then(function(response) {
+            return response;
+          });
+      }
 
       function search() {
         $location.path('/search').search({q: vm.keyword, p: 1});
@@ -197,13 +221,11 @@
         var saved_items = local_storage.getToken('saved_items');
 
         var items = saved_items.indexOf(id);
-
         if (star === true) {
           if (items !== -1) {
             return true;
           }
         } else {
-          console.log(typeof saved_items);
           if (saved_items === 'null') {
             return true;
           }
@@ -212,6 +234,21 @@
             return false;
           }
         }
+      }
+
+      function save_items(bool, id) {
+        console.log('jories');
+        if (!bool) {
+          /*add the new save item*/
+          $q.all([save_itemsCallback(id)])
+            .then(function(response) {
+              return response;
+            });
+        }
+      }
+
+      function save_itemsCallback(id) {
+
       }
     }
 }());
