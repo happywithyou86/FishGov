@@ -71,7 +71,7 @@
           placement: 'bottom',
           container: 'body'
         });
-        
+
         element.hover(function() {
           if (element.hasClass('fa-star-o')) {
             myTooltip.setEnabled(true);

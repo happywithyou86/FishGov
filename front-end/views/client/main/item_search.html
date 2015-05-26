@@ -8,9 +8,11 @@
         </h5>
       </a>
     </div>
-    <!-- <div class="col-lg-4 col-md-4 col-sm-4">
-      <p class="default">Source: <a href="{{itemObj._source.listing_url}}">FBO</a></p>
-    </div> -->
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <a href="" class="pull-left" ng-click="vm.save_items(false, result._id)">
+        <i saved-star="{{itemObj._id.toString()}}" class="fa fa-star-o fa-2x" ng-show="vm.isAuthenticated"></i>
+      </a>
+    </div>
   </div>
 
   <div class="col-lg-12">

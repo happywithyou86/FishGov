@@ -130,7 +130,6 @@
                 .then(function(response) {
                   $rootScope.itemObj = response[0].data.hits[0];
                   $rootScope.item_description = response[0].data.hits[0].highlight.description[0];
-                  console.log(response[0].data.hits[0].highlight.description[0]);
                 });
 
               function search_itemCallback() {
