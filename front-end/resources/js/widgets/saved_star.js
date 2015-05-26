@@ -5,11 +5,11 @@
     .module('app.widgets')
     .directive('savedStar', savedStar);
 
-    savedStar.$inject = ['$q', '$timeout', '$auth', '$tooltip', 'local_storage',
+    savedStar.$inject = ['$q', '$rootScope', '$timeout', '$auth', '$tooltip', 'local_storage',
     'commonsDataService', 'userServiceApi'];
 
     /* @ngInject */
-    function savedStar($q, $timeout, $auth, $tooltip, local_storage,
+    function savedStar($q, $rootScope, $timeout, $auth, $tooltip, local_storage,
     commonsDataService, userServiceApi) {
       var directive = {
         restrict: 'AEC',
@@ -44,6 +44,9 @@
             local_storage.removeToken('saved_items');
             saved_items.push(item_id);
             saved_items = local_storage.setToken('saved_items', JSON.stringify(saved_items));
+
+            /*increment the count star*/
+            $rootScope.saved_count += 1;
             /*save the star items*/
             $q.all([saved_items_data(item_id)])
               .then(function(response) {
@@ -58,6 +61,8 @@
             saved_items.splice(position, 1);
             local_storage.removeToken('saved_items');
             saved_items = local_storage.setToken('saved_items', JSON.stringify(saved_items));
+            /*decrement the count star*/
+            $rootScope.saved_count -= 1;
             /*delete the star items*/
             $q.all([saved_items_delete(item_id)])
               .then(function(response) {

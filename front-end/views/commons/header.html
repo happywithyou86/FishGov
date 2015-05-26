@@ -14,12 +14,18 @@
           src="/img/GovFishHeader.png">
         </a>
       </div>
+      <!-- vm.saved_items -->
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class='nav navbar-nav navbar-right' ng-controller="Login as vm">
           <li ng-hide="vm.photo !== undefined">
             <a class="btn btn-social-icon btn-linkedin" tooltip-linked-in ng-click="vm.authenticate('linkedin')">
               <i class="fa fa-linkedin"></i>
+            </a>
+          </li>
+          <li ng-show="vm.photo !== undefined" class="text-center">
+            <a href="">
+              <i class="fa fa-star" saved-count/> Saved ({{vm.saved_items.length || saved_count}})
             </a>
           </li>
           <li ng-show="vm.photo !== undefined" class="text-center">

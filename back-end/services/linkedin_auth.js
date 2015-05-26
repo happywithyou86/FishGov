@@ -42,7 +42,7 @@
           io.User.findOne({
             email: linkedin_data.email
           }, function(err, user) {
-           if (err) {throw err;}
+           if (err) {next(err);}
            if (user) {
               io.User.findOneAndUpdate({email: user.emailAddress},
                 { firstName       : linkedin_data.firstName,
