@@ -24,16 +24,17 @@
   };
 
   exports.saved_items = function(foundUser, req, res, next) {
+    console.log(foundUser);
     if (foundUser) {
       var options = {
-        find      : foundUser._id,
+        find      : {user_id: foundUser._id},
         foundUser : foundUser,
         message   : 'Retrieving data from Save_Items',
         name      : 'Saved_Items',
         res       : res
       };
 
-      io.get.findOneByIdInSavedItems(options);
+      io.get.findOneSavedItems(options);
     }
   };
 }());

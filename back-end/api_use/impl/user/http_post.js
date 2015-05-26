@@ -9,7 +9,7 @@
           res     : res,
           details : {
             user_id : user.sub,
-            item_id : query.id
+            item_id : query.item_id
           }
         };
 

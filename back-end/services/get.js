@@ -21,9 +21,9 @@
       });
   };
 
-  exports.findOneByIdInSavedItems = function(options) {
+  exports.findOneSavedItems = function(options) {
     io[options.name]
-      .findById(options.find.toString())
+      .find(options.find, 'item_id')
       .exec(function(err, result) {
         return result;
       })
