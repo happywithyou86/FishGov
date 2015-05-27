@@ -20,7 +20,6 @@
   require('./configuration/passport')(io.passport);
 
   /*Routes*/
-  // app.use(afterResponse);
   io.use_app(app, io);
   io.use_api(app, io);
   app.use(function(err, req, res, next) {
@@ -41,22 +40,5 @@
   if (io.cluster.isMaster) {io.clusterService(io);}
   else {
     io.http.createServer(app).listen(3000);
-    //io.https.createServer(options, app).listen(8443);
-  }
-
-  function afterResponse(req, res, next) {
-    var response = function(db) {
-      io.mongoose.connection.close(function (db) {
-        console.log('Mongoose connection disconnected upon close');
-      });
-    };
-    var disconnectAsync = function() {
-      io.mongoose.disconnectAsync(function() {
-        console.log('Mongoose connection disconnected upon disconnect');
-        response();
-      });
-    };
-    res.on('finish', disconnectAsync);
-    next();
   }
 }());
