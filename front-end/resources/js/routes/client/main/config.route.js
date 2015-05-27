@@ -130,6 +130,10 @@
                 .then(function(response) {
                   $rootScope.itemObj = response[0].data.hits[0];
                   $rootScope.item_description = response[0].data.hits[0].highlight.description[0];
+                  response[0].data.hits[0].highlight.description[0] = undefined;
+                  $rootScope.search_item_result = response[0].data.hits;
+                  $rootScope.description = response[0].data.description;
+                  console.log($rootScope.search_item_result);
                 });
 
               function search_itemCallback() {
@@ -139,6 +143,32 @@
                   .then(function(response) {
                     return response;
                   });
+              }
+            }
+          }
+        }
+      }, {
+        state: 'user_saved_items',
+        config: {
+          url : '/save/items',
+          templateUrl: '/client/main/user_saved_items.html',
+          controller: 'User_Saved_Items as vm',
+          title: 'User Saved Items',
+          resolve: {/*@ngInject*/
+            get_user_saved_items: function($q, $rootScope, commonsDataService, userServiceApi) {
+              $q.all([user_saved_items()])
+                .then(function(response) {
+                  $rootScope.user_saved_items = response[0].data;
+                  console.log($rootScope.user_saved_items);
+                });
+
+              function user_saved_items() {
+                return commonsDataService
+                  .httpGETQueryParams(
+                    'saved_items',
+                    {},
+                    userServiceApi
+                  );
               }
             }
           }

@@ -3,11 +3,11 @@
 
   angular
     .module('app.main')
-    .controller('Item_Search', Item_Search);
+    .controller('User_Saved_Items', User_Saved_Items);
 
-    Item_Search.$inject = ['$q', '$auth', 'commonsDataService', 'userServiceApi'];
+    User_Saved_Items.$inject = ['$q', '$auth', 'commonsDataService', 'userServiceApi'];
 
-    function Item_Search($q, $auth, commonsDataService, userServiceApi) {
+    function User_Saved_Items($q, $auth, commonsDataService, userServiceApi) {
       var vm = this;
 
       vm.isAuthenticated  = $auth.isAuthenticated();

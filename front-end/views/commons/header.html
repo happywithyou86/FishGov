@@ -23,8 +23,8 @@
               <i class="fa fa-linkedin"></i>
             </a>
           </li>
-          <li ng-show="vm.photo !== undefined" class="text-center">
-            <a href="">
+          <li ng-show="vm.photo !== undefined" class="text-center" ui-sref-active="active">
+            <a ui-sref="user_saved_items">
               <i class="fa fa-star" saved-count/> Saved ({{vm.saved_items.length || saved_count}})
             </a>
           </li>

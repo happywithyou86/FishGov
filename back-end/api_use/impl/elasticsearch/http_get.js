@@ -43,10 +43,8 @@
               filtered: {
                 query: {
                   multi_match: {
-                    // analyzer: 'strip_html',
                     query: '{{keyword}}',
                     fields: ['title', 'description'],
-                    // analyzer: 'strip_html'
                   }
                 }
               }
@@ -94,10 +92,8 @@
             filter: { term: { _id: req.params.id }},
             query: {
               multi_match: {
-                // analyzer: 'strip_html',
                 query: query.keyword,
                 fields: ['description'],
-                // analyzer: 'strip_html'
               }
             }
           }
@@ -106,20 +102,52 @@
           tags_schema : 'styled',
           fields : {
             description : {
-              fragment_size: 10000,
-              number_of_fragments: 1,
-              no_match_size: 10000
+              number_of_fragments : 0
             }
           }
         }
       }
     }).then(function(body) {
       var hits = body.hits.hits;
-      res.json({
-        message: 'Item Result',
-        status: 200,
-        data: {hits: hits}
+
+      /*get a strip a data in the highlighted text*/
+      client.search({
+        index: 'fishgov',
+        type: 'data',
+        body: {
+          query: {
+            filtered: {
+              /* first step we must know if the socket id is present*/
+              filter: { term: { _id: req.params.id }},
+              query: {
+                multi_match: {
+                  query: query.keyword,
+                  fields: ['description'],
+                }
+              }
+            }
+          },
+          highlight : {
+            tags_schema : 'styled',
+            fields : {
+              description : {
+                fragment_size: 250,
+                number_of_fragments: 1,
+                no_match_size: 150
+              }
+            }
+          }
+        }
+      }).then(function(body) {
+        var description = body.hits.hits[0].highlight.description[0];
+
+        res.json({
+          message: 'Item Result',
+          status: 200,
+          data: {hits: hits, description: description}
+        });
       });
+      /*end of getting the highlighted text*/
     });
   };
 

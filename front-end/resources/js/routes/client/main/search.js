@@ -20,7 +20,6 @@
       vm.change_keyword         = change_keyword;
       vm.is_saved_star          = is_saved_star;
       vm.isAuthenticated        = $auth.isAuthenticated();
-      vm.save_items             = save_items;
       $rootScope.is_change_page = false;
 
       /*get the photo from local storage*/
@@ -234,21 +233,6 @@
             return false;
           }
         }
-      }
-
-      function save_items(bool, id) {
-        console.log('jories');
-        if (!bool) {
-          /*add the new save item*/
-          $q.all([save_itemsCallback(id)])
-            .then(function(response) {
-              return response;
-            });
-        }
-      }
-
-      function save_itemsCallback(id) {
-
       }
     }
 }());

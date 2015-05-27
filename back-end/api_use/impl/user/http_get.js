@@ -24,7 +24,6 @@
   };
 
   exports.saved_items = function(foundUser, req, res, next) {
-    console.log(foundUser);
     if (foundUser) {
       var options = {
         find      : {user_id: foundUser._id},
@@ -35,6 +34,22 @@
       };
 
       io.get.findOneSavedItems(options);
+    }
+  };
+
+  exports.saved_items_list = function(user, req, res, next) {
+    if (user) {
+      var options = {
+        find      : {user_id: user.sub},
+        message   : 'Retrieving data from Save_Items',
+        name      : 'Saved_Items',
+        res       : res
+      };
+
+      io.mongoDB(io.config.dbName)
+        .then(function() {
+          io.get.findList(options);
+        });
     }
   };
 }());
