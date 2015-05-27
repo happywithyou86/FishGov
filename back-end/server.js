@@ -20,7 +20,7 @@
   require('./configuration/passport')(io.passport);
 
   /*Routes*/
-  app.use(afterResponse);
+  // app.use(afterResponse);
   io.use_app(app, io);
   io.use_api(app, io);
   app.use(function(err, req, res, next) {

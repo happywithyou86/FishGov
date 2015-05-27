@@ -27,6 +27,37 @@
         var saved_items     = JSON.parse(local_storage.getToken('saved_items')),
             item_result     = JSON.parse(attrs.savedStar),
             item_id         = item_result._id;
+
+        var title,
+            keyword,
+            solnbr,
+            due_date,
+            agency,
+            posted_date,
+            office,
+            description;
+
+        /*test if we have item_id present*/
+        if (item_result.item_id !== undefined) {
+          item_id = item_result.item_id;
+          title       = item_result.title;
+          keyword     = item_result.keyword;
+          solnbr      = item_result.solnbr;
+          due_date    = item_result.close_date;
+          agency      = item_result.agency;
+          posted_date = item_result.posted_date;
+          office      = item_result.office;
+          description = item_result.description;
+        } else {
+          title       = item_result._source.title;
+          keyword     = $location.search().q;
+          solnbr      = item_result._source.solnbr;
+          due_date    = item_result._source.close_date;
+          agency      = item_result._source.agency;
+          posted_date = item_result._source.posted_date;
+          office      = item_result._source.office;
+          description = item_result.highlight.description[0] !== null ? item_result.highlight.description[0] : $rootScope.description;
+        }
         var position        = saved_items.indexOf(item_id);
 
         if (position !== -1) {
@@ -92,15 +123,15 @@
           commonsDataService
             .httpPOSTQueryParams(
               'saved_items', {
-                item_id: item_id,
-                title  : item_result._source.title,
-                keyword : $location.search().q,
-                solnbr : item_result._source.solnbr,
-                due_date: item_result._source.close_date,
-                agency: item_result._source.agency,
-                posted_date: item_result._source.posted_date,
-                office: item_result._source.office,
-                description: item_result.highlight.description[0] !== null ? item_result.highlight.description[0] : $rootScope.description,
+                item_id     : item_id,
+                title       : title,
+                keyword     : keyword,
+                solnbr      : solnbr,
+                due_date    : due_date,
+                agency      : agency,
+                posted_date : posted_date,
+                office      : office,
+                description : description
               },
               userServiceApi
             ).then(function(response) {
