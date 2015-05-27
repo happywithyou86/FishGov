@@ -63,7 +63,6 @@
       function authenticate(provider) {
         $auth.authenticate(provider)
         .then(function(response) {
-          console.log(response);
           var obj         = response.data;
           vm.photo        = obj.user.photo;
           vm.saved_items  = obj.saved_items;
@@ -73,6 +72,7 @@
           }
           local_storage.setToken('photo', vm.photo);
           local_storage.setToken('saved_items', JSON.stringify(saved_items_temp));
+          $rootScope.saved_count = saved_items_temp.length;
         }, function(err) {
           if (err) {throw err;}
         });

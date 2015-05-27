@@ -24,6 +24,7 @@
 
         $rootScope.saved_count = JSON.parse(local_storage.getToken('saved_items'));
         $rootScope.saved_count = $rootScope.saved_count.length;
+        console.log($rootScope.saved_count);
       }
     }
 }());
