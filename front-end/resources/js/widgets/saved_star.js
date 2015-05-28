@@ -13,12 +13,29 @@
     commonsDataService, userServiceApi) {
       var directive = {
         restrict: 'AEC',
+        scope :{savedStar:'@' },
         link: link
       };
 
       return directive;
 
       function link(scope, element, attrs) {
+        scope.$watch('savedStar',function(newValue,oldValue) {
+          var saved_items     = JSON.parse(local_storage.getToken('saved_items')),
+              item_result     = JSON.parse(attrs.savedStar),
+              item_id         = item_result._id;
+
+          var position        = saved_items.indexOf(item_id);
+
+          if (position !== -1) {
+            element.removeClass('fa-star-o');
+            element.addClass('fa-star');
+          } else {
+            element.removeClass('fa-star');
+            element.addClass('fa-star-o');
+          }
+        });
+
         var isAuthenticated = $auth.isAuthenticated();
         if (!isAuthenticated) {
           return;
