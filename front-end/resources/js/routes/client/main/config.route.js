@@ -159,7 +159,6 @@
               $q.all([user_saved_items()])
                 .then(function(response) {
                   $rootScope.user_saved_items = response[0].data;
-                  console.log($rootScope.user_saved_items);
                 });
 
               function user_saved_items() {
