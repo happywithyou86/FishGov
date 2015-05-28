@@ -54,7 +54,11 @@
       }
 
       function search() {
-        $location.path('/search').search({q: vm.keyword, p: 1});
+        /*saved the search terms link to the isEntered directive*/
+        $q.all([saved_keyword()])
+          .then(function(response) {
+            $location.path('/search').search({q: vm.keyword, p: 1});
+          });
       }
 
       $rootScope.$watchCollection(function() {
@@ -88,9 +92,27 @@
       }
 
       function change_keyword(page) {
-        // vm.is_change_page = true;
-        $rootScope.tempKeyword = vm.keyword;
-        $location.search('q', vm.keyword).search('p', page);
+        if (!vm.isAuthenticated) {
+          $rootScope.tempKeyword = vm.keyword;
+          $location.search('q', vm.keyword).search('p', page);
+        } else {
+          $q.all([saved_keyword()])
+            .then(function(response) {
+              $rootScope.tempKeyword = vm.keyword;
+              $location.search('q', vm.keyword).search('p', page);
+            });
+        }
+      }
+
+      function saved_keyword() {
+        return commonsDataService
+          .httpPUTQueryParams(
+            'search_terms',
+            {keyword:vm.keyword},
+            userServiceApi
+          ).then(function(response) {
+            return response;
+          });
       }
 
       function searchResult(page) {
