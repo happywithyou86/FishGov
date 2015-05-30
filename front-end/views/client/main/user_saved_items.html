@@ -1,0 +1,43 @@
+<section ng-include="'commons/header.html'"></section>
+
+<div class="col-lg-12 container user_saved_items">
+  <div ng-repeat="result in user_saved_items track by $index">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-lg-10 col-md-10 col-sm-12">
+          <h5 style="font-size: 20px">
+            <a href="/item/{{result.item_id}}?keyword={{result.keyword}}" target="_blank" ng-click="vm.clicked_items(result.item_id)">{{result.title}}</a>
+          </h5>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 text-center">
+          <a href="">
+            <i saved-star="{{result}}" class="fa fa-star-o fa-2x" ng-show="vm.isAuthenticated"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-sm-3">
+          <p class="same">Solicitation Number: {{result.solnbr}}</p>
+        </div>
+        <div class="col-lg-4 col-sm-3">
+          <p>Due Date: {{result.date | date}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-sm-3">
+          <p>Agency: {{result.agency}}</p>
+        </div>
+        <div class="col-lg-4 col-sm-3">
+          <p>Posted Date: {{result.posted_date | date}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <p>Office: {{result.office}}</p>
+        </div>
+      </div>
+      <p class="description" ng-bind-html="result.description"></p>
+    </div>
+  </div>
+</div>

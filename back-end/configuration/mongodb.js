@@ -5,7 +5,8 @@
     if (io.mongoose.connection.readyState === 0) {
       return io.mongoose.connectAsync(process.env.MONGOLAB_URI || dbName);
     } else {
-      return;
+      io.mongoose.disconnectAsync();
+      return io.mongoose.connectAsync(process.env.MONGOLAB_URI || dbName);
     }
   };
 }());

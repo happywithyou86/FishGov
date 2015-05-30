@@ -16,10 +16,14 @@
       return directive;
 
       function link(scope, element, attrs) {
-        var myTooltip = $tooltip(element, {
+        var linkedinTooltip = $tooltip(element, {
           title: 'Login with your LinkedIn account',
           placement: 'bottom',
           container: 'body'
+        });
+
+        element.on('click', function() {
+          linkedinTooltip.hide();
         });
       }
     }

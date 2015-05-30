@@ -12,14 +12,14 @@
     function Login($q, $rootScope, $window, $auth, $timeout, local_storage,
     strapAlert, strapModal, commonsDataService, userServiceApi) {
       var vm = this;
-      vm.isAuthenticated = $auth.isAuthenticated;
+      vm.isAuthenticated = $auth.isAuthenticated();
       vm.authenticate    = authenticate;
       vm.logInUser       = logInUser;
       vm.log_out         = log_out;
       vm.login           = login;
 
       /*get the photo from local storage*/
-      vm.photo = local_storage.getToken('photo');
+      vm.photo        = local_storage.getToken('photo');
 
       function logInUser() {
         strapModal.show('am-fade-and-scale', 'center', 'commons/login.html');
@@ -63,34 +63,19 @@
       function authenticate(provider) {
         $auth.authenticate(provider)
         .then(function(response) {
-          console.log(response);
           var obj         = response.data;
           vm.photo        = obj.user.photo;
           vm.saved_items  = obj.saved_items;
+          var saved_items_temp = [];
+          for (var i = 0; i < vm.saved_items.length; i++) {
+            saved_items_temp.push(vm.saved_items[i].item_id);
+          }
           local_storage.setToken('photo', vm.photo);
-          local_storage.setToken('saved_items', vm.saved_items);
+          local_storage.setToken('saved_items', JSON.stringify(saved_items_temp));
+          $rootScope.saved_count = saved_items_temp.length;
         }, function(err) {
           if (err) {throw err;}
         });
       }
-
-      // function get_saved_items() {
-      //   return $q.all([get_saved_itemsCallback()])
-      //     .then(function(response) {
-      //       console.log(response);
-      //       return response;
-      //     });
-      // }
-      //
-      // function get_saved_itemsCallback() {
-      //   return commonsDataService
-      //     .httpGETQueryParams(
-      //       'save_items',
-      //       {},
-      //       userServiceApi
-      //     ).then(function(response) {
-      //       return response;
-      //     });
-      // }
     }
 }());

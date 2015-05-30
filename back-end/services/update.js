@@ -17,6 +17,23 @@
           });
         }
       );
+  };
 
+  exports.findOneAndUpdateSearchTerms = function(options) {
+    console.log(options.find);
+    return io[options.name]
+      .findOneAndUpdate(
+        options.find,
+        options.modify,
+        {upsert: true, new: true},
+        function(err, result) {
+          if(err){throw err;}
+          options.res.json({
+            message: options.message,
+            status: 200,
+            data: result
+          });
+        }
+      );
   };
 }());

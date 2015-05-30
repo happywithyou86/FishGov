@@ -13,7 +13,8 @@
         httpGETQueryParams    : httpGETQueryParams,
         httpGETRouteParams    : httpGETRouteParams,
         httpPOSTQueryParams   : httpPOSTQueryParams,
-        httpPUTQueryParams    : httpPUTQueryParams
+        httpPUTQueryParams    : httpPUTQueryParams,
+        httpDELETEQueryParams : httpDELETEQueryParams
       };
       return service;
 
@@ -69,6 +70,19 @@
           });
 
         function httpPUTQueryParamsCallback(response, status, header, config) {
+          return Restangular.stripRestangular(response);
+        }
+      }
+
+      function httpDELETEQueryParams(api, param, apiService) {
+        return apiService.one(api)
+          .remove(param)
+          .then(httpDELETEQueryParamsCallback)
+          .catch(function(message) {
+
+          });
+
+        function httpDELETEQueryParamsCallback(response, status, header, config) {
           return Restangular.stripRestangular(response);
         }
       }

@@ -2,6 +2,7 @@
   'use strict';
 
   module.exports = function(io, params, res, next) {
+    console.log('jories');
     io.request(io.config.LINKEDIN_ACCESS_TOKEN_URL, {
       form: params,
       json: true,
@@ -28,36 +29,41 @@
       function findUser(err, foundUser) {
        if (foundUser) {
           // io.createSendToken(io, foundUser, res);
+          var options = {
+            message : 'Saving Dates Login',
+            name    : 'Dates_Login',
+            details : {
+              linkedinId: foundUser.linkedinId
+            }
+          };
+          io.save.login_dates(options);
           next(foundUser);
         } else {
           io.User.findOne({
             email: linkedin_data.email
           }, function(err, user) {
-           if (err) {throw err;}
+           if (err) {next(err);}
            if (user) {
               io.User.findOneAndUpdate({email: user.emailAddress},
-                { firstName:linkedin_data.firstName,
-                  lastName: linkedin_data.lastName,
-                  photo   : linkedin_data.pictureUrl,
-                  linkedinId: linkedin_data.id,
-                  displayName: linkedin_data.firstName },
+                { firstName       : linkedin_data.firstName,
+                  lastName        : linkedin_data.lastName,
+                  photo           : linkedin_data.pictureUrl,
+                  linkedinId      : linkedin_data.id,
+                  displayName     : linkedin_data.firstName},
                 function(err, user) {
-                  io.createSendToken(io, user, res);
+                  io.createSendToken(io, user, 'null', res);
                 });
             } else {
-              console.log('no user found');
-
-              console.log(linkedin_data);
               var newUser = io.User({
-                email: linkedin_data.emailAddress,
-                firstName: linkedin_data.firstName,
-                lastName: linkedin_data.lastName,
-                photo   : linkedin_data.pictureUrl,
-                linkedinId: linkedin_data.id,
-                displayName: linkedin_data.firstName
+                email           : linkedin_data.emailAddress,
+                firstName       : linkedin_data.firstName,
+                lastName        : linkedin_data.lastName,
+                photo           : linkedin_data.pictureUrl,
+                linkedinId      : linkedin_data.id,
+                displayName     : linkedin_data.firstName
               });
               newUser.save(function(err) {
-                io.createSendToken(io, newUser, res);
+                io.createSendToken(io, newUser, 'null', res);
               });
             }
           });
