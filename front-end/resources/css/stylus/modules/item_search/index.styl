@@ -13,11 +13,11 @@
   }
   .description {
     font-size: 14px;
-    font-style: oblique;
     line-height: 1.5;
     opacity: 1;
   }
   .default {
+    font-weight: normal;
     opacity: 1;
   }
   .attachments {
@@ -37,29 +37,18 @@
   .set_aside {
     padding: 0;
   }
-  .note {
-    quotes: "“" "”" "‘" "’";
-    padding: 10px;
-    font-size: 14px
-    font-style: italic;
-    opacity: 1;
-    border: 3px dotted #16a085
-    background: papayawhip;
-    &:before {
-      color: #16a085;
-      content: open-quote;
-    }
-    &:after {
-      color: #16a085;
-      content: close-quote;
-    }
-  }
   .bottom {
     margin-bottom: 30px;
   }
-  .bold {
+  .note {
+    margin: 0;
+    padding-bottom: 5px;
     font-weight: 600;
+    font-style: oblique;
     color: #111;
     opacity: 1;
+  }
+  .right-panel {
+    padding-top: 20px;
   }
 }

@@ -4,90 +4,69 @@
   <div class="col-lg-12">
     <div class="row">
       <div class="col-lg-8 col-md-8 col-sm-12">
-        <a href="{{itemObj._source.listing_url}}" target="_blank">
-          <h5 class="title" ng-bind-html="itemObj._source.title">
-          </h5>
-        </a>
-        <a href="" class="pull-right" ng-click="vm.save_items(false, itemObj._id.toString())">
-          <i ng-repeat="result in search_item_result track by $index" saved-star="{{result}}" class="fa fa-star-o" ng-show="vm.isAuthenticated"></i>
-        </a>
+        <div class="col-sm-12">
+          <a href="{{itemObj._source.listing_url}}" target="_blank">
+            <h5 class="title" ng-bind-html="itemObj._source.title">
+            </h5>
+          </a>
+        </div>
+        <div class="col-sm-12">
+          <a href="" class="pull-right" ng-click="vm.save_items(false, itemObj._id.toString())">
+            <i ng-repeat="result in search_item_result track by $index" saved-star="{{result}}" class="fa fa-star-o" ng-show="vm.isAuthenticated"></i>
+          </a>
+        </div>
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12 text-center">
-        <img src="{{itemObj._source.logo_url}}" class="img-responsive img-thumbnail" />
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <img src="{{itemObj._source.logo_url}}" class="img-responsive" />
       </div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="col-lg-8">
+      <div class="col-lg-12" style="margin-top:20px">
+        <p class="description" ng-bind-html="item_description | newLines"></p>
+      </div>
+      <div class="col-lg-12" ng-show="itemObj._source.attachments.length > 0">
+        <div class="col-lg-12">
+          <h5>Attachments</h5>
+        </div>
+        <div ng-repeat="attachment in itemObj._source.attachments">
+          <div class="attachment_child">
+            <a href="{{attachment.url}}" class="attach">
+              {{attachment.title}}
+            </a>
+            <p class="default">
+              <span>Description: </span> <span ng-bind-html="attachment.description"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 right-panel">
+      <p>Source: <a href="{{itemObj._source.listing_url}}">FBO</a></p>
+      <p>Solicitation Number: {{itemObj._source.solnbr}}</p>
+      <p>Due Date: {{itemObj._source.close_date | date}}</p>
+      <p>Posted Date: {{itemObj._source.posted_date | date}}</p>
+      <p>Notice Type: {{itemObj._source.notice_type}}</p>
+      <p>Set Aside: {{itemObj._source.set_aside}}</p>
+      <p>Agency: {{itemObj._source.agency}}</p>
+      <p>Office: {{itemObj._source.office}}</p>
+      <p>LOCATION: {{itemObj._source.location}}</p>
+      <p>Classification Code: <span ng-bind-html="itemObj._source.classification_code"></span></p>
+      <p>NAICS Code: <span ng-bind-html="itemObj._source.naics_code"></span></p>
     </div>
   </div>
 
   <div class="col-lg-12">
-    <div class="col-lg-8 col-md-8 col-sm-8">
-      <p class="same">Solicitation Number: {{itemObj._source.solnbr}}</p>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4">
-      <!-- <p>Due Date: {{itemObj._source.close_date | date}}</p> -->
-      <p class="same">Source: <a href="{{itemObj._source.listing_url}}">FBO</a></p>
-    </div>
-
-    <div class="col-lg-8 col-md-8 col-sm-8">
-      <p class="same">Agency: {{itemObj._source.agency}}</p>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4">
-      <p>Due Date: {{itemObj._source.close_date | date}}</p>
-      <!-- <p>Posted Date: {{itemObj._source.posted_date | date}}</p> -->
-    </div>
-
-    <div class="col-lg-8 col-md-8 col-sm-8">
-      <p class="same">Office: {{itemObj._source.office}}</p>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4">
-      <p>Posted Date: {{itemObj._source.posted_date | date}}</p>
-    </div>
-
-    <div class="col-lg-8 col-md-8 col-sm-8">
-      <p class="same">LOCATION: {{itemObj._source.location}}</p>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4">
-      <p class="same">Notice Type: {{itemObj._source.notice_type}}</p>
-    </div>
-
-    <div class="col-lg-8 col-md-8 col-sm-8" style="margin-top:20px">
-      <p class="description" ng-bind-html="item_description | newLines"></p>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4 set_aside">
-      <div class="col-lg-12">
-        <p class="same">Set Aside: {{itemObj._source.set_aside}}</p>
-      </div>
-      <div class="col-lg-12">
-        <p class="same">Classification Code: <span ng-bind-html="itemObj._source.classification_code"></span></p>
-      </div>
-      <div class="col-lg-12">
-        <p class="same">NAICS Code: <span ng-bind-html="itemObj._source.naics_code"></span></p>
-      </div>
-    </div>
-
-    <div class="col-lg-8 col-md-8 col-sm-8 attachments" ng-show="itemObj._source.attachments.length > 0">
-      <div class="col-lg-12">
-        <h5>Attachments</h5>
-      </div>
-      <div ng-repeat="attachment in itemObj._source.attachments">
-        <div class="attachment_child">
-          <a href="{{attachment.url}}" class="attach">
-            {{attachment.title}}
-          </a>
-          <p class="bold">
-            <span>Description: </span> <span ng-bind-html="attachment.description" class="same"></span>
-          </p>
-        </div>
-      </div>
-    </div>
+    <p class="note text-center">
+      <strong>NOTE:</strong> <span class="default">For full details about this opportunity, you can read the official version of this
+      solicitation and download the appropriate forms and rules regarding your submission in the
+      link below.</span>
+    </p>
+    <p class="default bottom text-center">
+      The official link for this solicitation is: <a href="{{itemObj._source.listing_url}}">{{itemObj._source.listing_url}}</a>
+    </p>
   </div>
-</div>
-<div class="item_search container-fluid">
-  <p class="note text-center">
-    <strong>NOTE:</strong> For full details about this opportunity, you can read the official version of this
-    solicitation and download the appropriate forms and rules regarding your submission in the
-    link below.
-  </p>
-  <p class="default bottom">
-    The official link for this solicitation is: <a href="{{itemObj._source.listing_url}}">{{itemObj._source.listing_url}}</a>
-  </p>
 </div>
