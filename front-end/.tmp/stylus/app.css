@@ -77,18 +77,7 @@
   transition: all 0.2s ease-in-out;
 }
 .main .total {
-  quotes: "“" "”" "‘" "’";
-  font-weight: 600;
-  font-style: italic;
   color: #16a085;
-}
-.main .total:before {
-  color: #16a085;
-  content: open-quote;
-}
-.main .total:after {
-  color: #16a085;
-  content: close-quote;
 }
 .register .form-control {
   padding-left: 40px;

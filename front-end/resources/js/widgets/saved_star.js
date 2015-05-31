@@ -129,17 +129,27 @@
           }
         });
 
-        var myTooltip = $tooltip(element, {
-          title: 'saved',
-          placement: 'bottom',
-          container: 'body'
-        });
 
+        var myTooltip;
         element.hover(function() {
           if (element.hasClass('fa-star-o')) {
-            myTooltip.setEnabled(true);
+            myTooltip = $tooltip(element, {
+              title: 'Save',
+              placement: 'bottom',
+              container: 'body'
+            });
+            $timeout(function() {
+              myTooltip.show();
+            });
           } else {
-            myTooltip.setEnabled(false);
+            myTooltip = $tooltip(element, {
+              title: 'Unsave',
+              placement: 'bottom',
+              container: 'body'
+            });
+            $timeout(function() {
+              myTooltip.show();
+            });
           }
         }, function() {
           myTooltip.hide();
