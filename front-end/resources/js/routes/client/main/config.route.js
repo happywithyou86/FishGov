@@ -22,6 +22,7 @@
             total_search: function($q, $rootScope, commonsDataService, elasticsearchServiceApi) {
               $q.all([total_searchCallback()])
                 .then(function(response) {
+                  console.log(typeof response[0].data.total);
                   $rootScope.totalObj = response[0].data.total;
                 });
 
@@ -133,7 +134,7 @@
                   response[0].data.hits[0].highlight.description[0] = undefined;
                   $rootScope.search_item_result = response[0].data.hits;
                   $rootScope.description = response[0].data.description;
-                  console.log($rootScope.search_item_result);
+                  console.log($rootScope.itemObj);
                 });
 
               function search_itemCallback() {

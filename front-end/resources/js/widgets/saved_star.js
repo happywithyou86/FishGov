@@ -130,29 +130,38 @@
         });
 
 
-        var myTooltip;
+        var fa_star_o = $tooltip(element, {
+          title: 'Save',
+          placement: 'bottom',
+          container: 'body'
+        });
+
+        var fa_star = $tooltip(element, {
+          title: 'Unsave',
+          placement: 'bottom',
+          container: 'body'
+        });
+
+        fa_star.setEnabled(false);
+        fa_star_o.setEnabled(false);
         element.hover(function() {
           if (element.hasClass('fa-star-o')) {
-            myTooltip = $tooltip(element, {
-              title: 'Save',
-              placement: 'bottom',
-              container: 'body'
-            });
             $timeout(function() {
-              myTooltip.show();
+              console.log(fa_star_o);
+              fa_star.setEnabled(false);
+              fa_star_o.setEnabled(true);
+              fa_star_o.show();
             });
           } else {
-            myTooltip = $tooltip(element, {
-              title: 'Unsave',
-              placement: 'bottom',
-              container: 'body'
-            });
             $timeout(function() {
-              myTooltip.show();
+              fa_star.setEnabled(true);
+              fa_star_o.setEnabled(false);
+              fa_star.show();
             });
           }
         }, function() {
-          myTooltip.hide();
+          fa_star.setEnabled(false);
+          fa_star_o.setEnabled(false);
         });
 
         function saved_items_data(item_id) {

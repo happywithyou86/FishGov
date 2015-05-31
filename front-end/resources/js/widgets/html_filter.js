@@ -8,7 +8,7 @@
     function newLines() {
 
       var filter = function(text) {
-        return text.replace(/\n/g, '<br/>');
+        return text && text.replace(/\n/g, '<br/>') ? text.replace(/\n/g, '<br/>') : text;
       };
       return filter;
     }
