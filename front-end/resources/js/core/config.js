@@ -25,9 +25,10 @@
     /* @ngInject */
     function registerNsignInConfig($authProvider, cfpLoadingBarProvider) {
       cfpLoadingBarProvider.latencyThreshold = 400;
-      $authProvider.loginUrl    = window.location.origin + '/userApi/userLogIn';
-      $authProvider.signupUrl   = window.location.origin + '/userApi/userRegister';
-      $authProvider.tokenPrefix = 'magens';
+      // $authProvider.loginRedirect = 'http://localhost:3000/about';
+      $authProvider.loginUrl      = window.location.origin + '/userApi/userLogIn';
+      $authProvider.signupUrl     = window.location.origin + '/userApi/userRegister';
+      $authProvider.tokenPrefix   = 'fishgov';
 
       $authProvider.facebook({
         clientId: '789445017793242',
@@ -41,7 +42,7 @@
 
       $authProvider.linkedin({
         clientId: '75uwishg7c5x02',
-        url: window.location.origin + '/userApi/login/linkedin'
+        url: window.location.origin + '/userApi/login/linkedin',
       });
     }
 

@@ -11,8 +11,8 @@
           </a>
         </div>
         <div class="col-sm-12">
-          <a href="" class="pull-right" ng-click="vm.save_items(false, itemObj._id.toString())">
-            <i ng-repeat="result in search_item_result track by $index" saved-star="{{result}}" class="fa fa-star-o" ng-show="vm.isAuthenticated"></i>
+          <a href="" class="pull-right star" ng-click="vm.save_items(false, itemObj._id.toString())">
+            <i ng-repeat="result in search_item_result track by $index" saved-star="{{result}}" class="fa fa-star-o"></i>
           </a>
         </div>
       </div>
@@ -23,7 +23,7 @@
   </div>
 
   <div class="body">
-    <div class="col-lg-8">
+    <div class="col-lg-8 col-md-8 col-sm-12">
       <div class="col-lg-12" style="margin-top:20px">
         <p class="description" ng-bind-html="item_description | newLines"></p>
       </div>
@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <div class="col-lg-4 right-panel">
+    <div class="col-lg-4 col-md-4 col-sm-12 right-panel">
       <p>Source: <a href="{{itemObj._source.listing_url}}">FBO</a></p>
       <p>Solicitation Number: {{itemObj._source.solnbr}}</p>
       <p>Due Date: {{itemObj._source.close_date | date}}</p>
@@ -59,7 +59,7 @@
     </div>
   </div>
 
-  <div class="col-lg-12">
+  <div class="col-lg-12 col-md-12 col-sm-12">
     <p class="note text-center">
       <strong>NOTE:</strong> <span class="default">For full details about this opportunity, you can read the official version of this
       solicitation and download the appropriate forms and rules regarding your submission in the

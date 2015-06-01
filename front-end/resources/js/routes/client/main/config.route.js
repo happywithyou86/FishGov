@@ -108,7 +108,11 @@
 
               function searchCallback() {
                 return commonsDataService
-                  .httpGETQueryParams('search', {keyword:$location.search().q, p: $location.search().p},
+                  .httpGETQueryParams('search', {
+                      keyword:$location.search().q,
+                      p: $location.search().p,
+                      asc: $location.search().asc
+                    },
                     elasticsearchServiceApi)
                   .then(function(response) {
                     return response;

@@ -17,6 +17,7 @@
       vm.search           = search;
       vm.search_result    = [];
       vm.keyword          = $rootScope.search_keyword;
+      vm.search_all       = search_all;
       vm.index            = null;
 
       $scope.$on('search', function() {
@@ -47,6 +48,17 @@
           ).then(function(response) {
             return response;
           });
+      }
+
+      function search_all() {
+        if (!vm.isAuthenticated) {
+          $location.path('/search').search({q: vm.keyword, p: 1});
+        } else {
+          $q.all([saved_keyword()])
+            .then(function(response) {
+              $location.path('/search').search({q: 'all', asc: 'true', p: 1});
+            });
+        }
       }
 
     }

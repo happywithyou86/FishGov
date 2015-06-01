@@ -126,6 +126,15 @@
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
+.search .star {
+  cursor: default;
+  opacity: 0.7;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+  filter: alpha(opacity=70);
+}
+.search .star:hover {
+  color: #16a085;
+}
 .item_search .hlt1 {
   font-weight: 800;
 }
@@ -190,6 +199,15 @@
 }
 .item_search .right-panel {
   padding-top: 20px;
+}
+.item_search .star {
+  cursor: default;
+  opacity: 0.7;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+  filter: alpha(opacity=70);
+}
+.item_search .star:hover {
+  color: #16a085;
 }
 .am-fade-and-scale {
   -webkit-animation-duration: 0.3s;

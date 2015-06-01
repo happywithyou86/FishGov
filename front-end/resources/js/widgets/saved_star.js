@@ -32,11 +32,21 @@
             posted_date,
             office,
             description;
-
+            
         var isAuthenticated = $auth.isAuthenticated();
         if (!isAuthenticated) {
+          /*add the class star*/
+          $('.star').addClass('star');
+          var not_sign_in = $tooltip(element, {
+            title: 'Sign in to save item',
+            placement: 'bottom',
+            container: 'body'
+          });
           return;
         }
+
+        /*remove the class star*/
+        $('.star').removeClass('star');
 
         scope.$watch('savedStar',function(newValue,oldValue) {
           saved_items     = JSON.parse(local_storage.getToken('saved_items'));
@@ -74,21 +84,6 @@
             element.addClass('fa-star-o');
           }
         });
-
-
-        // var saved_items     = JSON.parse(local_storage.getToken('saved_items')),
-        //     item_result     = JSON.parse(attrs.savedStar);
-        //     item_id         = item_result._id;
-        //
-        // var position        = saved_items.indexOf(item_id);
-
-
-        // var position        = saved_items.indexOf(item_id);
-        //
-        // if (position !== -1) {
-        //   element.removeClass('fa-star-o');
-        //   element.addClass('fa-star');
-        // }
 
         element.on('click', function() {
           var hasClass = element.hasClass('fa-star-o');
@@ -145,9 +140,11 @@
         fa_star.setEnabled(false);
         fa_star_o.setEnabled(false);
         element.hover(function() {
+          if (!isAuthenticated) {
+            return;
+          }
           if (element.hasClass('fa-star-o')) {
             $timeout(function() {
-              console.log(fa_star_o);
               fa_star.setEnabled(false);
               fa_star_o.setEnabled(true);
               fa_star_o.show();

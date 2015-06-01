@@ -6,10 +6,10 @@
     .controller('Login', Login);
 
     /*Inject angular related directive*/
-    Login.$inject = ['$q', '$rootScope', '$window', '$auth', '$timeout', 'local_storage',
+    Login.$inject = ['$location', '$q', '$rootScope', '$scope', '$state', '$window', '$auth', '$timeout', 'local_storage',
     'strapAlert', 'strapModal', 'commonsDataService', 'userServiceApi'];
 
-    function Login($q, $rootScope, $window, $auth, $timeout, local_storage,
+    function Login($location, $q, $rootScope, $scope, $state, $window, $auth, $timeout, local_storage,
     strapAlert, strapModal, commonsDataService, userServiceApi) {
       var vm = this;
       vm.isAuthenticated = $auth.isAuthenticated();
@@ -30,6 +30,7 @@
         vm.photo = undefined;
         local_storage.removeToken('photo');
         local_storage.removeToken('saved_items');
+        window.location.href = '/';
       }
 
       function login(isLoginFormValid) {
@@ -73,6 +74,7 @@
           local_storage.setToken('photo', vm.photo);
           local_storage.setToken('saved_items', JSON.stringify(saved_items_temp));
           $rootScope.saved_count = saved_items_temp.length;
+          window.location.href = window.location.href;
         }, function(err) {
           if (err) {throw err;}
         });

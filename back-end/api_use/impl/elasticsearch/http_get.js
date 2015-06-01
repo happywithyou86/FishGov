@@ -11,6 +11,38 @@
     var page = query.p;
     var fromPage = (page - 1) * 5;
     /*var sanitizeHtml = require('sanitize-html');*/
+    console.log(query);
+    if (query.asc === 'true') {
+      console.log('true');
+      client.search({
+        index: 'fishgov',
+        type: 'data',
+        body: {
+          sort: [
+            { "posted_date":   { "order": "asc" }},
+            { "_score": { "order": "asc" }}
+          ],
+          highlight : {
+            tags_schema : 'styled',
+            fields : {
+              description : {
+                fragment_size: 250,
+                number_of_fragments: 1,
+                no_match_size: 150
+              }
+            }
+          }
+        }
+      }).then(function(response) {
+        var hits = response.hits;
+        res.json({
+          message: query.keyword + ' result set',
+          status: 200,
+          data: {hits: hits.hits, total: hits.total}
+        });
+      });
+      return;
+    }
 
     var settings = {
       'analysis' : {
@@ -164,4 +196,8 @@
       });
     });
   };
+
+  // exports.results_all = function(req, res, next) {
+  //
+  // }
 }());
