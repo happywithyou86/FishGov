@@ -32,8 +32,9 @@
             posted_date,
             office,
             description;
-            
+
         var isAuthenticated = $auth.isAuthenticated();
+
         if (!isAuthenticated) {
           /*add the class star*/
           $('.star').addClass('star');
@@ -41,6 +42,14 @@
             title: 'Sign in to save item',
             placement: 'bottom',
             container: 'body'
+          });
+          not_sign_in.setEnabled(false);
+          element.hover(function() {
+            console.log('hover');
+            not_sign_in.setEnabled(true);
+            not_sign_in.show();
+          }, function() {
+            not_sign_in.setEnabled(false);
           });
           return;
         }
