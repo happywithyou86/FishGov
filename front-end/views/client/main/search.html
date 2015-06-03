@@ -43,7 +43,7 @@
           <a href="" filter-services="services">Services</a>
           <div class="item" ng-repeat="item in vm.services track by $index" ng-show="services">
             <label class="checkbox">
-              <input check-box type="checkbox" data-toggle="checkbox" value="" id="{{item.code}}" ng-checked="false">
+              <input check-box type="checkbox" data-toggle="checkbox" value="{{item.code}}" id="{{item.code}}" ng-checked="false">
               {{item.name}}
             </label>
           </div>
@@ -59,7 +59,7 @@
           </div>
         </div>
       </div>
-      <div class="search_result" search-result>
+      <div class="search_result">
         <div ng-repeat="result in search_result track by $index">
           <div class="col-lg-12 item">
             <div class="row">

@@ -25,11 +25,6 @@
     /* @ngInject */
     function registerNsignInConfig($authProvider, cfpLoadingBarProvider, $rootScopeProvider) {
       cfpLoadingBarProvider.latencyThreshold = 400;
-      //parser.href = window.location.href;
-      //$location.path(parser.pathname);
-      // $authProvider.loginRedirect = 'http://localhost:3000/about';
-      console.log(window.location.href);
-      console.log(window.location);
       $authProvider.loginRedirect = $rootScopeProvider.pathname;
       $authProvider.loginUrl      = window.location.origin + '/userApi/userLogIn';
       $authProvider.signupUrl     = window.location.origin + '/userApi/userRegister';

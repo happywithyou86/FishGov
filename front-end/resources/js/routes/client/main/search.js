@@ -12,7 +12,6 @@
     function Search($location, $q, $rootScope, $scope, $state, $timeout, $window,
     $auth, commonsDataService, elasticsearchServiceApi, local_storage, userServiceApi) {
       var vm = this;
-      console.log('jories');
       vm.clicked_items          = clicked_items;
       vm.searchResult           = searchResult;
       vm.keyword                = $rootScope.search_keyword;

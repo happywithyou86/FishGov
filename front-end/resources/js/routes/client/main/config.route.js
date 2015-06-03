@@ -102,7 +102,6 @@
                     $rootScope.dash           = '-';
                     $rootScope.of             = 'of';
                     $rootScope.search_result = response[0].data.hits;
-                    console.log($rootScope.search_result);
                   });
               }
 

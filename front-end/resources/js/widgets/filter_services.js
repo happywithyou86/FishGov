@@ -16,6 +16,8 @@
       return directive;
 
       function link(scope, element, attrs) {
+        $rootScope.services = true;
+        $rootScope.products = true;
         element.on('click', function() {
           console.log('click');
           if (attrs.filterServices === 'services') {

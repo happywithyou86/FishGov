@@ -15,7 +15,6 @@
 
       function link(scope, element, attrs) {
         element.on('click', function() {
-          console.log('jories canino click');
           toggleNavi();
         });
       }
