@@ -3,7 +3,7 @@
 <div class="container item_search">
   <div class="col-lg-12">
     <div class="row">
-      <div class="col-lg-8 col-md-8 col-sm-12">
+      <div class="col-lg-8 col-md-8 col-sm-12 title_border">
         <div class="col-sm-12">
           <a href="{{itemObj._source.listing_url}}" target="_blank">
             <h5 class="title" ng-bind-html="itemObj._source.title">
@@ -12,7 +12,7 @@
         </div>
         <div class="col-sm-12">
           <a href="" class="pull-right star" ng-click="vm.save_items(false, itemObj._id.toString())">
-            <i ng-repeat="result in search_item_result track by $index" saved-star="{{result}}" class="fa fa-star-o"></i>
+            <span class="save_item">Save Item</span>  <i ng-repeat="result in search_item_result track by $index" saved-star="{{result}}" class="fa fa-star-o"></i>
           </a>
         </div>
       </div>

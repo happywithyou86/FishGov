@@ -9,19 +9,13 @@
   exports.results = function(req, res, next) {
     var query = io.url.parse(req.url, true).query;
     var page = query.p;
-    var fromPage = (page - 1) * 5;
-    /*var sanitizeHtml = require('sanitize-html');*/
-    console.log(query);
+    var fromPage = (page - 1) * 20;
     if (query.asc === 'true') {
       console.log('true');
       client.search({
         index: 'fishgov',
         type: 'data',
         body: {
-          sort: [
-            { "posted_date":   { "order": "asc" }},
-            { "_score": { "order": "asc" }}
-          ],
           highlight : {
             tags_schema : 'styled',
             fields : {
@@ -68,7 +62,7 @@
       index: 'fishgov',
       type: 'data',
       body: {
-        from : fromPage, size : 5,
+        from : fromPage, size : 20,
         query: {
           template: {
             query: {

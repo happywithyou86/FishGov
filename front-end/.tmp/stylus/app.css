@@ -111,12 +111,41 @@
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
   filter: alpha(opacity=50);
 }
+.search .canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translate3d(0);
+  transform: translate3d(0);
+  -webkit-transition: 0.3s ease all;
+  transition: 0.3s ease all;
+  padding: 5% 0; /* Temp: Just spacing. */
+}
+.search .canvas .toggle-nav {
+  position: absolute;
+  z-index: 1;
+  left: 10px;
+  top: 10px;
+}
 .search .description {
   font-size: 14px;
   opacity: 1;
   -ms-filter: none;
   -webkit-filter: none;
           filter: none;
+}
+.search .left_side_menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 110vh;
+  border-right: 1px solid #dadee2;
+  padding: 15px;
+  overflow: scroll;
 }
 .search .isActive {
   border-color: #1abc9c;
@@ -125,6 +154,15 @@
   color: #1abc9c;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
+}
+.search .pagination {
+  border-bottom: 2px solid #dadee2;
+}
+.search .products {
+  padding-left: 10px;
+}
+.search .products .item {
+  padding-left: 10px;
 }
 .search .star {
   cursor: default;
@@ -135,12 +173,45 @@
 .search .star:hover {
   color: #16a085;
 }
+.search .search_result {
+  height: 100vh;
+  overflow: scroll;
+}
+.search .search_result .item {
+  padding-top: 5px;
+  border-bottom: 1px solid #dadee2;
+}
+.search .services {
+  padding-left: 10px;
+}
+.search .services .item {
+  padding-left: 10px;
+}
+.search .wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: scroll;
+}
+.search .wrapper.show-nav .canvas {
+  -webkit-transform: translate3d(250px, 0, 0);
+  transform: translate3d(250px, 0, 0);
+}
 .item_search .hlt1 {
   font-weight: 800;
 }
 .item_search .title {
   font-size: 20px;
   color: #16a085;
+}
+.item_search .title_border {
+  border: 1px solid #dadee2;
+}
+.item_search .save_item {
+  font-size: 14px;
+  font-weight: bold;
+  color: #2c3e50;
 }
 .item_search p {
   font-size: 12px;

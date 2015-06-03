@@ -57,9 +57,9 @@
                     //$rootScope.p = $location.search().p;
                     $rootScope.p = $location.search().p;
                     $rootScope.q = $location.search().q;
-                    $rootScope.resultPerPage = $rootScope.pageTotal/5;
+                    $rootScope.resultPerPage = $rootScope.pageTotal/20;
                     $rootScope.result = Math.ceil($rootScope.resultPerPage);
-                    var marginal_pagination = 5;
+                    var marginal_pagination = 20;
                     var url_pagination = $location.search().p;
                     var cpagination = 1;
                     var end_pagination = 9;
@@ -80,8 +80,8 @@
                     for (var i = cpagination; i <= end_pagination; i++) {
                       if ($rootScope.result !== 1) {$rootScope.paginateResult.push(i);}
                     }
-                    $rootScope.showStart = (((parseInt($rootScope.p) - 1) * 5) + 1);
-                    $rootScope.showEnd   = $rootScope.p * 5;
+                    $rootScope.showStart = (((parseInt($rootScope.p) - 1) * 20) + 1);
+                    $rootScope.showEnd   = $rootScope.p * 20;
                     if($rootScope.showEnd > $rootScope.pageTotal) {
                       $rootScope.showEnd = $rootScope.pageTotal;
                     }
@@ -101,8 +101,8 @@
                     $rootScope.tempKeyword = $location.search().q;
                     $rootScope.dash           = '-';
                     $rootScope.of             = 'of';
-                    console.log(response[0].data);
                     $rootScope.search_result = response[0].data.hits;
+                    console.log($rootScope.search_result);
                   });
               }
 
