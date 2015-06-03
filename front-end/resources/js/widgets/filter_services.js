@@ -18,8 +18,23 @@
       function link(scope, element, attrs) {
         $rootScope.services = true;
         $rootScope.products = true;
+
+        var all_services = false;
         element.on('click', function() {
-          console.log('click');
+          if (attrs.filterServices === 'all_services') {
+            if (all_services === false) {
+              $timeout(function() {
+                $rootScope.check_services = true;
+                all_services = true;
+              }, 0);
+            } else {
+              $timeout(function() {
+                $rootScope.check_services = false;
+              }, 0);
+            }
+            return;
+          }
+
           if (attrs.filterServices === 'services') {
             $timeout(function() {
               $rootScope.services = !$rootScope.services;
