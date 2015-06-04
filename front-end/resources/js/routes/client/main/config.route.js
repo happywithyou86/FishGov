@@ -133,11 +133,16 @@
               $q.all([search_itemCallback()])
                 .then(function(response) {
                   $rootScope.itemObj = response[0].data.hits[0];
-                  $rootScope.item_description = response[0].data.hits[0].highlight.description[0];
-                  response[0].data.hits[0].highlight.description[0] = undefined;
+
+                  /*set the description*/
+                  $rootScope.item_description = response[0].data.hits[0]._source.description;
+                  if (response[0].data.hits[0].highlight !== undefined) {
+                    /*this means that our highlight is from the title*/
+                    $rootScope.item_description = response[0].data.hits[0].highlight.description[0];
+                    response[0].data.hits[0].highlight.description[0] = undefined;
+                  }
                   $rootScope.search_item_result = response[0].data.hits;
                   $rootScope.description = response[0].data.description;
-                  console.log($rootScope.itemObj);
                 });
 
               function search_itemCallback() {

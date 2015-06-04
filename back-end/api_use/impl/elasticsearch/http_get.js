@@ -119,7 +119,7 @@
             query: {
               multi_match: {
                 query: query.keyword,
-                fields: ['description'],
+                fields: ['title', 'description'],
               }
             }
           }
@@ -165,7 +165,15 @@
           }
         }
       }).then(function(body) {
-        var description = body.hits.hits[0].highlight.description[0];
+        // console.log(hits[0]._source.description);
+      //  console.log(body.hits.hits[0].hasOwnProperty('highlight') === undefined);
+        var description = hits[0]._source.description;
+        console.log(hits);
+        // console.log(description);
+        if (body.hits.hits[0] !== undefined) {
+          console.log('jories');
+          description = body.hits.hits[0].highlight.description[0];
+        }
 
         res.json({
           message: 'Item Result',
@@ -190,8 +198,4 @@
       });
     });
   };
-
-  // exports.results_all = function(req, res, next) {
-  //
-  // }
 }());
