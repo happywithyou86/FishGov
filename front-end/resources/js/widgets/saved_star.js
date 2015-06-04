@@ -74,6 +74,12 @@
             office      = item_result.office;
             description = item_result.description;
           } else {
+            var detailed_view_description;
+            if (item_result.highlight !== undefined) {
+              detailed_view_description = item_result.highlight.description[0];
+            } else {
+              detailed_view_description = item_result._source.description;
+            }
             title       = item_result._source.title;
             keyword     = $location.search().q;
             solnbr      = item_result._source.solnbr;
@@ -81,7 +87,7 @@
             agency      = item_result._source.agency;
             posted_date = item_result._source.posted_date;
             office      = item_result._source.office;
-            description = item_result.highlight.description[0] !== null ? item_result.highlight.description[0] : $rootScope.description;
+            description = detailed_view_description !== null ? detailed_view_description : $rootScope.description;
           }
 
           position  = saved_items.indexOf(item_id);

@@ -12,7 +12,7 @@
         </div>
         <div class="col-sm-12">
           <a href="" class="pull-right star" ng-click="vm.save_items(false, itemObj._id.toString())">
-            <span class="save_item">Save Item</span>  <i ng-repeat="result in search_item_result track by $index" saved-star="{{result}}" class="fa fa-star-o"></i>
+            <span class="save_item" ng-show="!vm.isAuthenticated">Save Item</span>  <i ng-repeat="result in search_item_result track by $index" saved-star="{{result}}" class="fa fa-star-o"></i>
           </a>
         </div>
       </div>
