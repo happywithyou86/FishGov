@@ -30,6 +30,7 @@
             } else {
               $timeout(function() {
                 $rootScope.check_services = false;
+                all_services = false;
               }, 0);
             }
             return;

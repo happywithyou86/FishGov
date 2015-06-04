@@ -32,78 +32,76 @@
     </ul>
   </div>
 
-  <div class="col-lg-12 container wrapper">
-    <div class="canvas">
-      <a href="#" class="toggle-nav">
-        <span class="fui-list"></span>
-      </a>
-      <div class="left_side_menu">
-        <h5>Show Results for</h5>
-        <div class="services">
-          <a href="" filter-services="all_services">Services</a>
-          <i ng-show="services" class="fa fa-chevron-down" filter-services="services"></i>
-          <i ng-show="!services" class="fa fa-chevron-right" filter-services="services"></i>
-          <div class="item" ng-repeat="item in vm.services track by $index" ng-show="services">
-            <label class="checkbox">
-              <input check-box type="checkbox" data-toggle="checkbox" value="{{item.code}}" id="{{item.code}}" ng-checked="check_services">
-              {{item.name}}
-            </label>
-          </div>
-        </div>
-
-        <div class="products">
-          <a href="" filter-services="products">Products</a>
-          <div class="item" ng-repeat="item in vm.products track by $index" ng-show="products">
-            <label class="checkbox">
-              <input check-box type="checkbox" data-toggle="checkbox" value="" id="{{item.code}}" ng-checked="false">
-              {{item.name}}
-            </label>
-          </div>
+  <div class="col-lg-12 container-fluid">
+    <hr class="top-horizontal">
+    <div class="col-lg-3 col-md-3 categories">
+      <h5>Show Results for</h5>
+      <div class="services">
+        <a href="" filter-services="all_services">Services</a>
+        <i ng-show="services" class="fa fa-chevron-down" filter-services="services"></i>
+        <i ng-show="!services" class="fa fa-chevron-right" filter-services="services"></i>
+        <div class="item" ng-repeat="item in vm.services track by $index" ng-show="services">
+          <label class="checkbox">
+            <input check-box type="checkbox" data-toggle="checkbox" value="{{item.code}}" id="{{item.code}}" ng-checked="check_services">
+            {{item.name}}
+          </label>
         </div>
       </div>
-      <div class="search_result">
-        <div ng-repeat="result in search_result track by $index">
-          <div class="col-lg-12 item">
-            <div class="row">
-              <div class="col-lg-10 col-md-10 col-sm-12">
-                <h5 style="font-size: 20px">
-                  <a href="/item/{{result._id}}?keyword={{vm.keyword}}" ng-click="vm.clicked_items(result._id)">{{result._source.title}}</a>
-                </h5>
-              </div>
-              <div class="col-lg-2 col-md-2 col-sm-12 text-center">
-                <a href="" class="star">
-                  <i saved-star="{{result}}" class="fa fa-star-o fa-2x"></i>
-                </a>
-              </div>
+
+      <div class="products">
+        <a href="" filter-services="products">Products</a>
+        <div class="item" ng-repeat="item in vm.products track by $index" ng-show="products">
+          <label class="checkbox">
+            <input check-box type="checkbox" data-toggle="checkbox" value="" id="{{item.code}}" ng-checked="false">
+            {{item.name}}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9 col-md-9 search_result">
+      <div ng-repeat="result in search_result track by $index">
+        <div class="col-lg-12 item">
+          <div class="row">
+            <div class="col-lg-10 col-md-10 col-sm-12">
+              <h5 style="font-size: 20px">
+                <a href="/item/{{result._id}}?keyword={{vm.keyword}}" ng-click="vm.clicked_items(result._id)">{{result._source.title}}</a>
+              </h5>
             </div>
-            <div class="row">
-              <div class="col-lg-4 col-sm-3">
-                <p class="same">Solicitation Number: {{result._source.solnbr}}</p>
-              </div>
-              <div class="col-lg-4 col-sm-3">
-                <p>Due Date: {{result._source.close_date | date}}</p>
-              </div>
+            <div class="col-lg-2 col-md-2 col-sm-12 text-center">
+              <a href="" class="star">
+                <i saved-star="{{result}}" class="fa fa-star-o fa-2x"></i>
+              </a>
             </div>
-            <div class="row">
-              <div class="col-lg-4 col-sm-3">
-                <p>Agency: {{result._source.agency}}</p>
-              </div>
-              <div class="col-lg-4 col-sm-3">
-                <p>Posted Date: {{result._source.posted_date | date}}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <p>Office: {{result._source.office}}</p>
-              </div>
-            </div>
-            <p class="description" ng-bind-html="result.highlight.description[0]"></p>
           </div>
+          <div class="row">
+            <div class="col-lg-4 col-sm-3">
+              <p class="same">Solicitation Number: {{result._source.solnbr}}</p>
+            </div>
+            <div class="col-lg-4 col-sm-3">
+              <p>Due Date: {{result._source.close_date | date}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-sm-3">
+              <p>Agency: {{result._source.agency}}</p>
+            </div>
+            <div class="col-lg-4 col-sm-3">
+              <p>Posted Date: {{result._source.posted_date | date}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <p>Office: {{result._source.office}}</p>
+            </div>
+          </div>
+          <p class="description" ng-bind-html="result.highlight.description[0]"></p>
         </div>
       </div>
     </div>
   </div>
+</div>
   <div class="col-lg-12 container">
+    <hr class="top-horizontal">
     <div ng-show="pageTotal !== 0" class="pull-left">
       <span ng-bind="showStart"></span>
       <span ng-bind="dash"></span>
