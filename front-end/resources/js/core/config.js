@@ -12,13 +12,54 @@
       .value('config', config)
       .config(configure)
       .config(toastrConfig)
-      .config(registerNsignInConfig);
+      .config(registerNsignInConfig)
+      .run(get_browser_info);
 
     toastrConfig.$inject = ['toastr'];
     /* @ngInject */
     function toastrConfig(toastr) {
         toastr.options.timeOut = 4000;
         toastr.options.positionClass = 'toast-bottom-right';
+    }
+
+    get_browser_info.$inject = ['$rootScope', 'browser'];
+    /*@ngInject*/
+    function get_browser_info($rootScope, browser) {
+      var ua = navigator.userAgent,
+          tem,
+          M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+      if(/trident/i.test(M[1])){
+        tem=/\brv[ :]+(\d+)/g.exec(ua) || [];
+        return {name:'IE ',version:(tem[1]||'')};
+      }
+      if (M[1]==='Chrome'){
+        tem=ua.match(/\bOPR\/(\d+)/);
+        if(tem!=null)   {return {name:'Opera', version:tem[1]};}
+      }
+      M=M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+      if((tem=ua.match(/version\/(\d+)/i))!=null) {M.splice(1,1,tem[1]);}
+      if (M[0] === 'Chrome') {
+        $rootScope.validateBrowser = true;
+        if ((parseInt(M[1]) - 5) < 38) {
+          browser.warning('Please update the version of your browser');
+        }
+      } else if (M[0] === 'Firefox') {
+        if ((parseInt(M[1]) - 5) < 33) {
+          browser.warning('Please update the version of your browser');
+        }
+      } else if (M[0] === 'Safari') {
+        if ((parseInt(M[1]) - 1) < 5) {
+          browser.warning('Please update the version of your browser');
+        }
+      } else if (M[0] === 'IE') {
+          if ((parseInt(M[1]) - 1) < 11) {
+            browser.warning('Please update the version of your browser');
+        }
+      } else if (M[0] === 'Opera') {
+          if ((parseInt(M[1]) - 1) < 11) {
+            browser.warning('Please update the version of your browser');
+        }
+      }
     }
 
     registerNsignInConfig.$inject = ['$authProvider', 'cfpLoadingBarProvider', '$rootScopeProvider'];
