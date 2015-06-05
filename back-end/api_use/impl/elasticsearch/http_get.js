@@ -71,6 +71,7 @@
                   multi_match: {
                     query: '{{keyword}}',
                     fields: ['title', 'description'],
+                    minimum_should_match: '80%'
                   }
                 }
               }
@@ -120,6 +121,7 @@
               multi_match: {
                 query: query.keyword,
                 fields: ['title', 'description'],
+                minimum_should_match: '80%'
               }
             }
           }
@@ -149,6 +151,7 @@
                 multi_match: {
                   query: query.keyword,
                   fields: ['description'],
+                  minimum_should_match: '80%'
                 }
               }
             }
