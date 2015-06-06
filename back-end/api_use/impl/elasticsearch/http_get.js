@@ -168,13 +168,8 @@
           }
         }
       }).then(function(body) {
-        // console.log(hits[0]._source.description);
-      //  console.log(body.hits.hits[0].hasOwnProperty('highlight') === undefined);
         var description = hits[0]._source.description;
-        console.log(hits);
-        // console.log(description);
         if (body.hits.hits[0] !== undefined) {
-          console.log('jories');
           description = body.hits.hits[0].highlight.description[0];
         }
 
