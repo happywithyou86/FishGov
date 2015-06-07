@@ -10,7 +10,9 @@
     </div>
   </div>
   <div class="col-lg-12 container" style="margin-top:40px">
-    <div ng-show="pageTotal === 0" class="text-center">No Search Result for <strong><em>{{tempKeyword}}</em></strong></div>
+    <div ng-hide="pageTotal !== 0" class="text-center" ng-cloak>
+      {{noResultText}}<strong><em>{{tempKeyword}}</em></strong>
+    </div>
     <div ng-show="pageTotal !== 0" class="pull-left">
       <span ng-bind="showStart"></span>
       <span ng-bind="dash"></span>

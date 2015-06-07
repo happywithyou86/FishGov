@@ -38,26 +38,6 @@
       return;
     }
 
-    var settings = {
-      'analysis' : {
-        'analyzer': {
-          'strip_html': {
-            'tokenizer':     'standard',
-            'char_filter': ['html_strip' ]
-          }
-        }
-      },
-      'mappings': {
-        'data': {
-          'properties': {
-            'description': {
-              'type': 'string',
-              'analyzer': 'strip_html'
-            },
-          }
-        }
-      }
-    };
     client.search({
       index: 'fishgov',
       type: 'data',
@@ -71,7 +51,9 @@
                   multi_match: {
                     query: '{{keyword}}',
                     fields: ['title', 'description'],
-                    minimum_should_match: '80%'
+                    fuzziness: 'AUTO',
+                    prefix_length: 5
+                    // minimum_should_match: '80%'
                   }
                 }
               }

@@ -102,6 +102,12 @@
                     $rootScope.dash           = '-';
                     $rootScope.of             = 'of';
                     $rootScope.search_result = response[0].data.hits;
+                    /*bind the tempKeyword for no results*/
+                    /*test if we have pageTotal to hide the text*/
+                    if ($rootScope.pageTotal === 0) {
+                      $rootScope.noResultText = 'No Search Results for ';
+                    }
+                    $rootScope.noResultKeyword  = $rootScope.tempKeyword;
                   });
               }
 
