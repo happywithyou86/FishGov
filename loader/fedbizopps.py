@@ -16,6 +16,7 @@ import base64
 import requests
 from bs4 import BeautifulSoup
 from elasticsearch import Elasticsearch
+from dateutil import parser
 from selenium import webdriver
 from json import dumps
 import paramiko
@@ -50,7 +51,7 @@ def parse_index(html):
     def parse_link(url, i=0):
         
         #print("%d. URL: " % i + url)
-        time.sleep(5)
+        time.sleep(1)
         data = {}
         html = requests.get(url).text
         
@@ -92,7 +93,7 @@ def parse_index(html):
             date_text = desc.find("div", {"class": "notice_desc_dates"}).text
             data["description"] = desc_text[len(date_text):].strip()
         except:
-            print(html)
+            #print(html)
             data["description"] = ""
 
         try:
@@ -130,11 +131,7 @@ def parse_index(html):
             "archive_type":"dnf_class_values_procurement_notice__archive_type__widget",
             "place_of_performance":"dnf_class_values_procurement_notice__place_of_performance__widget",
             "secondary_point_of_contact":"dnf_class_values_procurement_notice__secondary_poc__widget",
-        }
-        
-        # add additional info link from here
-        # dnf_class_values_procurement_notice__additional_info_link__widget
-        # https://www.fbo.gov/index?s=opportunity&mode=form&id=56f7098887f8ba9d8cc755e74e15252d&tab=core&_cview=0
+        }       
         
         for key, id_ in extract.items():
             try:
@@ -156,6 +153,38 @@ def parse_index(html):
         if data["posted_date"] == "":
             data["posted_date"] = data["last_posted_date"]
         
+        # Pull out the classification id and text
+        dash = data["classification_code"].find(" -- ")
+        data["classification_id"] = data["classification_code"][0:dash]
+        data["classification_text"] = data["classification_code"][dash+4:len(data["classification_code"])]
+        
+        try:
+            tryDate = data["close_date"].split( );
+            tryDate = ''.join(tryDate[:3])
+            data["close_date_var"] = parser.parse(tryDate).strftime('%Y%m%d')
+        except:
+            data["close_date_var"] = ""        
+            
+        try:
+            tryDate = data["last_posted_date"].split( );
+            tryDate = ''.join(tryDate[:3])
+            data["last_date_var"] = parser.parse(tryDate).strftime('%Y%m%d')
+        except:
+            data["last_date_var"] = ""
+
+        try:
+            tryDate = data["posted_date"].split( );
+            tryDate = ''.join(tryDate[:3])
+            data["posted_date_var"] = parser.parse(tryDate).strftime('%Y%m%d')
+        except:
+            data["posted_date_var"] = ""
+
+        try:
+            tryDate = data["archive_date"].split( );
+            tryDate = ''.join(tryDate[:3])
+            data["archive_date_var"] = parser.parse(tryDate).strftime('%Y%m%d')
+        except:
+            data["archive_date_var"] = ""        
   
         # Get the logo
         try:
@@ -171,6 +200,7 @@ def parse_index(html):
         if data["notice_type"] == "Award Notice":
             return ""
             print("award")			
+
         # attachments
         attachments = []
         for attachment in \
@@ -219,31 +249,21 @@ def parse_index(html):
             with open("preload_fedbizopps.json", "a") as out:
                 out.write(json.dumps(index) + "\n" + json.dumps(new_data) + "\n")
 
-
-    	
-
-    # Write the JSON data out
-    with open("fedbizopps.json", "w") as out:
-        str_ = ""
-        for d in data:
-            str_ += "\n" + json.dumps(d, indent=4, sort_keys=True)
-        out.write(str_);
-    
-
-    
+            # Write to master bulk load file
+            with open("fedbizopps_v2.json", "a") as out:
+                out.write(json.dumps(index) + "\n" + json.dumps(new_data) + "\n")
     
 
 def main():
 
+    # Log in information
     host = '192.96.159.93'
     username = 'canino_jories'
     password = 'joriescanino'
-    port = 22500
-        
-
+    port = 22500        
         
     # Loop through the different search result pages
-    for num in range(3,309):
+    for num in range(1,2):
 
         # Setup FTP to push bulk file to server
         transport = paramiko.Transport((host, port))
@@ -300,7 +320,7 @@ def main():
         ssh.close()
         
         os.remove('C:\\Users\\Stephen\\preload_fedbizopps.json')
-        time.sleep(720)
+        time.sleep(1)
         
         
     
