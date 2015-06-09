@@ -87,8 +87,11 @@ def parse_index(html):
         
 			
 		# The Description field can have some date information text before the description begins that needs to be stripped
+        # beautifulsoup has issues converting <br/> into newlines, so it needs a little help with reg ex
         try:
             desc = bs_content.find("div", {"id": "dnf_class_values_procurement_notice__description__widget"})
+            desc = re.sub(r"<br/>", "\n", str(desc))
+            desc = BeautifulSoup(desc,"html5lib")
             desc_text = desc.text
             date_text = desc.find("div", {"class": "notice_desc_dates"}).text
             data["description"] = desc_text[len(date_text):].strip()
