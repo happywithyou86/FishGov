@@ -70,7 +70,9 @@
           vm.saved_items  = obj.saved_items;
           var saved_items_temp = [];
           for (var i = 0; i < vm.saved_items.length; i++) {
-            saved_items_temp.push(vm.saved_items[i].item_id);
+            if (vm.saved_items[i].item_id !== null || vm.saved_items[i].item_id !== undefined) {
+              saved_items_temp.push(vm.saved_items[i].item_id);
+            }
           }
           local_storage.setToken('photo', vm.photo);
           local_storage.setToken('saved_items', JSON.stringify(saved_items_temp));
