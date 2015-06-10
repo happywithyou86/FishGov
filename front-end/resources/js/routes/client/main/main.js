@@ -42,8 +42,9 @@
       function saved_keyword() {
         return commonsDataService
           .httpPUTQueryParams(
-            'search_terms',
-            {keyword:vm.keyword},
+            'search_terms',{
+              keyword:vm.keyword
+            },
             userServiceApi
           ).then(function(response) {
             return response;
@@ -52,11 +53,11 @@
 
       function search_all() {
         if (!vm.isAuthenticated) {
-          $location.path('/search').search({q: vm.keyword, p: 1});
+          $location.path('/search').search({asc: 'true', p: 1});
         } else {
           $q.all([saved_keyword()])
             .then(function(response) {
-              $location.path('/search').search({q: 'all', asc: 'true', p: 1});
+              $location.path('/search').search({asc: 'true', p: 1});
             });
         }
       }

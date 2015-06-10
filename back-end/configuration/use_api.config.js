@@ -1,18 +1,20 @@
 (function() {
   'use strict';
 
-
-
   module.exports = function(app, io) {
     var routes_api_client = io.rootPath + 'back-end/api_use/client/';
 
     var use_api_client = {
         elastic_search: require(routes_api_client + 'elastic_search'),
-        login   : require(routes_api_client + 'login'),
-        register: require(routes_api_client + 'register'),
-        user    : require(routes_api_client + 'user')
+        filter        : require(routes_api_client + 'filter'),
+        login         : require(routes_api_client + 'login'),
+        register      : require(routes_api_client + 'register'),
+        user          : require(routes_api_client + 'user')
     };
     return useApi([{
+      name: '/filterApi',
+      url: use_api_client.filter
+    }, {
       name: '/userApi',
       url: use_api_client.register
     }, {

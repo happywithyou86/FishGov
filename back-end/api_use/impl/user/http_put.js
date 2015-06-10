@@ -14,10 +14,7 @@
             res: res
           };
 
-      io.mongoDB(io.config.dbName)
-        .then(function() {
-          io.update.findOneAndUpdateClickItems(options);
-        });
+      io.update.findOneAndUpdateClickItems(options);
     }
   };
 
@@ -41,9 +38,6 @@
           res     : res
         };
 
-    io.mongoDB(io.config.dbName)
-      .then(function() {
-        io.update.findOneAndUpdateSearchTerms(options);
-      });
+    io.update.findOneAndUpdateSearchTerms(options);
   };
 }());

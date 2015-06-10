@@ -7,22 +7,28 @@
   });
 
   exports.results = function(req, res, next) {
-    var query = io.url.parse(req.url, true).query;
-    var page = query.p;
-    var fromPage = (page - 1) * 20;
+    var query     = io.url.parse(req.url, true).query;
+    var page      = query.p;
+    var fromPage  = (page - 1) * 20;
+
     if (query.asc === 'true') {
-      console.log('true');
       client.search({
-        index: 'fishgov',
-        type: 'data',
-        body: {
+        index : 'fishgov',
+        type  : 'data',
+        body  : {
+          from  : fromPage, size : 20,
+          sort  : {
+            posted_date_var: {
+              order : 'desc'
+            }
+          },
           highlight : {
             tags_schema : 'styled',
-            fields : {
+            fields      : {
               description : {
-                fragment_size: 250,
-                number_of_fragments: 1,
-                no_match_size: 150
+                fragment_size       : 250,
+                number_of_fragments : 1,
+                no_match_size       : 150
               }
             }
           }
@@ -91,22 +97,30 @@
 
   exports.item = function(req, res, next) {
     var query = io.url.parse(req.url, true).query;
+    var filtered;
+    if(query.keyword === undefined || query.keyword === '') {
+      filtered = {
+        /* first step we must know if the socket id is present*/
+        filter: { term: { _id: req.params.id }}
+      };
+    } else {
+      filtered = {
+        filter: { term: { _id: req.params.id }},
+        query: {
+          multi_match: {
+            query: query.keyword,
+            fields: ['title', 'description'],
+            minimum_should_match: '80%'
+          }
+        }
+      };
+    }
     client.search({
       index: 'fishgov',
       type: 'data',
       body: {
         query: {
-          filtered: {
-            /* first step we must know if the socket id is present*/
-            filter: { term: { _id: req.params.id }},
-            query: {
-              multi_match: {
-                query: query.keyword,
-                fields: ['title', 'description'],
-                minimum_should_match: '80%'
-              }
-            }
-          }
+          filtered: filtered
         },
         highlight : {
           tags_schema : 'styled',
@@ -126,17 +140,7 @@
         type: 'data',
         body: {
           query: {
-            filtered: {
-              /* first step we must know if the socket id is present*/
-              filter: { term: { _id: req.params.id }},
-              query: {
-                multi_match: {
-                  query: query.keyword,
-                  fields: ['description'],
-                  minimum_should_match: '80%'
-                }
-              }
-            }
+            filtered: filtered
           },
           highlight : {
             tags_schema : 'styled',

@@ -33,6 +33,8 @@
     /*Model*/
     Clicked_Items     : require('../model/Clicked_Items'),
     Dates_Login       : require('../model/Dates_Login'),
+    Filter_Products   : require('../model/Filter_Products'),
+    Filter_Services   : require('../model/Filter_Services'),
     Saved_Items       : require('../model/Saved_Items'),
     Search_Terms      : require('../model/Search_Terms'),
     User              : require('../model/User'),

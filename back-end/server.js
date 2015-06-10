@@ -10,7 +10,7 @@
   var  catchAll  = require('./html_routes');
 
   /*Configuration File NoSQL Database*/
-  require('./configuration/mongodb'); //mongodb integration
+  require('./configuration/mongodb')(io.config.dbName); //mongodb integration
 
   /*Start our Express Server*/
   var app = io.express();

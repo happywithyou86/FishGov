@@ -3,10 +3,14 @@
 
   module.exports = function (dbName) {
     if (io.mongoose.connection.readyState === 0) {
-      return io.mongoose.connectAsync(process.env.MONGOLAB_URI || dbName);
-    } else {
-      io.mongoose.disconnectAsync();
+      console.log('0');
       return io.mongoose.connectAsync(process.env.MONGOLAB_URI || dbName);
     }
+    // else {
+    //   console.log('1');
+    //   io.mongoose.disconnectAsync();
+    //
+    //   return io.mongoose.connectAsync(process.env.MONGOLAB_URI || dbName);
+    // }
   };
 }());

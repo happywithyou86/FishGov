@@ -9,6 +9,11 @@
   exports.updateJson = function(req, res, next) {
     var query = io.url.parse(req.url, true).query;
 
+    /*test if we have keyword present*/
+    /*keyword = undefiend means the user click the all results*/
+    if (query.keyword === undefined || query.keyword === '') {
+      return next();
+    }
     client.update({
       index: 'fishgov',
       type: 'data',

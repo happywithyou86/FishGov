@@ -19,7 +19,7 @@
           controller: 'Main as vm',
           title: 'Main',
           resolve: {/*@ngInject*/
-            total_search: function($q, $rootScope, commonsDataService, elasticsearchServiceApi) {
+            total_search: function($q, $rootScope, $timeout, commonsDataService, elasticsearchServiceApi, oboe_data_service) {
               $q.all([total_searchCallback()])
                 .then(function(response) {
                   console.log(typeof response[0].data.total);
@@ -45,7 +45,9 @@
           reloadOnSearch: false,
           resolve: {/*@ngInject*/
             search: function($location, $q, $rootScope, commonsDataService, elasticsearchServiceApi) {
-              if ($location.search().q) {
+              /*or test if the user click for all results*/
+              console.log($location.search().asc);
+              if ($location.search().q !== undefined && $location.search().f === undefined) {
                 $rootScope.search_keyword = $location.search().q;
                 $q.all([searchCallback()])
                   .then(function(response) {
@@ -110,8 +112,13 @@
                     $rootScope.noResultKeyword  = $rootScope.tempKeyword;
                   });
               }
+              // else {
+                // console.log('filter');
+                //$scope.$emit('filter_reload');
+              // }
 
               function searchCallback() {
+                console.log('jories');
                 return commonsDataService
                   .httpGETQueryParams('search', {
                       keyword:$location.search().q,
@@ -121,6 +128,69 @@
                     elasticsearchServiceApi)
                   .then(function(response) {
                     return response;
+                  });
+              }
+            },
+            filter: function($location, $rootScope, $timeout, oboe_data_service) {
+              if($location.search().q === undefined) {
+                $rootScope.services_filter = [];
+                $rootScope.products_filter = [];
+                $rootScope.noOfServices = 0;
+                $rootScope.noOfProducts = 0;
+                oboe_data_service.stream('filterApi/search/filter/services')
+                  .node('data.*', function(response) {
+                    $rootScope.services_filter.push(response);
+                    $rootScope.noOfServices++;
+                  });
+
+                oboe_data_service
+                  .stream('filterApi/search/filter/products')
+                  .node('data.*', function(response) {
+                    $rootScope.products_filter.push(response);
+                    $rootScope.noOfProducts++;
+                  });
+              }
+            },
+            keyword: function($location, $rootScope, $timeout, oboe_data_service) {
+              if($location.search().q !== undefined) {
+                $rootScope.services_filter = [];
+                $rootScope.products_filter = [];
+                $rootScope.noOfServices = 0;
+                $rootScope.noOfProducts = 0;
+                oboe_data_service
+                  .stream({
+                    url   : 'filterApi/search/services/keyword',
+                    method: 'POST',
+                    body  : {
+                      keyword: $location.search().q,
+                    }
+                  }).node('data.*', function(response) {
+                    $timeout(function() {
+                      $rootScope.services_filter.push(response);
+                      $rootScope.noOfServices++;
+                    }, 0);
+                  }).done(function(response) {
+                    $timeout(function () {
+                      $rootScope.noOfServices = response.data.length;
+                    }, 0);
+                  });
+
+                oboe_data_service
+                  .stream({
+                    url   : 'filterApi/search/products/keyword',
+                    method: 'POST',
+                    body  : {
+                      keyword: $location.search().q,
+                    }
+                  }).node('data.*', function(response) {
+                    $timeout(function() {
+                      $rootScope.products_filter.push(response);
+                      $rootScope.noOfProducts++;
+                    }, 0);
+                  }).done(function(response) {
+                    $timeout(function() {
+                      $rootScope.noOfProducts = response.data.length;
+                    }, 0);
                   });
               }
             }
