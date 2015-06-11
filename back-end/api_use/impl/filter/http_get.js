@@ -79,7 +79,6 @@
       };
     }
 
-    console.log('keyword: ' + req.body.keyword);
     if (req.body.keyword !== undefined && req.body.filter.length !== 0) {
       filter = {
         template: {
@@ -129,7 +128,6 @@
       };
     }
 
-    console.log(filter);
     client.search({
       index : 'fishgov',
       type  : 'data',

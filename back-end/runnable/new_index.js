@@ -5,6 +5,10 @@ curl -XPUT 'http://localhost:9200/fishgov_v1' -d \
   "mappings": {
     "data": {
       "properties": {
+        "classification_id": {
+          type: "string",
+          "index": "not_analyzed"
+        },
         "title": {
           "type": "string",
           "analyzer": "snowball_filter"
@@ -12,6 +16,22 @@ curl -XPUT 'http://localhost:9200/fishgov_v1' -d \
         "description": {
           "type": "string",
           "analyzer": "snowball_filter"
+        },
+        "close_date_var": {
+          "type": "date",
+          "format": "basicDate"
+        },
+        "posted_date_var": {
+          "type": "date",
+          "format": "basicDate"
+        },
+        "last_date_var": {
+          "type": "date",
+          "format": "basicDate"
+        },
+        "archive_date_var": {
+          "type": "date",
+          "format": "basicDate"
         }
       }
     }
@@ -23,17 +43,7 @@ curl -XPUT 'http://localhost:9200/fishgov_v1' -d \
           "filter": [
             "standard",
             "lowercase",
-            "stemmer",
-            "trigrams"
-          ],
-          "type": "custom",
-          "tokenizer": "standard"
-        },
-        "trigrams": {
-          "filter":   [
-            "standard",
-            "lowercase",
-            "trigrams"
+            "stemmer"
           ],
           "type": "custom",
           "tokenizer": "standard"
@@ -43,16 +53,12 @@ curl -XPUT 'http://localhost:9200/fishgov_v1' -d \
         "stemmer": {
           "type": "stemmer",
           "name": ["english", "light_english", "minimal_english", "possessive_english", "porter2"]
-        },
-        "trigrams": {
-          "type": "ngram",
-          "min_gram": 4,
-          "max_gram": 4
         }
       }
     }
   }
 }'
+
 
 sleep 3
 curl -XPOST localhost:9200/_aliases -d \

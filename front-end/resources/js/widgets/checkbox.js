@@ -122,10 +122,6 @@
         } else {
           /*f is undefined*/
           $rootScope.watchfilterChangesCounter++;
-          console.log('counter: ' + $rootScope.watchfilterChangesCounter);
-          console.log('services: ' + $rootScope.noOfServices);
-          console.log('products: ' + $rootScope.noOfProducts);
-
 
           if ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
             $timeout(function() {
@@ -290,8 +286,6 @@
                   }, 0);
                 }
                 if ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
-                  console.log('not undefined');
-                  // $location.
                   $timeout(function() {
                     http_get_oboe();
                     $rootScope.watchfilterChangesCounter = 0;
@@ -299,8 +293,6 @@
                 }
 
               } else {
-                // if ($rootScope.classification.length !== 0)
-                console.log('undefined');
                 $rootScope.watchfilterChangesCounterNull++;
                 $rootScope.classification = [];
                 $timeout(function() {

@@ -275,7 +275,6 @@
           }).node('data.*', function(response) {
             $timeout(function() {
               $rootScope.services_filter.push(response);
-              $rootScope.noOfServices++;
             }, 0);
           }).done(function(response) {
             $timeout(function () {
@@ -293,7 +292,6 @@
             }).node('data.*', function(response) {
               $timeout(function() {
                 $rootScope.products_filter.push(response);
-                $rootScope.noOfProducts++;
               }, 0);
             }).done(function(response) {
               $timeout(function() {
