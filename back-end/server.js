@@ -10,7 +10,7 @@
   var  catchAll  = require('./html_routes');
 
   /*Configuration File NoSQL Database*/
-  require('./configuration/mongodb')(io.config.dbName); //mongodb integration
+  require('./configuration/mongodb')(io.config.dbName);
 
   /*Start our Express Server*/
   var app = io.express();
@@ -39,6 +39,9 @@
   /*io.cluster Configuration*/
   if (io.cluster.isMaster) {io.clusterService(io);}
   else {
-    io.http.createServer(app).listen(3000);
+    io.http.createServer(app).listen(3000, function() {
+      console.log(io.chalk.red.reset.underline('Forever is starting at port: ') +
+        io.chalk.cyan.bold((io.port)));
+    });
   }
 }());
