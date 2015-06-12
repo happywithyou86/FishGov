@@ -46,7 +46,6 @@
           resolve: {/*@ngInject*/
             search: function($location, $q, $rootScope, commonsDataService, elasticsearchServiceApi) {
               /*or test if the user click for all results*/
-              console.log($location.search().asc);
               if ($location.search().q !== undefined && $location.search().f === undefined) {
                 $rootScope.search_keyword = $location.search().q;
                 $q.all([searchCallback()])
@@ -183,6 +182,7 @@
                     }
                   }).node('data.*', function(response) {
                     $timeout(function() {
+                      console.log('products');
                       $rootScope.products_filter.push(response);
                     }, 0);
                   }).done(function(response) {

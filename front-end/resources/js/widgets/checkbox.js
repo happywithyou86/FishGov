@@ -121,15 +121,14 @@
           }
         } else {
           /*f is undefined*/
-          $rootScope.watchfilterChangesCounter++;
-
-          if ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
-            $timeout(function() {
+          $timeout(function() {
+            $rootScope.watchfilterChangesCounter++;
+            if ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
               console.log('reload state');
               http_get_oboe();
               $rootScope.watchfilterChangesCounter = 0;
-            }, 0);
-          }
+            }
+          }, 0);
         }
 
         /*listen for all_services*/
@@ -183,7 +182,6 @@
               }
 
               if ($rootScope.classification.length === ($rootScope.noOfServices + data.length - 1) - $rootScope.click_count_service_filter_true) {
-                console.log('f');
                 $timeout(function() {
                   $rootScope.click_count_service_filter_true = 0;
                   $location.path('/search').search({
@@ -273,7 +271,6 @@
                 $rootScope.watchfilterChangesCounter++;
                 data_filter = $location.search().f.split('&');
                 $rootScope.classification = data_filter;
-                console.log('changes');
                 if (data_filter.indexOf(attrs.code) !== -1) {
                   $timeout(function() {
                     element.radiocheck('check');
@@ -283,12 +280,10 @@
                   $timeout(function() {
                     element.radiocheck('uncheck');
                     attrs.check = 'false';
-                  }, 0);
-                }
-                if ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
-                  $timeout(function() {
-                    http_get_oboe();
-                    $rootScope.watchfilterChangesCounter = 0;
+                    if ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
+                        http_get_oboe();
+                        $rootScope.watchfilterChangesCounter = 0;
+                    }
                   }, 0);
                 }
 
@@ -312,7 +307,6 @@
 
         function http_get_oboe() {
           /*query oboe.js*/
-          console.log('oboe call');
           oboe_data_service
             .stream({
               url   : 'filterApi/search/filter_change',

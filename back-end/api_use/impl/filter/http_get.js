@@ -73,7 +73,6 @@
         }
       };
     } else if(req.body.keyword === undefined) {
-      console.log('all');
       filter = {
         match_all : {}
       };
