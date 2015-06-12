@@ -34,13 +34,14 @@ except ImportError:
     
     
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+lastReadPostedDate = ""
 
 
 def get_index(pageNum):
 	
     print('Starting webdriver in Chrome...')
     driver = webdriver.Chrome()
-    driver.get("https://www.fbo.gov/index?s=opportunity&mode=list&tab=list&tabmode=list&pp=100&pageID="+str(pageNum))
+    driver.get("https://www.fbo.gov/index?s=opportunity&mode=list&tab=list&tabmode=list&pp=20&pageID="+str(pageNum))
     driver.refresh()
     html = driver.page_source
     driver.quit()
@@ -48,9 +49,10 @@ def get_index(pageNum):
 
 def parse_index(html):
     
-    def parse_link(url, i=0):
+    def parse_link(url, i, repeat):
         
-        #print("%d. URL: " % i + url)
+        global lastReadPostedDate
+        
         time.sleep(1)
         data = {}
         html = requests.get(url).text
@@ -70,6 +72,9 @@ def parse_index(html):
         try:
             data["title"] = div.find("h2").text.strip()
         except:
+            # Write to error file
+            with open("fedbizopps_error.csv", "a") as out:
+                out.write("Exception on title," + url + "\n")
             data["title"] = ""
             
         # The other fields are in-line within other tags and need to be stripped
@@ -84,8 +89,7 @@ def parse_index(html):
                 if line.startswith(start):
                     data[key] = line.split(":", 2)[1].strip()
                             
-        
-			
+               
 		# The Description field can have some date information text before the description begins that needs to be stripped
         # beautifulsoup has issues converting <br/> into newlines, so it needs a little help with reg ex
         try:
@@ -96,7 +100,6 @@ def parse_index(html):
             date_text = desc.find("div", {"class": "notice_desc_dates"}).text
             data["description"] = desc_text[len(date_text):].strip()
         except:
-            #print(html)
             data["description"] = ""
 
         try:
@@ -119,21 +122,26 @@ def parse_index(html):
 		# These fields can be pulled directly from the respective class
         extract = {
             "notice_type": "dnf_class_values_procurement_notice__procurement_type__widget",
-            # Original posted date
             "posted_date": "dnf_class_values_procurement_notice__original_posted_date__widget",
-            # Posted date
             "last_posted_date": "dnf_class_values_procurement_notice__posted_date__widget",
             "close_date": "dnf_class_values_procurement_notice__response_deadline__widget",
             "set_aside": "dnf_class_values_procurement_notice__set_aside__widget",
             "classification_code": "dnf_class_values_procurement_notice__classification_code__widget",
             "naics_code": "dnf_class_values_procurement_notice__naics_code__widget",
-            
             "contracting_office_address": "dnf_class_values_procurement_notice__office_address__widget",
             "primary_point_of_contact": "dnf_class_values_procurement_notice__primary_poc__widget",
             "archive_date":"dnf_class_values_procurement_notice__archive_date__widget",
             "archive_type":"dnf_class_values_procurement_notice__archive_type__widget",
             "place_of_performance":"dnf_class_values_procurement_notice__place_of_performance__widget",
             "secondary_point_of_contact":"dnf_class_values_procurement_notice__secondary_poc__widget",
+            "contract_award_date":"dnf_class_values_procurement_notice__contract_award_date__widget",
+            "contract_award_number":"dnf_class_values_procurement_notice__contract_award_number__widget",
+            "contract_award_amount":"dnf_class_values_procurement_notice__contract_award_amount__widget",
+            "contractor_awarded_name":"dnf_class_values_procurement_notice__contractor_awarded_name__widget",
+            "contractor_awarded_address":"dnf_class_values_procurement_notice__contractor_awarded_address__widget",
+            "contractor_awarded_duns":"dnf_class_values_procurement_notice__contractor_awarded_duns__widget",
+            "contractor_awardee_text":"dnf_class_values_procurement_notice__contractor_awardee_text__widget",
+            "contract_line_item_number":"dnf_class_values_procurement_notice__contract_line_item_number__widget",
         }       
         
         for key, id_ in extract.items():
@@ -166,44 +174,91 @@ def parse_index(html):
             tryDate = ''.join(tryDate[:3])
             data["close_date_var"] = parser.parse(tryDate).strftime('%Y%m%d')
         except:
-            data["close_date_var"] = ""        
+            # Write to error file
+            with open("fedbizopps_error.csv", "a") as out:
+                out.write("Exception on close_date_var," + url + "\n")
+            data["close_date_var"] = None        
             
         try:
             tryDate = data["last_posted_date"].split( );
             tryDate = ''.join(tryDate[:3])
             data["last_date_var"] = parser.parse(tryDate).strftime('%Y%m%d')
         except:
-            data["last_date_var"] = ""
-
+            # Write to error file
+            with open("fedbizopps_error.csv", "a") as out:
+                out.write("Exception on last_date_var," + url + "\n")           
+            data["last_date_var"] = lastReadPostedDate
         try:
             tryDate = data["posted_date"].split( );
             tryDate = ''.join(tryDate[:3])
             data["posted_date_var"] = parser.parse(tryDate).strftime('%Y%m%d')
         except:
-            data["posted_date_var"] = ""
+            # Write to error file
+            with open("fedbizopps_error.csv", "a") as out:
+                out.write("Exception on posted_date_var," + url + "\n")
+            data["posted_date_var"] = lastReadPostedDate
 
         try:
             tryDate = data["archive_date"].split( );
             tryDate = ''.join(tryDate[:3])
             data["archive_date_var"] = parser.parse(tryDate).strftime('%Y%m%d')
         except:
-            data["archive_date_var"] = ""        
+            # Write to error file
+            with open("fedbizopps_error.csv", "a") as out:
+                out.write("Exception on archive_date_var," + url + "\n")
+            data["archive_date_var"] = None        
   
         # Get the logo
         try:
             desc = bs_content.find("div", {"class": "agency-logo"})
             data["logo_url"] = urljoin("https://www.fbo.gov/index", desc.find("img")["src"])
         except:
-            print("Error getting logo URL")
+            # Write to error file
+            with open("fedbizopps_error.csv", "a") as out:
+                out.write("Exception on logo_url," + url + "\n")
             data["logo_url"] = ""
         
+        # Awards need to be highlighted for filtering by search
         if data["notice_type"] == "Award":
-            return ""
-            print("award")
-        if data["notice_type"] == "Award Notice":
-            return ""
-            print("award")			
-
+            data["is_award"] = True
+            if data["solnbr"] == "":
+                data["solnbr"] = data["contract_award_number"] 
+            try:
+                tryDate = data["contract_award_date"].split( );
+                tryDate = ''.join(tryDate[:3])
+                data["contract_award_date_var"] = parser.parse(tryDate).strftime('%Y%m%d')
+            except:
+                # Write to error file
+                with open("fedbizopps_error.csv", "a") as out:
+                    out.write("Exception on contract_award_date_var," + url + "\n")
+                data["contract_award_date_var"] = None  
+        elif data["notice_type"] == "Award Notice":
+            data["is_award"] = True
+            if data["solnbr"] == "":
+                data["solnbr"] = data["contract_award_number"] 
+            try:
+                tryDate = data["contract_award_date"].split( );
+                tryDate = ''.join(tryDate[:3])
+                data["contract_award_date_var"] = parser.parse(tryDate).strftime('%Y%m%d')
+            except:
+                # Write to error file
+                with open("fedbizopps_error.csv", "a") as out:
+                    out.write("Exception on contract_award_date_var," + url + "\n")
+                data["contract_award_date_var"] = None                 
+        else:
+            data["is_award"] = False
+            if data["solnbr"] == "":
+                if repeat < 3:
+                    parse_link(url, i,repeat+1)
+            if data["description"] == "":
+                if repeat < 3:
+                    parse_link(url, i,repeat+1)
+                else:
+                    # Write to error file
+                    with open("fedbizopps_error.csv", "a") as out:
+                        out.write("Exception on description," + url + "\n")        
+            
+            
         # attachments
         attachments = []
         for attachment in \
@@ -217,7 +272,9 @@ def parse_index(html):
                         .text[len("Description:"):].strip(),
                 })
             except:
-                print("Got an error in parsing attachment.")
+                # Write to error file
+                with open("fedbizopps_error.csv", "a") as out:
+                    out.write("Exception on attachments," + url + "\n")
         data["attachments"] = attachments       
         data["listing_url"] = url
         data["data_source"] = "FBO"
@@ -234,7 +291,7 @@ def parse_index(html):
 		
 		# Get the json data from the solicitation
         new_data = parse_link(urljoin("https://www.fbo.gov/index",
-            link["href"].strip()), i)
+            link["href"].strip()), i, 0)
         
         # Add the new JSON entry to the existing JSON
         if new_data:
@@ -242,19 +299,20 @@ def parse_index(html):
             iD = (new_data["data_source"] + "-" + new_data["solnbr"])
             print (iD)
             index = {
-            "index":{
+            "update":{
             "_id": iD,
             "_type": "data",
-            "_index": "fishgov"
+            "_index": "fishgov",
+            "_retry_on_conflict" : 3
             }}
 
             # Write to bulk load file
             with open("preload_fedbizopps.json", "a") as out:
-                out.write(json.dumps(index) + "\n" + json.dumps(new_data) + "\n")
+                out.write(json.dumps(index) + "\n" + '{ "doc": ' + json.dumps(new_data) + ', "doc_as_upsert": true }\n')
 
             # Write to master bulk load file
-            with open("fedbizopps_v2.json", "a") as out:
-                out.write(json.dumps(index) + "\n" + json.dumps(new_data) + "\n")
+            with open("fedbizopps_v1.json", "a") as out:
+                out.write(json.dumps(index) + "\n" + '{ "doc": ' + json.dumps(new_data) + ', "doc_as_upsert": true }\n')
     
 
 def main():
