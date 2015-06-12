@@ -294,6 +294,8 @@
                     element.radiocheck('check');
                     attrs.check = 'true';
                     console.log('true');
+                    console.log($rootScope.watchfilterChangesCounter);
+                    console.log($rootScope.noOfServices + $rootScope.noOfProducts);
 
                     /*check if we iterate for all filters*/
                     /*so that one request will be made*/

@@ -138,15 +138,25 @@
                 $rootScope.noOfProducts = 0;
                 oboe_data_service.stream('filterApi/search/filter/services')
                   .node('data.*', function(response) {
-                    $rootScope.services_filter.push(response);
-                    $rootScope.noOfServices++;
+                    $timeout(function() {
+                      $rootScope.services_filter.push(response);
+                    }, 0);
+                  }).done(function(response) {
+                    $timeout(function() {
+                      $rootScope.noOfServices = response.data.length;
+                    }, 0);
                   });
 
                 oboe_data_service
                   .stream('filterApi/search/filter/products')
                   .node('data.*', function(response) {
-                    $rootScope.products_filter.push(response);
-                    $rootScope.noOfProducts++;
+                    $timeout(function() {
+                      $rootScope.products_filter.push(response);
+                    }, 0);
+                  }).done(function(response) {
+                    $timeout(function() {
+                      $rootScope.noOfProducts = response.data.length;
+                    }, 0);
                   });
               }
             },/*@ngInject*/
