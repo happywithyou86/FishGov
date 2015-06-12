@@ -39,6 +39,7 @@
             /*test if all the services all selected*/
             if (attrs.checkBox === 'services') {
               $rootScope.services_count_check++;
+              console.log($rootScope.services_count_check);
             } else {
               $rootScope.products_count_check++;
             }
@@ -60,6 +61,7 @@
             if (attrs.checkBox === 'services') {
               $rootScope.services_count_check--;
               $rootScope.isServicesSelectedAll = false;
+              console.log($rootScope.services_count_check);
             } else {
               $rootScope.products_count_check--;
               $rootScope.isProductsSelectedAll = false;
@@ -140,6 +142,7 @@
             if (attrs.checkBox === 'services') {
               if (attrs.check === 'true') {
                 attrs.check = 'false';
+                $rootScope.services_count_check--;
                 /*check if we have 1 check filter*/
                 data.f_location = data.f_location.replace('&' + attrs.code, '');
                 data.f_location = data.f_location.replace(attrs.code + '&', '');
@@ -172,6 +175,7 @@
             if (attrs.checkBox === 'services') {
               if(attrs.check === 'false') {
                 attrs.check = 'true';
+                $rootScope.services_count_check++;
                 $rootScope.classification.push(attrs.code);
                 if($rootScope.classification.length === 1) {
                   data.f_location = attrs.code;
@@ -182,7 +186,7 @@
                 $rootScope.click_count_service_filter_true++;
               }
 
-              if ($rootScope.classification.length === ($rootScope.noOfServices + data.length - 1) - $rootScope.click_count_service_filter_true) {
+              if ($rootScope.classification.length === ($rootScope.noOfServices + data.length) - $rootScope.click_count_service_filter_true) {
                 $timeout(function() {
                   $rootScope.click_count_service_filter_true = 0;
                   $location.path('/search').search({
@@ -205,29 +209,35 @@
             if (attrs.checkBox === 'products') {
               if (attrs.check === 'true') {
                 attrs.check = 'false';
+                /*use to iterate the check items*/
+                $rootScope.products_count_check--;
                 /*check if we have 1 check filter*/
                 data.f_location = data.f_location.replace('&' + attrs.code, '');
                 data.f_location = data.f_location.replace(attrs.code + '&', '');
-                if ($rootScope.classification.length) {
+                if ($rootScope.classification.length === 1) {
                   data.f_location = data.f_location.replace(attrs.code, '');
                 }
               } else {
                 $rootScope.click_count_product_filter_false++;
               }
+              var position = $rootScope.classification.indexOf(attrs.code);
+              $rootScope.classification.splice(position, 1);
 
-              if ((data.length - $rootScope.noOfProducts) === ($rootScope.classification.length - 1) - $rootScope.click_count_product_filter_false) {
-                $rootScope.click_count_product_filter_false = 0;
+              if ((data.length - $rootScope.noOfServices) === ($rootScope.classification.length) - $rootScope.click_count_service_filter_false) {
                 $timeout(function() {
+                  $rootScope.click_count_product_filter_false = 0;
                   $location.path('/search').search({
                     asc: $location.search().asc,
                     q: $location.search().q,
                     p: $location.search().p,
                     f: data.f_location === '' ? undefined : data.f_location
                   });
+                  if ($location.search().f === undefined) {
+                    http_get_oboe();
+                  }
                 }, 0);
               }
-              var position = $rootScope.classification.indexOf(attrs.code);
-              $rootScope.classification.splice(position, 1);
+
             }
           } else {
             if (attrs.checkBox === 'products') {
@@ -240,8 +250,15 @@
                   data.f_location += '&' + attrs.code;
                 }
               } else {
+                /*use for the check filter*/
                 $rootScope.click_count_product_filter_true++;
               }
+
+              console.log($rootScope.classification.length);
+              console.log($rootScope.noOfProducts);
+              console.log(data.length);
+              console.log($rootScope.click_count_product_filter_true);
+              console.log($rootScope.classification.length === ($rootScope.noOfProducts + data.length) - $rootScope.click_count_product_filter_true);
 
               if ($rootScope.classification.length === ($rootScope.noOfProducts + data.length) - $rootScope.click_count_product_filter_true) {
                 $timeout(function() {
@@ -276,6 +293,14 @@
                     $rootScope.watchfilterChangesCounter++;
                     element.radiocheck('check');
                     attrs.check = 'true';
+                    console.log('true');
+
+                    /*check if we iterate for all filters*/
+                    /*so that one request will be made*/
+                    if ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
+                        http_get_oboe();
+                        $rootScope.watchfilterChangesCounter = 0;
+                    }
                   }, 0);
                 } else {
                   $timeout(function() {
@@ -283,6 +308,8 @@
                     element.radiocheck('uncheck');
                     attrs.check = 'false';
 
+                    /*check if we iterate for all filters*/
+                    /*so that one request will be made*/
                     if ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
                         http_get_oboe();
                         $rootScope.watchfilterChangesCounter = 0;
