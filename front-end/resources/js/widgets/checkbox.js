@@ -125,8 +125,9 @@
             $rootScope.watchfilterChangesCounter++;
             if ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
               console.log('reload state');
-              http_get_oboe();
               $rootScope.watchfilterChangesCounter = 0;
+              console.log($rootScope.watchfilterChangesCounter);
+              http_get_oboe();
             }
           }, 0);
         }
@@ -268,18 +269,20 @@
         }, function(newValue, oldValue) {
             if (newValue !== oldValue) {
               if ($location.search().f !== undefined) {
-                $rootScope.watchfilterChangesCounter++;
                 data_filter = $location.search().f.split('&');
                 $rootScope.classification = data_filter;
                 if (data_filter.indexOf(attrs.code) !== -1) {
                   $timeout(function() {
+                    $rootScope.watchfilterChangesCounter++;
                     element.radiocheck('check');
                     attrs.check = 'true';
                   }, 0);
                 } else {
                   $timeout(function() {
+                    $rootScope.watchfilterChangesCounter++;
                     element.radiocheck('uncheck');
                     attrs.check = 'false';
+
                     if ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
                         http_get_oboe();
                         $rootScope.watchfilterChangesCounter = 0;
@@ -294,13 +297,14 @@
                   element.radiocheck('uncheck');
                   attrs.check = 'false';
                 }, 0);
-                if ($rootScope.watchfilterChangesCounterNull === ($rootScope.noOfServices + $rootScope.noOfProducts) && ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts))) {
-                  console.log('undefined');
-                  $timeout(function() {
+
+                console.log('undefined');
+                $timeout(function() {
+                  if ($rootScope.watchfilterChangesCounterNull === ($rootScope.noOfServices + $rootScope.noOfProducts) && ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts))) {
                     http_get_oboe();
                     $rootScope.watchfilterChangesCounterNull = 0;
-                  }, 0);
-                }
+                  }
+                }, 0);
               }
             }
           });
