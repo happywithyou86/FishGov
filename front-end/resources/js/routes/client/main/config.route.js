@@ -130,7 +130,7 @@
                     return response;
                   });
               }
-            },
+            },/*@ngInject*/
             filter: function($location, $rootScope, $timeout, oboe_data_service) {
               if($location.search().q === undefined) {
                 $rootScope.services_filter = [];
@@ -150,7 +150,7 @@
                     $rootScope.noOfProducts++;
                   });
               }
-            },
+            },/*@ngInject*/
             keyword: function($location, $rootScope, $timeout, oboe_data_service) {
               if($location.search().q !== undefined) {
                 $rootScope.services_filter = [];
