@@ -226,10 +226,6 @@
                 if ($rootScope.classification.length === 1) {
                   data.f_location = data.f_location.replace(attrs.code, '');
                 }
-              } else {
-                attrs.check = 'true';
-                element.radiocheck('check');
-                // $rootScope.click_count_product_filter_false++;
               }
               var position = $rootScope.classification.indexOf(attrs.code);
               $rootScope.classification.splice(position, 1);
@@ -253,6 +249,7 @@
 
             }
           } else {
+            console.log(false);
             if (attrs.checkBox === 'products') {
               if(attrs.check === 'false') {
                 attrs.check = 'true';
@@ -264,12 +261,6 @@
                 } else {
                   data.f_location += '&' + attrs.code;
                 }
-              } else {
-                /*use for the check filter*/
-                attrs.check = 'false';
-                element.radiocheck('uncheck');
-                /*this one is not needed because it is already check*/
-                // $rootScope.click_count_product_filter_true++;
               }
 
               if ($rootScope.noOfProducts === $rootScope.products_count_check) {
