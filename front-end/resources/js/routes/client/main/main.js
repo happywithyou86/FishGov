@@ -36,7 +36,7 @@
         } else {
           $q.all([saved_keyword()])
             .then(function(response) {
-              $location.href = '/search?q=' + vm.keyword + '&p=' + 1;
+              $window.location.href = '/search?q=' + vm.keyword + '&p=' + 1;
               // $location.path('/search').search({q: vm.keyword, p: 1});
             });
         }
