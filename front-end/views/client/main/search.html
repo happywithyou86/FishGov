@@ -38,7 +38,7 @@
     <hr class="top-horizontal">
     <div class="col-lg-3 col-md-3 categories">
       <h5>Show Results for</h5>
-      <div class="services">
+      <div class="services" ng-show="services_filter.length !==0" ng-cloak>
         <a href="" filter-services="all_services">Services</a>
         <!-- <i ng-show="services" class="fa fa-chevron-down" filter-services="services"></i> -->
         <!-- <i ng-show="!services" class="fa fa-chevron-right" filter-services="services"></i> -->
@@ -50,7 +50,7 @@
         </div>
       </div>
 
-      <div class="products">
+      <div class="products" ng-show="products_filter.length !==0" ng-cloak>
         <a href="" filter-services="all_products">Products</a>
         <!-- <i ng-show="products" class="fa fa-chevron-down" filter-services="products"></i> -->
         <!-- <i ng-show="!products" class="fa fa-chevron-right" filter-services="products"></i> -->
