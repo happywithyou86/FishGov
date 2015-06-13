@@ -68,7 +68,7 @@
     /* @ngInject */
     function registerNsignInConfig($authProvider, cfpLoadingBarProvider, $rootScopeProvider) {
       cfpLoadingBarProvider.latencyThreshold = 400;
-      $authProvider.loginRedirect = $rootScopeProvider.pathname;
+      // $authProvider.loginRedirect = $rootScopeProvider.pathname;
       $authProvider.loginUrl      = window.location.origin + '/userApi/userLogIn';
       $authProvider.signupUrl     = window.location.origin + '/userApi/userRegister';
       $authProvider.tokenPrefix   = 'fishgov';

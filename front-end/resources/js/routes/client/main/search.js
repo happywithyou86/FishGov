@@ -93,7 +93,7 @@
             keyword_search(newValue);
             // if ($location.search().f !==)
             if ($location.search().f === undefined && vm.path.indexOf('item') === -1 &&
-              $rootScope.fromStateUrl !== 'search_item') {
+              $rootScope.fromStateUrl !== 'search_item' && $rootScope.toStateUrl === 'main') {
                 console.log('q');
                 filter_keyword();
             }
@@ -241,6 +241,15 @@
             } else {
               $rootScope.next_hide = false;
             }
+            if ($rootScope.pageTotal === 0) {
+              $rootScope.services_filter = [];
+              $rootScope.products_filter = [];
+              $rootScope.noOfServices = 0;
+              $rootScope.noOfProducts = 0;
+              $rootScope.noResultText = 'No Search Results for ';
+            } {
+              filter_keyword();
+            }
             $rootScope.search_result = response[0].data.hits;
           });
       }
@@ -258,10 +267,12 @@
       }
 
       function filter_keyword() {
-        $rootScope.services_filter = [];
-        $rootScope.products_filter = [];
-        $rootScope.noOfServices = 0;
-        $rootScope.noOfProducts = 0;
+        $timeout(function() {
+          $rootScope.services_filter = [];
+          $rootScope.products_filter = [];
+          $rootScope.noOfServices = 0;
+          $rootScope.noOfProducts = 0;
+        }, 0);
         oboe_data_service
           .stream({
             url   : 'filterApi/search/services/keyword',

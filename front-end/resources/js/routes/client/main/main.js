@@ -30,11 +30,14 @@
         /*test if the user is authenticated*/
         /*so that saved items is not saved in the database*/
         if (!vm.isAuthenticated) {
-          $location.path('/search').search({q: vm.keyword, p: 1});
+          console.log('jories');
+          $window.location.href = '/search?q=' + vm.keyword + '&p=' + 1;
+          // $location.path('/search').search({q: vm.keyword, p: 1});
         } else {
           $q.all([saved_keyword()])
             .then(function(response) {
-              $location.path('/search').search({q: vm.keyword, p: 1});
+              $location.href = '/search?q=' + vm.keyword + '&p=' + 1;
+              // $location.path('/search').search({q: vm.keyword, p: 1});
             });
         }
       }

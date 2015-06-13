@@ -30,7 +30,7 @@
         vm.photo = undefined;
         local_storage.removeToken('photo');
         local_storage.removeToken('saved_items');
-        window.location.href = '/';
+        // window.location.href = '/';
       }
 
       function login(isLoginFormValid) {
@@ -77,7 +77,7 @@
           local_storage.setToken('photo', vm.photo);
           local_storage.setToken('saved_items', JSON.stringify(saved_items_temp));
           $rootScope.saved_count = saved_items_temp.length;
-          window.location.href = window.location.href;
+          // window.location.href = window.location.href;
         }, function(err) {
           if (err) {throw err;}
         });
