@@ -22,7 +22,6 @@
             total_search: function($q, $rootScope, $timeout, commonsDataService, elasticsearchServiceApi, oboe_data_service) {
               $q.all([total_searchCallback()])
                 .then(function(response) {
-                  console.log(typeof response[0].data.total);
                   $rootScope.totalObj = response[0].data.total;
                 });
 
@@ -42,7 +41,7 @@
           url: '/search',
           templateUrl: '/client/main/search.html',
           controller: 'Search as vm',
-          reloadOnSearch: false,
+          cache: false,
           resolve: {/*@ngInject*/
             search: function($location, $q, $rootScope, commonsDataService, elasticsearchServiceApi) {
               /*or test if the user click for all results*/
@@ -111,13 +110,8 @@
                     $rootScope.noResultKeyword  = $rootScope.tempKeyword;
                   });
               }
-              // else {
-                // console.log('filter');
-                //$scope.$emit('filter_reload');
-              // }
 
               function searchCallback() {
-                console.log('jories');
                 return commonsDataService
                   .httpGETQueryParams('search', {
                       keyword:$location.search().q,
@@ -144,6 +138,9 @@
                   }).done(function(response) {
                     $timeout(function() {
                       $rootScope.noOfServices = response.data.length;
+                      if ($rootScope.fromStateUrl === 'search_item') {
+                        $rootScope.watchfilterChangesCounter      = 0;
+                      }
                     }, 0);
                   });
 
@@ -156,6 +153,9 @@
                   }).done(function(response) {
                     $timeout(function() {
                       $rootScope.noOfProducts = response.data.length;
+                      if ($rootScope.fromStateUrl === 'search_item') {
+                        $rootScope.watchfilterChangesCounter      = 0;
+                      }
                     }, 0);
                   });
               }
@@ -180,6 +180,9 @@
                   }).done(function(response) {
                     $timeout(function () {
                       $rootScope.noOfServices = response.data.length;
+                      if ($rootScope.fromStateUrl === 'search_item') {
+                        $rootScope.watchfilterChangesCounter = 0;
+                      }
                     }, 0);
                   });
 
@@ -192,12 +195,14 @@
                     }
                   }).node('data.*', function(response) {
                     $timeout(function() {
-                      console.log('products');
                       $rootScope.products_filter.push(response);
                     }, 0);
                   }).done(function(response) {
                     $timeout(function() {
                       $rootScope.noOfProducts = response.data.length;
+                      if ($rootScope.fromStateUrl === 'search_item') {
+                        $rootScope.watchfilterChangesCounter = 0;
+                      }
                     }, 0);
                   });
               }
@@ -210,10 +215,12 @@
           url: '/item/:id',
           templateUrl: '/client/main/item_search.html',
           controller: 'Item_Search as vm',
+          cache: false,
           title: 'Item Search',
           resolve: {/*@ngInject*/
             search_item: function($location, $q, $rootScope, $stateParams, commonsDataService,
             elasticsearchServiceApi) {
+              /*make the null counter to 0*/
               $q.all([search_itemCallback()])
                 .then(function(response) {
                   $rootScope.itemObj = response[0].data.hits[0];

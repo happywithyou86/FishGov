@@ -7,11 +7,42 @@
       government and better connect businesses to those opportunities.
     <p class="text-justify">
   </div>
-  <div class="col-lg-8 col-lg-offset-2">
-    <h5 class="text-center">How?</h5>
-    <ol>
-      <li>Collect, organize and display all government business opportunities in one location</li>
-      <li>Give this capability to users and business for free</li>
-    </ol>
+
+  <div class="col-lg-12 container-fluid">
+    <h4 class="text-center header">Help us make it better...</h4>
+    <div class="col-lg-4 col-md-4 panel">
+      <h5 class="text-center stop-doing">Stop Doing</h5>
+      <p class="text-center margin-bottom-off">
+        <small class="stop-doing-sub">Bugs, issues?</small>
+      </p>
+      <p class="text-center stop-doing-sub">
+        <small>Let us know so we can fix it</small>
+      </p>
+      <textarea class="form-control" rows="8" style="resize: none" ng-model="vm.stop_doing_text"></textarea>
+      <div class="col-lg-12 text-center">
+        <button class="btn btn-embossed btn-wide btn-success" ng-click="vm.stop_doing(vm.stop_doing_text)">Submit</button>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-4 panel-mid">
+      <h5 class="text-center keep-doing">Keep Doing</h5>
+      <p class="text-center">
+        <small class="keep-doing-sub">What are we doing that you really like? We'd love to hear from you!</small>
+      </p>
+      <textarea class="form-control" rows="8" style="resize: none" ng-model="vm.keep_doing_text"></textarea>
+      <div class="col-lg-12 text-center">
+        <button class="btn btn-embossed btn-wide btn-success" ng-click="vm.keep_doing(vm.keep_doing_text)">Submit</button>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-4 panel">
+      <h5 class="text-center start-doing">Start Doing</h5>
+      <p class="text-center">
+        <small class="start-doing-sub">What new features you would love to see?</small>
+      </p>
+      </br>
+      <textarea class="form-control" rows="8" style="resize: none" ng-model="vm.start_doing_text"></textarea>
+      <div class="col-lg-12 text-center">
+        <button class="btn btn-embossed btn-wide btn-success" ng-click="vm.start_doing(vm.start_doing_text)">Submit</button>
+      </div>
+    </div>
   </div>
 </div>

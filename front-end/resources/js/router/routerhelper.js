@@ -76,14 +76,25 @@
 
         function init() {
           handleRoutingErrors();
+          changeStart();
           updateDocTitle();
+        }
+
+        function changeStart() {
+          $rootScope.$on('$stateChangeStart',
+            function(event, toState, toParams, fromState, fromParams) {
+              $timeout(function() {
+                $rootScope.fromStateUrl = fromState.name;
+                $rootScope.toStateUrl   = toState.name;
+                // $state.go(toState, {}, {reload: true});
+              }, 0);
+            }
+          );
         }
 
         function updateDocTitle() {
           $rootScope.$on('$stateChangeSuccess',
             function(event, toState, toParams, fromState, fromParams) {
-              // console.log('changeSuccess');
-              //routeCounts.changes++;
               handlingRouteChangeError = false;
               var title = routehelperConfig.config.docTitle + ' ' + (toState.title || '');
               $rootScope.title = title;

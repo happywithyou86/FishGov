@@ -33,7 +33,7 @@
         }, 0);
       });
 
-      function clicked_items(item_id) {
+      function clicked_items(item_id, keyword) {
         if (!vm.isAuthenticated){
           return;
         }
@@ -70,17 +70,13 @@
       }, function(newValue, oldValue) {
           if (newValue !== oldValue) {
             $rootScope.is_change_page = !$rootScope.is_change_page;
-            vm.keyword = $location.search().q;
-            if ($location.search().f === undefined) {
-              searchResult(newValue);
-              console.log('p');
+            vm.keyword                = $location.search().q;
+            vm.path                   = $location.path();
+
+            if ($location.search().f === undefined && vm.path.indexOf('item') === -1 &&
+              $rootScope.fromStateUrl !== 'search_item') {
+                searchResult(newValue);
             }
-            // console.log($rootScope.is_change_page);
-            // console.log($location.search().f);
-            // if ($rootScope.is_change_page === false && $location.search().f !== undefined) {
-            //   console.log('true');
-            //   searchResult(newValue);
-            // }
           }
         });
 
@@ -90,15 +86,16 @@
           return $location.search().q;
         }
       }, function(newValue, oldValue) {
-        vm.keyword = $location.search().q;
+          vm.keyword = $location.search().q;
+          vm.path    = $location.path();
           if (newValue !== oldValue) {
             $rootScope.is_change_page = !$rootScope.is_change_page;
             keyword_search(newValue);
-            console.log('q');
-
             // if ($location.search().f !==)
-            if ($location.search().f === undefined) {
-              filter_keyword();
+            if ($location.search().f === undefined && vm.path.indexOf('item') === -1 &&
+              $rootScope.fromStateUrl !== 'search_item') {
+                console.log('q');
+                filter_keyword();
             }
           }
         }, true);
@@ -299,57 +296,5 @@
               }, 0);
             });
       }
-
-      /*watch for changes*/
-      // $rootScope.$watchCollection(function() {
-      //   if ($location.search().f !== undefined) {
-      //     console.log('watch');
-      //     if ($location.search().f || $location.search().p) {
-      //       return {f: $location.search().f, p: $location.search().p};
-      //     }
-      //   }
-      // }, function(newValue, oldValue) {
-      //     if (newValue !== oldValue) {
-      //       if ($location.search().f !== undefined) {
-      //         data_filter = $location.search().f.split('&');
-      //         $rootScope.classification = data_filter;
-      //         if (data_filter.indexOf(attrs.code) !== -1) {
-      //           $timeout(function() {
-      //             element.radiocheck('check');
-      //           }, 0);
-      //         } else {
-      //           $timeout(function() {
-      //             element.radiocheck('uncheck');
-      //           }, 0);
-      //         }
-      //         http_get_oboe();
-      //       } else {
-      //         $rootScope.classification = [];
-      //         $timeout(function() {
-      //           element.radiocheck('uncheck');
-      //         }, 0);
-      //         http_get_oboe();
-      //       }
-      //     }
-      //   });
-
-      // function is_saved_star(id, star) {
-      //   var saved_items = local_storage.getToken('saved_items');
-      //
-      //   var items = saved_items.indexOf(id);
-      //   if (star === true) {
-      //     if (items !== -1) {
-      //       return true;
-      //     }
-      //   } else {
-      //     if (saved_items === 'null') {
-      //       return true;
-      //     }
-      //     if (items !== -1 && saved_items !== 'null') {
-      //       console.log('false');
-      //       return false;
-      //     }
-      //   }
-      // }
     }
 }());

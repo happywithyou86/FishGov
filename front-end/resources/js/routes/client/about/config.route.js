@@ -15,8 +15,9 @@
     return [{
       state: 'about',
       config: {
-        url:'/about',
-        templateUrl: '/client/about/index.html',
+        url         :'/about',
+        templateUrl : '/client/about/index.html',
+        controller  : 'About_us as vm'
       }
     }];
   }

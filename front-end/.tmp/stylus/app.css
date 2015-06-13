@@ -1,3 +1,40 @@
+.about .panel {
+  padding: 15px;
+  background-color: #e5e9ea;
+  border: 1px solid #ccc;
+}
+.about .panel-mid {
+  padding: 15px;
+  border: 1px solid #ccc;
+}
+.about button {
+  margin-top: 15px;
+}
+.about .margin-bottom-off {
+  margin-bottom: 0;
+}
+.about .stop-doing {
+  color: #c0392b;
+}
+.about .stop-doing-sub {
+  color: #e74c3c;
+}
+.about .keep-doing {
+  color: #7f8c8d;
+}
+.about .keep-doing-sub {
+  color: #95a5a6;
+}
+.about .start-doing {
+  color: #2c3e50;
+}
+.about .start-doing-sub {
+  color: #34495e;
+  white-space: nowrap;
+}
+.about .header {
+  margin-bottom: 30px;
+}
 .navbar {
   border-radius: 0;
 }
