@@ -57,10 +57,11 @@
       function search_all() {
         if (!vm.isAuthenticated) {
           $location.path('/search').search({asc: 'true', p: 1});
+          $window.location.href = '/search?asc=true&p=1';
         } else {
           $q.all([saved_keyword()])
             .then(function(response) {
-              $location.path('/search').search({asc: 'true', p: 1});
+              $window.location.href = '/search?asc=true&p=1';
             });
         }
       }

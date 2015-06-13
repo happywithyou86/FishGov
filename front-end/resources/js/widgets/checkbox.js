@@ -46,9 +46,8 @@
             }
 
             if ($rootScope.services_count_check === $rootScope.noOfServices) {
-              console.log('true');
               $rootScope.isServicesSelectedAll  = true;
-              $rootScope.services_count_check   = 1;
+              // $rootScope.services_count_check   = 1;
             } else {
               $rootScope.isServicesSelectedAll = false;
             }
@@ -56,7 +55,7 @@
             if ($rootScope.products_count_check === $rootScope.noOfProducts) {
               console.log('true products selected all');
               $rootScope.isProductsSelectedAll = true;
-              $rootScope.products_count_check  = 1;
+              //$rootScope.products_count_check  = 1;
             } else {
               $rootScope.isProductsSelectedAll = false;
             }
@@ -68,6 +67,7 @@
               console.log($rootScope.services_count_check);
             } else {
               $rootScope.products_count_check--;
+              console.log($rootScope.products_count_check);
               $rootScope.isProductsSelectedAll = false;
             }
             /**/
@@ -232,7 +232,6 @@
 
               if ($rootScope.products_count_check === 0){
                 $timeout(function() {
-                  $rootScope.click_count_product_filter_false = 0;
                   $location.path('/search').search({
                     asc: $location.search().asc,
                     q: $location.search().q,
@@ -280,11 +279,9 @@
         /*watch for changes*/
         var data_filter;
         $rootScope.$watchCollection(function() {
-          // if ($location.search().f !== undefined) {
           if ($location.search().f) {
             return {f: $location.search().f};
           }
-          // }
         }, function(newValue, oldValue) {
             if (newValue !== oldValue && $rootScope.toStateUrl !== 'search_item') {
               if ($location.search().f !== undefined) {
