@@ -345,6 +345,7 @@
             console.log('oboe call for the results and total(filter not included) when search_filter toStateUrl');
             return;
           }
+          $rootScope.search_result = [];
           oboe_data_service
             .stream({
               url   : 'filterApi/search/filter_change',
@@ -361,8 +362,12 @@
                 }
               }
             })
+            .node('data.hits.*', function(response) {
+              $timeout(function() {
+                $rootScope.search_result.push(response);
+              }, 0);
+            })
             .done(function(response) {
-              console.log('checkbox');
               $timeout(function() {
                 /*make a new pagination array*/
                 $rootScope.paginateResult = [];
@@ -417,7 +422,7 @@
                 }
                 $rootScope.dash          = '-';
                 $rootScope.of            = 'of';
-                $rootScope.search_result = response.data.hits;
+                //$rootScope.search_result = response.data.hits;
               }, 0);
             });
         }
