@@ -258,8 +258,12 @@
                 }
               }
             })
+            .node('data.hits.*', function(response) {
+              $timeout(function() {
+                $rootScope.search_result.push(response);
+              }, 0);
+            })
             .done(function(response) {
-              console.log('checkbox');
               $timeout(function() {
                 /*make a new pagination array*/
                 $rootScope.paginateResult = [];
