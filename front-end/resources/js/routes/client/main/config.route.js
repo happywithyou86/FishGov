@@ -45,71 +45,72 @@
           resolve: {/*@ngInject*/
             search: function($location, $q, $rootScope, commonsDataService, elasticsearchServiceApi) {
               /*or test if the user click for all results*/
-              if ($location.search().q !== undefined && $location.search().f === undefined) {
-                $rootScope.search_keyword = $location.search().q;
-                $q.all([searchCallback()])
-                  .then(function(response) {
-                    /*make the watch happens once*/
-                    $rootScope.refresh_change = true;
-                    /*make a new pagination array*/
-                    $rootScope.paginateResult = [];
-                    $rootScope.pageTotal = parseInt(response[0].data.total);
-                    //$rootScope.p = $location.search().p;
-                    $rootScope.p = $location.search().p;
-                    $rootScope.q = $location.search().q;
-                    $rootScope.resultPerPage = $rootScope.pageTotal/20;
-                    $rootScope.result = Math.ceil($rootScope.resultPerPage);
-                    var marginal_pagination = 20;
-                    var url_pagination = $location.search().p;
-                    var cpagination = 1;
-                    var end_pagination = 9;
-                    if ($rootScope.result > 8) {
-                      if (url_pagination <= marginal_pagination) {
-                        cpagination = 1;
-                      } else {
-                        cpagination = (parseInt(url_pagination) + 1) - marginal_pagination;
-                        end_pagination = cpagination + 8;
-                        if (end_pagination > $rootScope.result) {
-                          end_pagination = $rootScope.result;
-                          cpagination = $rootScope.result - 8;
-                        }
-                      }
-                    } else {
-                      end_pagination = $rootScope.result;
-                    }
-                    for (var i = cpagination; i <= end_pagination; i++) {
-                      if ($rootScope.result !== 1) {$rootScope.paginateResult.push(i);}
-                    }
-                    $rootScope.showStart = (((parseInt($rootScope.p) - 1) * 20) + 1);
-                    $rootScope.showEnd   = $rootScope.p * 20;
-                    if($rootScope.showEnd > $rootScope.pageTotal) {
-                      $rootScope.showEnd = $rootScope.pageTotal;
-                    }
-                    /*set the previous*/
-                    if (parseInt($rootScope.p) !== 1) {
-                      $rootScope.previous_hide = true;
-                    } else {
-                      $rootScope.previous_hide = false;
-                    }
-                    /*set the next*/
-                    if (parseInt($rootScope.p) !== $rootScope.result) {
-                      $rootScope.next_hide = true;
-                    } else {
-                      $rootScope.next_hide = false;
-                    }
-                    /*set the tempkeyword*/
-                    $rootScope.tempKeyword = $location.search().q;
-                    $rootScope.dash           = '-';
-                    $rootScope.of             = 'of';
-                    $rootScope.search_result = response[0].data.hits;
-                    /*bind the tempKeyword for no results*/
-                    /*test if we have pageTotal to hide the text*/
-                    if ($rootScope.pageTotal === 0) {
-                      $rootScope.noResultText = 'No Search Results for ';
-                    }
-                    $rootScope.noResultKeyword  = $rootScope.tempKeyword;
-                  });
-              }
+              // if ($location.search().q !== undefined && $location.search().f === undefined) {
+              //   $rootScope.search_keyword = $location.search().q;
+              //   console.log('router');
+              //   $q.all([searchCallback()])
+              //     .then(function(response) {
+              //       /*make the watch happens once*/
+              //       $rootScope.refresh_change = true;
+              //       /*make a new pagination array*/
+              //       $rootScope.paginateResult = [];
+              //       $rootScope.pageTotal = parseInt(response[0].data.total);
+              //       //$rootScope.p = $location.search().p;
+              //       $rootScope.p = $location.search().p;
+              //       $rootScope.q = $location.search().q;
+              //       $rootScope.resultPerPage = $rootScope.pageTotal/20;
+              //       $rootScope.result = Math.ceil($rootScope.resultPerPage);
+              //       var marginal_pagination = 20;
+              //       var url_pagination = $location.search().p;
+              //       var cpagination = 1;
+              //       var end_pagination = 9;
+              //       if ($rootScope.result > 8) {
+              //         if (url_pagination <= marginal_pagination) {
+              //           cpagination = 1;
+              //         } else {
+              //           cpagination = (parseInt(url_pagination) + 1) - marginal_pagination;
+              //           end_pagination = cpagination + 8;
+              //           if (end_pagination > $rootScope.result) {
+              //             end_pagination = $rootScope.result;
+              //             cpagination = $rootScope.result - 8;
+              //           }
+              //         }
+              //       } else {
+              //         end_pagination = $rootScope.result;
+              //       }
+              //       for (var i = cpagination; i <= end_pagination; i++) {
+              //         if ($rootScope.result !== 1) {$rootScope.paginateResult.push(i);}
+              //       }
+              //       $rootScope.showStart = (((parseInt($rootScope.p) - 1) * 20) + 1);
+              //       $rootScope.showEnd   = $rootScope.p * 20;
+              //       if($rootScope.showEnd > $rootScope.pageTotal) {
+              //         $rootScope.showEnd = $rootScope.pageTotal;
+              //       }
+              //       /*set the previous*/
+              //       if (parseInt($rootScope.p) !== 1) {
+              //         $rootScope.previous_hide = true;
+              //       } else {
+              //         $rootScope.previous_hide = false;
+              //       }
+              //       /*set the next*/
+              //       if (parseInt($rootScope.p) !== $rootScope.result) {
+              //         $rootScope.next_hide = true;
+              //       } else {
+              //         $rootScope.next_hide = false;
+              //       }
+              //       /*set the tempkeyword*/
+              //       $rootScope.tempKeyword = $location.search().q;
+              //       $rootScope.dash           = '-';
+              //       $rootScope.of             = 'of';
+              //       $rootScope.search_result = response[0].data.hits;
+              //       /*bind the tempKeyword for no results*/
+              //       /*test if we have pageTotal to hide the text*/
+              //       if ($rootScope.pageTotal === 0) {
+              //         $rootScope.noResultText = 'No Search Results for ';
+              //       }
+              //       $rootScope.noResultKeyword  = $rootScope.tempKeyword;
+              //     });
+              // }
 
               function searchCallback() {
                 return commonsDataService
@@ -130,7 +131,17 @@
                 $rootScope.products_filter = [];
                 $rootScope.noOfServices = 0;
                 $rootScope.noOfProducts = 0;
-                oboe_data_service.stream('filterApi/search/filter/services')
+                // 'filterApi/search/filter/services'
+                oboe_data_service.stream({
+                  url   : 'filterApi/search/filter/services',
+                  method: 'POST',
+                  body  : {
+                    option_val: {
+                      is_award      : $rootScope.is_award,
+                      is_sole_source: $rootScope.is_sole_source
+                    }
+                  }
+                })
                   .node('data.*', function(response) {
                     $timeout(function() {
                       $rootScope.services_filter.push(response);
@@ -145,7 +156,16 @@
                   });
 
                 oboe_data_service
-                  .stream('filterApi/search/filter/products')
+                  .stream({
+                    url   : 'filterApi/search/filter/products',
+                    method: 'POST',
+                    body  : {
+                      option_val: {
+                        is_award      : $rootScope.is_award,
+                        is_sole_source: $rootScope.is_sole_source
+                      }
+                    }
+                  })
                   .node('data.*', function(response) {
                     $timeout(function() {
                       $rootScope.products_filter.push(response);

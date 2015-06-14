@@ -43,6 +43,40 @@
       io.get.findList(options);
   };
 
+  exports.services_all = function(req, res, next) {
+    var services_all;
+    var cp = require('child_process').spawn;
+    var spw = cp('node',
+      [io.rootPath + 'back-end/runnable/filter_services_all.js',
+      req.body.option_val.is_award || false,
+      req.body.option_val.is_sole_source || false]);
+    spw.stdout.on('data', function (data) {
+      services_all = data;
+      res.json({
+        message : 'Retriving Services Data from Option Filter',
+        status  : 200,
+        data    : JSON.parse(services_all)
+      });
+    });
+  };
+
+  exports.products_all = function(req, res, next) {
+    var products_all;
+    var cp = require('child_process').spawn;
+    var spw = cp('node',
+      [io.rootPath + 'back-end/runnable/filter_products_all.js',
+      req.body.option_val.is_award || false,
+      req.body.option_val.is_sole_source || false]);
+    spw.stdout.on('data', function (data) {
+      products_all = data;
+      res.json({
+        message : 'Retriving Products Data from Option Filter',
+        status  : 200,
+        data    : JSON.parse(products_all)
+      });
+    });
+  };
+
   exports.products = function(req, res, next) {
     var options = {
       find    : {count: {$gt: 0}},
@@ -59,10 +93,76 @@
   var client = new elasticsearch.Client({
     host: '127.0.0.1:9200',
   });
+
   exports.filter_change = function(req, res, next) {
     var fromPage  = (req.body.fromPage - 1) * 20;
     var filter;
-    if (req.body.filter.length !== 0 && (req.body.keyword === undefined)) {
+    console.log(req.body);
+
+    /*all + option + filter + keyword=undefined*/
+    if (req.body.asc !== undefined && req.body.option.length !== 0 &&
+      req.body.filter.length !== 0 && req.body.keyword === undefined) {
+        console.log('all + option + filter + keyword=undefined');
+        filter = {
+          filtered: {
+            filter: {
+              bool : {
+                must : {
+                  term : { classification_id : req.body.filter }
+                },
+                should : [
+                  { term : {is_award : req.body.option_val.is_award}},
+                  { term : {is_sole_source : req.body.option_val.is_sole_source}}
+                ]
+              }
+            }
+          }
+        };/*all + option + no-filter + keyword=undefined*/
+    } else if (req.body.asc !== undefined && req.body.option.length !== 0 &&
+        req.body.filter.length === 0 && req.body.keyword === undefined) {
+          console.log('all + option + no-filter + keyword=undefined');
+          filter = {
+            filtered: {
+              filter: {
+                bool : {
+                  should : [
+                    { term : {is_award : req.body.option_val.is_award}},
+                    { term : {is_sole_source : req.body.option_val.is_sole_source}}
+                  ]
+                }
+              }
+            }
+          };
+      } else if (req.body.asc !== undefined && req.body.option.length !== 0 && req.body.keyword === undefined) {
+      console.log('option +');
+      filter = {
+        filtered: {
+          filter: {
+            bool : {
+              should : [
+                { term : {is_award : req.body.option_val.is_award}},
+                { term : {is_sole_source : req.body.option_val.is_sole_source}}
+              ]
+            }
+          }
+        }
+      };/*all + no-option*/
+    } else if (req.body.asc !== undefined && req.body.option.length === 0 && req.body.keyword === undefined) {
+      console.log('option 0');
+      filter = {
+        filtered: {
+          filter: {
+            bool : {
+              should : [
+                { term : {is_award : false}},
+                { term : {is_sole_source : false}}
+              ]
+            }
+          }
+        }
+      };/*all + filter*/
+    } else if (req.body.asc !== undefined && req.body.filter.length !== 0 && req.body.keyword === undefined) {
+      console.log('all + filter');
       filter = {
         filtered : {
           filter  : {
@@ -71,14 +171,23 @@
             }
           }
         }
-      };
-    } else if(req.body.keyword === undefined) {
+      };/*all + no-filter + default data*/
+    } else if (req.body.asc !== undefined && req.body.filter.length === 0 && req.body.keyword === undefined) {
+      console.log('all + no-filter + default data');
       filter = {
-        match_all : {}
-      };
-    }
-
-    if (req.body.keyword !== undefined && req.body.filter.length !== 0) {
+        filtered: {
+          filter: {
+            bool : {
+              should : [
+                { term : {is_award : false}},
+                { term : {is_sole_source : false}}
+              ]
+            }
+          }
+        }
+      };/*keyword + filter*/
+    } else if (req.body.keyword !== undefined && req.body.filter.length !== 0 && req.body.asc === undefined) {
+      console.log('keyword + filter');
       filter = {
         template: {
           query: {
@@ -103,8 +212,9 @@
             keyword: req.body.keyword
           }
         }
-      };
-    } else if (req.body.keyword !== undefined){
+      };/*keyword + no-filter*/
+    } else if (req.body.keyword !== undefined && req.body.filter.length === 0 && req.body.asc === undefined) {
+      console.log('keyword + no-filter');
       filter = {
         template: {
           query: {
@@ -126,6 +236,79 @@
         }
       };
     }
+    // if (req.body.filter.length !== 0 && (req.body.keyword === undefined)) {
+    //   filter = {
+    //     filtered : {
+    //       filter  : {
+    //         terms  : {
+    //           classification_id : req.body.filter
+    //         }
+    //       }
+    //     }
+    //   };
+    // } else if(req.body.keyword === undefined) {
+    //   filter = {
+    //     filtered: {
+    //       filter: {
+    //         bool : {
+    //           should : [
+    //             { term : {is_award : false}},
+    //             { term : {is_sole_source : false}}
+    //           ]
+    //         }
+    //       }
+    //     }
+    //   };
+    // }
+
+    // if (req.body.keyword !== undefined && req.body.filter.length !== 0) {
+    //   filter = {
+    //     template: {
+    //       query: {
+    //         filtered: {
+    //           filter  : {
+    //             terms  : {
+    //               classification_id : req.body.filter
+    //             }
+    //           },
+    //           query: {
+    //             multi_match: {
+    //               query: '{{keyword}}',
+    //               fields: ['title', 'description'],
+    //               fuzziness: 'AUTO',
+    //               prefix_length: 5
+    //               // minimum_should_match: '80%'
+    //             }
+    //           }
+    //         }
+    //       },
+    //       params: {
+    //         keyword: req.body.keyword
+    //       }
+    //     }
+    //   };
+    // } else if (req.body.keyword !== undefined){
+    //   filter = {
+    //     template: {
+    //       query: {
+    //         filtered: {
+    //           query: {
+    //             multi_match: {
+    //               query: '{{keyword}}',
+    //               fields: ['title', 'description'],
+    //               fuzziness: 'AUTO',
+    //               prefix_length: 5
+    //               // minimum_should_match: '80%'
+    //             }
+    //           }
+    //         }
+    //       },
+    //       params: {
+    //         keyword: req.body.keyword
+    //       }
+    //     }
+    //   };
+    // }
 
     client.search({
       index : 'fishgov',

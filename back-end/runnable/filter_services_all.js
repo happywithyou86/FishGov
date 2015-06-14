@@ -1,17 +1,14 @@
 (function() {
   'use strict';
 
-  var keyword = process.argv[2];
-
-  var db      = require('promised-mongo')('govfish'),
-      Promise = require('bluebird');
-
-  var promises = [];
+  var is_award        = process.argv[2],
+      is_sole_source  = process.argv[3];
 
   var elasticsearch = require('elasticsearch');
   var client = new elasticsearch.Client({
     host: '127.0.0.1:9200',
   });
+
   var services = [{
         code: 'A',
         name: 'Research & Development'
@@ -90,9 +87,9 @@
   var total = 0;
   var result = [];
   for (var i = 0; i < services.length; i++) {
-    (function(i) {
-      getCount(services[i], i);
-    })(i);
+    (function(i, services) {
+      getCount(services[i], services, i);
+    })(i, services);
   }
 
   function compare(a,b) {
@@ -105,33 +102,23 @@
     return 0;
   }
 
-  function getCount(item, length) {
+  function getCount(item, service, length) {
     client.count({
       index: 'fishgov',
       type: 'data',
       body: {
-        query : {
-          template: {
-            query: {
-              filtered: {
-                filter  : {
-                  term  : {
-                    classification_id : item.code
-                  }
+        query: {
+          filtered: {
+            filter: {
+              bool : {
+                must : {
+                  term : { classification_id : item.code }
                 },
-                query: {
-                  multi_match: {
-                    query: '{{keyword}}',
-                    fields: ['title', 'description'],
-                    fuzziness: 'AUTO',
-                    prefix_length: 5
-                    // minimum_should_match: '80%'
-                  }
-                }
+                should : [
+                  { term : {is_award : is_award || false}},
+                  { term : {is_sole_source : is_sole_source || false}}
+                ]
               }
-            },
-            params: {
-              keyword: keyword
             }
           }
         }
@@ -143,12 +130,21 @@
           classification_text: item.name,
           count: parseInt(response.count)
         });
-      }
-
-      if ((services.length - 1) === length) {
-        result.sort(compare);
-        console.log(JSON.stringify(result));
-        process.exit();
+        if ((service.length - 1) === length) {
+          result.sort(compare);
+          console.log(JSON.stringify(result));
+          setTimeout(function() {
+            process.exit();
+          }, 10);
+        }
+      } else {
+        if ((service.length - 1) === length) {
+          result.sort(compare);
+          console.log(JSON.stringify(result));
+          setTimeout(function() {
+            process.exit();
+          }, 10);
+        }
       }
     });
   }

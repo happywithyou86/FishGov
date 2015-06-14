@@ -10,8 +10,9 @@
     var query     = io.url.parse(req.url, true).query;
     var page      = query.p;
     var fromPage  = (page - 1) * 20;
-
+    console.log(query);
     if (query.asc === 'true') {
+      console.log('true');
       client.search({
         index : 'fishgov',
         type  : 'data',

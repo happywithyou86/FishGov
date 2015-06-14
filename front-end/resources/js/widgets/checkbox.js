@@ -30,7 +30,8 @@
                 asc: $location.search().asc,
                 q: $location.search().q,
                 p: $location.search().p,
-                f: $location.search().f === undefined ? attrs.code: $location.search().f + '&' + attrs.code
+                f: $location.search().f === undefined ? attrs.code: $location.search().f + '&' + attrs.code,
+                option: $location.search().option
               });
               attrs.check = 'true';
             }, 0);
@@ -84,7 +85,8 @@
                 asc: $location.search().asc,
                 q: $location.search().q,
                 p: $location.search().p,
-                f: f_location === '' ? undefined : f_location
+                f: f_location === '' ? undefined : f_location,
+                option: $location.search().option
               });
               attrs.check = 'false';
             }, 0);
@@ -165,7 +167,8 @@
                     asc: $location.search().asc,
                     q: $location.search().q,
                     p: $location.search().p,
-                    f: data.f_location === '' ? undefined : data.f_location
+                    f: data.f_location === '' ? undefined : data.f_location,
+                    option: $location.search().option
                   });
                   if ($location.search().f === undefined) {
                     /*this one will be delete because it is not-needed anymore*/
@@ -201,7 +204,8 @@
                     asc: $location.search().asc,
                     q: $location.search().q,
                     p: $location.search().p,
-                    f: data.f_location
+                    f: data.f_location,
+                    option: $location.search().option
                   });
                 }, 0);
               }
@@ -236,7 +240,8 @@
                     asc: $location.search().asc,
                     q: $location.search().q,
                     p: $location.search().p,
-                    f: data.f_location === '' ? undefined : data.f_location
+                    f: data.f_location === '' ? undefined : data.f_location,
+                    option: $location.search().option
                   });
                   if ($location.search().f === undefined) {
                     /*this one will be delete because it is not-needed anymore*/
@@ -268,7 +273,8 @@
                     asc: $location.search().asc,
                     q: $location.search().q,
                     p: $location.search().p,
-                    f: data.f_location
+                    f: data.f_location,
+                    option: $location.search().option
                   });
                 }, 0);
               }
@@ -344,12 +350,19 @@
               url   : 'filterApi/search/filter_change',
               method: 'POST',
               body  : {
-                filter: $rootScope.classification,
-                keyword: $location.search().q,
-                fromPage : $location.search().p
+                asc       : $location.search().asc,
+                filter    : $rootScope.classification,
+                option    : $rootScope.option,
+                keyword   : $location.search().q,
+                fromPage  : $location.search().p,
+                option_val: {
+                  is_award      : $rootScope.is_award,
+                  is_sole_source: $rootScope.is_sole_source
+                }
               }
             })
             .done(function(response) {
+              console.log('checkbox');
               $timeout(function() {
                 /*make a new pagination array*/
                 $rootScope.paginateResult = [];

@@ -20,6 +20,7 @@
       vm.isAuthenticated        = $auth.isAuthenticated();
       $rootScope.is_change_page = false;
       $rootScope.watchfilterChangesCounter    = 0;
+      $rootScope.watchOptionCounter    = 0;
       $rootScope.watchfilterChangesCounterNull = 0;
       $rootScope.services_count_check = 0;
       $rootScope.products_count_check = 0;
@@ -75,13 +76,13 @@
 
             if ($location.search().f === undefined && vm.path.indexOf('item') === -1 &&
               $rootScope.fromStateUrl !== 'search_item') {
+                console.log('watch p');
                 searchResult(newValue);
             }
           }
         });
 
       $rootScope.$watchCollection(function() {
-        // $location.search().p === undefined
         if ($location.search().q) {
           return $location.search().q;
         }
@@ -89,12 +90,12 @@
           vm.keyword = $location.search().q;
           vm.path    = $location.path();
           if (newValue !== oldValue) {
-            $rootScope.is_change_page = !$rootScope.is_change_page;
+            console.log('watch keyword');
             keyword_search(newValue);
             // if ($location.search().f !==)
             if ($location.search().f === undefined && vm.path.indexOf('item') === -1 &&
               $rootScope.fromStateUrl !== 'search_item' && $rootScope.toStateUrl === 'main') {
-                console.log('q');
+                console.log('filter keyword');
                 filter_keyword();
             }
           }
@@ -131,6 +132,7 @@
       }
 
       function searchResult(page) {
+        console.log('search_result page');
         $q.all([searchCallback(page)])
           .then(function(response) {
             /*make a new pagination array*/
@@ -189,6 +191,7 @@
 
       //change in keyworkd
       function keyword_search(keyword) {
+        console.log('search_result keyword');
         $q.all([searchCallback($location.search().q)])
           .then(function(response) {
             /*change the tempKeyword*/
@@ -255,6 +258,7 @@
       }
 
       function searchCallback(page) {
+        console.log('search');
         return commonsDataService
           .httpGETQueryParams('search', {
             asc: $location.search().asc,

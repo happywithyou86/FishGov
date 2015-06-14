@@ -5,10 +5,10 @@
       filter_get  = require('../impl/filter/http_get');
 
   app.route('/search/filter/services')
-    .get(filter_get.services);
+    .post(filter_get.services_all);
 
   app.route('/search/filter/products')
-    .get(filter_get.products);
+    .post(filter_get.products_all);
 
   app.route('/search/filter_change')
     .post(filter_get.filter_change);
