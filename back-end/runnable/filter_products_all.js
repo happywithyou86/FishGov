@@ -292,21 +292,19 @@
           classification_text: item.name,
           count: parseInt(response.count)
         });
-        if ((product.length - 1) === length) {
-          result.sort(compare);
-          console.log(JSON.stringify(result));
-          setTimeout(function() {
-            process.exit();
-          }, 10);
-        }
+        setTimeout(function() {
+          if ((product.length - 1) === length) {
+            result.sort(compare);
+            console.log(JSON.stringify(result));
+          }
+        }, 10);
       } else {
-        if ((product.length - 1) === length) {
-          result.sort(compare);
-          console.log(JSON.stringify(result));
-          setTimeout(function() {
-            process.exit();
-          }, 10);
-        }
+        setTimeout(function() {
+          if ((product.length - 1) === length) {
+            result.sort(compare);
+            console.log(JSON.stringify(result));
+          }
+        }, 10);
       }
     });
   }

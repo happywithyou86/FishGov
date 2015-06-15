@@ -133,17 +133,11 @@
         if ((service.length - 1) === length) {
           result.sort(compare);
           console.log(JSON.stringify(result));
-          setTimeout(function() {
-            process.exit();
-          }, 10);
         }
       } else {
         if ((service.length - 1) === length) {
           result.sort(compare);
           console.log(JSON.stringify(result));
-          setTimeout(function() {
-            process.exit();
-          }, 10);
         }
       }
     });
