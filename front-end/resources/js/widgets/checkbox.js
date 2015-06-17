@@ -268,35 +268,69 @@
                     $rootScope.isProductsSelectedAll = true;
                   }
                   console.log('url check');
-                  default_result.get('checkBox', 272);
+                  default_result.get('checkBox', 271);
                 }
               }, 0);
             }
           }
-            if (newValue !== oldValue) {
-              if ($location.search().f === undefined) {
-                /*use when f is undefined*/
-                $rootScope.watchfilterChangesCounterNull++;
-                $rootScope.classification = [];
-                $timeout(function() {
-                  element.radiocheck('uncheck');
-                  attrs.check = 'false';
-                }, 0);
+          if (newValue !== oldValue) {
+            if ($location.search().f === undefined) {
+              /*use when f is undefined*/
+              $rootScope.watchfilterChangesCounterNull++;
+              $rootScope.classification = [];
+              $timeout(function() {
+                element.radiocheck('uncheck');
+                attrs.check = 'false';
+              }, 0);
 
-                if ($rootScope.watchfilterChangesCounterNull === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
-                  $rootScope.watchfilterChangesCounterNull = 0;
-                  default_result.get('checkbox', 277);
-                  return;
-                }
+              if ($rootScope.watchfilterChangesCounterNull === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
+                $rootScope.watchfilterChangesCounterNull = 0;
+                default_result.get('checkbox', 288);
+                return;
               }
 
-              /*Used for make a new request after a user click a filter*/
-              $rootScope.watchfilterChangesCounter++;
-              if ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
-                $rootScope.watchfilterChangesCounter = 0;
-                default_result.get('checkbox', 286);
+              return;
+            }
+
+            /*Used for make a new request after a user click a filter*/
+            /*Test for changes when we click back forward button*/
+            $rootScope.watchfilterChangesCounter++;
+            var position = $rootScope.classification.indexOf(attrs.code);
+            data_filter = $location.search().f.split('&');
+            if (data_filter.indexOf(attrs.code) !== -1) {
+              attrs.check = 'true';
+              element.radiocheck('check');
+
+              /*add the new filter in the classification*/
+              if (position === -1) {
+                $rootScope.classification.push(attrs.code);
+              }
+              // $rootScope.classification.push(attrs.code);
+            } else {
+              attrs.check = 'false';
+              element.radiocheck('uncheck');
+
+              /*Check if we have uncheck filter then we splice it*/
+              if (position !== -1) {
+                $rootScope.classification.splice(position, 1);
               }
             }
+
+            /*test if the data_filter.length === $rootScope.classification*/
+            if (data_filter.length === $rootScope.classification.length) {
+              if ($rootScope.services_count_check === $rootScope.noOfServices) {
+                $rootScope.isServicesSelectedAll = true;
+              }
+              if ($rootScope.products_count_check === $rootScope.noOfProducts) {
+                $rootScope.isProductsSelectedAll = true;
+              }
+            }
+
+            if ($rootScope.watchfilterChangesCounter === ($rootScope.noOfServices + $rootScope.noOfProducts)) {
+              $rootScope.watchfilterChangesCounter = 0;
+              default_result.get('checkbox', 332);
+            }
+          }
           }, true);
       }
     }
