@@ -31,25 +31,13 @@
     });
   };
 
-  exports.services = function(req, res, next) {
-    var options = {
-      find    : {count: {$gt: 0}},
-      message : 'Retrieving data from Filter Services',
-      name    : 'Filter_Services',
-      res     : res,
-      sort    : {count: -1}
-    };
-
-      io.get.findList(options);
-  };
-
   exports.services_all = function(req, res, next) {
     var services_all;
     var cp = require('child_process').spawn;
     var spw = cp('node',
       [io.rootPath + 'back-end/runnable/filter_services_all.js',
-      req.body.option_val.is_award || false,
-      req.body.option_val.is_sole_source || false]);
+      req.body.option_val.is_award,
+      req.body.option_val.is_sole_source]);
     spw.stdout.on('data', function (data) {
       services_all = data;
       res.json({
@@ -65,8 +53,8 @@
     var cp = require('child_process').spawn;
     var spw = cp('node',
       [io.rootPath + 'back-end/runnable/filter_products_all.js',
-      req.body.option_val.is_award || false,
-      req.body.option_val.is_sole_source || false]);
+      req.body.option_val.is_award,
+      req.body.option_val.is_sole_source]);
     spw.stdout.on('data', function (data) {
       products_all = data;
       res.json({
@@ -75,18 +63,6 @@
         data    : JSON.parse(products_all)
       });
     });
-  };
-
-  exports.products = function(req, res, next) {
-    var options = {
-      find    : {count: {$gt: 0}},
-      message : 'Retrieving data from Filter Products',
-      name    : 'Filter_Products',
-      res     : res,
-      sort    : {count: -1}
-    };
-
-    io.get.findList(options);
   };
 
   var elasticsearch = require('elasticsearch');
@@ -103,12 +79,13 @@
     if (req.body.asc !== undefined && req.body.option.length !== 0 &&
       req.body.filter.length !== 0 && req.body.keyword === undefined) {
         console.log('all + option + filter + keyword=undefined');
+        console.log(req.body.filter);
         filter = {
           filtered: {
             filter: {
               bool : {
                 must : {
-                  term : { classification_id : req.body.filter }
+                  terms : { classification_id : req.body.filter }
                 },
                 should : [
                   { term : {is_award : req.body.option_val.is_award}},
@@ -133,45 +110,48 @@
               }
             }
           };
-      } else if (req.body.asc !== undefined && req.body.option.length !== 0 && req.body.keyword === undefined) {
-      console.log('option +');
-      filter = {
-        filtered: {
-          filter: {
-            bool : {
-              should : [
-                { term : {is_award : req.body.option_val.is_award}},
-                { term : {is_sole_source : req.body.option_val.is_sole_source}}
-              ]
+      } else if (req.body.asc !== undefined && req.body.option.length !== 0 &&
+        req.body.filter.length === 0 && req.body.keyword === undefined) {
+          console.log('option +');
+          filter = {
+            filtered: {
+              filter: {
+                bool : {
+                  should : [
+                    { term : {is_award : req.body.option_val.is_award}},
+                    { term : {is_sole_source : req.body.option_val.is_sole_source}}
+                  ]
+                }
+              }
+            }
+          };/*default asc = true , p=1*/
+    } else if (req.body.asc !== undefined && req.body.option.length === 0 &&
+      req.body.filter.length === 0 && req.body.keyword === undefined) {
+        console.log('default asc = true , p=1');
+        filter = {
+          filtered: {
+            filter: {
+              bool : {
+                should : [
+                  { term : {is_award : false}},
+                  { term : {is_sole_source : false}}
+                ]
+              }
             }
           }
-        }
-      };/*all + no-option*/
-    } else if (req.body.asc !== undefined && req.body.option.length === 0 && req.body.keyword === undefined) {
-      console.log('option 0');
-      filter = {
-        filtered: {
-          filter: {
-            bool : {
-              should : [
-                { term : {is_award : false}},
-                { term : {is_sole_source : false}}
-              ]
+        };/*all + filter*/
+    } else if (req.body.asc !== undefined && req.body.option.length === 0 &&
+      req.body.filter.length !== 0 && req.body.keyword === undefined) {
+        console.log('all + filter');
+        filter = {
+          filtered : {
+            filter  : {
+              terms  : {
+                classification_id : req.body.filter
+              }
             }
           }
-        }
-      };/*all + filter*/
-    } else if (req.body.asc !== undefined && req.body.filter.length !== 0 && req.body.keyword === undefined) {
-      console.log('all + filter');
-      filter = {
-        filtered : {
-          filter  : {
-            terms  : {
-              classification_id : req.body.filter
-            }
-          }
-        }
-      };/*all + no-filter + default data*/
+        };/*all + no-filter + default data*/
     } else if (req.body.asc !== undefined && req.body.filter.length === 0 && req.body.keyword === undefined) {
       console.log('all + no-filter + default data');
       filter = {

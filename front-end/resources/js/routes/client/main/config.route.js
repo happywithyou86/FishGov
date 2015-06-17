@@ -112,33 +112,58 @@
               //     });
               // }
 
-              function searchCallback() {
-                return commonsDataService
-                  .httpGETQueryParams('search', {
-                      keyword:$location.search().q,
-                      p: $location.search().p,
-                      asc: $location.search().asc
-                    },
-                    elasticsearchServiceApi)
-                  .then(function(response) {
-                    return response;
-                  });
-              }
+              // function searchCallback() {
+              //   return commonsDataService
+              //     .httpGETQueryParams('search', {
+              //         keyword:$location.search().q,
+              //         p: $location.search().p,
+              //         asc: $location.search().asc
+              //       },
+              //       elasticsearchServiceApi)
+              //     .then(function(response) {
+              //       return response;
+              //     });
+              // }
             },/*@ngInject*/
-            filter: function($location, $rootScope, $timeout, oboe_data_service) {
-              if($location.search().q === undefined) {
+            default_result: function($location, $rootScope, default_result) {
+              /**
+               * User when keyword is undefined and option is undefined
+               */
+
+              if ($location.search().q === undefined && $location.search().option === undefined) {
+                /*Default data*/
+                $rootScope.classification  = [];
+                $rootScope.option          = [];
+                $rootScope.is_award        = false;
+                $rootScope.is_sole_source  = false;
+                default_result.get();
+              }
+
+            },/*@ngInject*/
+            filter_change_upon_reload: function($location, $rootScope, $timeout, oboe_data_service) {
+              if($location.search().q === undefined && $location.search().option === undefined) {
                 $rootScope.services_filter = [];
                 $rootScope.products_filter = [];
-                $rootScope.noOfServices = 0;
-                $rootScope.noOfProducts = 0;
+                // $rootScope.noOfServices = 0;
+                // $rootScope.noOfProducts = 0;
                 // 'filterApi/search/filter/services'
+                if ($location.search().option !== undefined) {
+                  var data_filter = $location.search().option.split('&');
+                  for (var i = 0; i < data_filter.length; i++) {
+                    if (data_filter[i] === 'is_award') {
+                      $rootScope.is_award = true;
+                    } else {
+                      $rootScope.is_sole_source = true;
+                    }
+                  }
+                }
                 oboe_data_service.stream({
                   url   : 'filterApi/search/filter/services',
                   method: 'POST',
                   body  : {
                     option_val: {
-                      is_award      : $rootScope.is_award,
-                      is_sole_source: $rootScope.is_sole_source
+                      is_award      : $rootScope.is_award || false,
+                      is_sole_source: $rootScope.is_sole_source || false
                     }
                   }
                 })
@@ -161,8 +186,8 @@
                     method: 'POST',
                     body  : {
                       option_val: {
-                        is_award      : $rootScope.is_award,
-                        is_sole_source: $rootScope.is_sole_source
+                        is_award      : $rootScope.is_award || false,
+                        is_sole_source: $rootScope.is_sole_source || false
                       }
                     }
                   })
@@ -170,7 +195,8 @@
                     $timeout(function() {
                       $rootScope.products_filter.push(response);
                     }, 0);
-                  }).done(function(response) {
+                  })
+                  .done(function(response) {
                     $timeout(function() {
                       $rootScope.noOfProducts = response.data.length;
                       if ($rootScope.fromStateUrl === 'search_item') {
@@ -184,8 +210,8 @@
               if($location.search().q !== undefined) {
                 $rootScope.services_filter = [];
                 $rootScope.products_filter = [];
-                $rootScope.noOfServices = 0;
-                $rootScope.noOfProducts = 0;
+                // $rootScope.noOfServices = 0;
+                // $rootScope.noOfProducts = 0;
                 oboe_data_service
                   .stream({
                     url   : 'filterApi/search/services/keyword',

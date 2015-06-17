@@ -18,12 +18,11 @@
       vm.change_page            = change_page;
       vm.change_keyword         = change_keyword;
       vm.isAuthenticated        = $auth.isAuthenticated();
-      $rootScope.is_change_page = false;
-      $rootScope.watchfilterChangesCounter    = 0;
-      $rootScope.watchOptionCounter    = 0;
-      $rootScope.watchfilterChangesCounterNull = 0;
-      $rootScope.services_count_check = 0;
-      $rootScope.products_count_check = 0;
+      $rootScope.watchfilterChangesCounter      = 0;
+      $rootScope.watchOptionCounter             = 0;
+      $rootScope.watchfilterChangesCounterNull  = 0;
+      $rootScope.services_count_check           = 0;
+      $rootScope.products_count_check           = 0;
 
       /*get the photo from local storage*/
       vm.photo = local_storage.getToken('photo');
@@ -66,7 +65,7 @@
 
       $rootScope.$watchCollection(function() {
         if ($location.search().p) {
-          return $location.search().p;
+          return parseInt($location.search().p);
         }
       }, function(newValue, oldValue) {
           if (newValue !== oldValue) {
@@ -74,11 +73,10 @@
             vm.keyword                = $location.search().q;
             vm.path                   = $location.path();
 
-            if ($location.search().f === undefined && vm.path.indexOf('item') === -1 &&
-              $rootScope.fromStateUrl !== 'search_item') {
-                console.log('watch p');
-                searchResult(newValue);
-            }
+            // if ($location.search().f === undefined) {
+              console.log('watch p');
+              searchResult(newValue);
+            // }
           }
         });
 

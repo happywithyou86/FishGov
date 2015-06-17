@@ -40,11 +40,11 @@
       <div class="options">
         <h5>Show results for</h5>
         <label class="checkbox">
-          <input check-box-option="is_award" type="checkbox" data-toggle="checkbox" value="Show award" id="is_award" data-check=false data-options>
+          <input check-box-option-is-award type="checkbox" value="Show award" id="is_award" data-check=false>
           Show award
         </label>
         <label class="checkbox">
-          <input check-box-option="is_sole_source" type="checkbox" data-toggle="checkbox" value="Show sole source" id="is_sole_source" data-check=false>
+          <input check-box-option-is-sole-source type="checkbox" value="Show sole source" id="is_sole_source" data-check=false>
           Show sole source
         </label>
       </div>
@@ -56,7 +56,7 @@
           <!-- <i ng-show="!services" class="fa fa-chevron-right" filter-services="services"></i> -->
           <div class="item" ng-repeat="item in services_filter track by $index" ng-show="services">
             <label class="checkbox">
-              <input check-box="services" type="checkbox" data-toggle="checkbox" value="{{item.classification_text}}" id="{{item.classifiation_code}}" data-code={{item.classification_code}} data-check=false ng-checked="check_services">
+              <input check-box="services" type="checkbox" value="{{item.classification_text}}" id="{{item.classifiation_code}}" data-code={{item.classification_code}} data-check=false ng-checked="check_services">
               {{item.classification_text}} <span style="color: #16a085">({{item.count}})</span>
             </label>
           </div>

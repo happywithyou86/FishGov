@@ -115,8 +115,8 @@
                   term : { classification_id : item.code }
                 },
                 should : [
-                  { term : {is_award : is_award || false}},
-                  { term : {is_sole_source : is_sole_source || false}}
+                  { term : {is_award : is_award}},
+                  { term : {is_sole_source : is_sole_source}}
                 ]
               }
             }
