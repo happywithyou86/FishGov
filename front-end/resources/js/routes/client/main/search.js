@@ -5,12 +5,14 @@
     .module('app.main')
     .controller('Search', Search);
 
-    Search.$inject = ['$location', '$q', '$rootScope', '$scope', '$state', '$timeout', '$window',
-    '$auth', 'commonsDataService', 'elasticsearchServiceApi', 'local_storage', 'oboe_data_service', 'userServiceApi'];
+    Search.$inject = ['$location', '$q', '$rootScope', '$scope', '$state', '$timeout', '$window', '$auth',
+    'commonsDataService', 'elasticsearchServiceApi', 'local_storage', 'default_result',
+    'oboe_data_service', 'userServiceApi'];
 
-    /* @ngInject */
-    function Search($location, $q, $rootScope, $scope, $state, $timeout, $window,
-    $auth, commonsDataService, elasticsearchServiceApi, local_storage, oboe_data_service, userServiceApi) {
+    /*@ngInject*/
+    function Search($location, $q, $rootScope, $scope, $state, $timeout, $window, $auth,
+    commonsDataService, elasticsearchServiceApi, local_storage, default_result,
+    oboe_data_service, userServiceApi) {
       var vm = this;
       vm.clicked_items          = clicked_items;
       vm.searchResult           = searchResult;
@@ -63,24 +65,19 @@
           });
       }
 
-      $rootScope.$watchCollection(function() {
+      $scope.$watchCollection(function() {
         if ($location.search().p) {
           return parseInt($location.search().p);
         }
       }, function(newValue, oldValue) {
           if (newValue !== oldValue) {
-            $rootScope.is_change_page = !$rootScope.is_change_page;
-            vm.keyword                = $location.search().q;
-            vm.path                   = $location.path();
-
-            // if ($location.search().f === undefined) {
-              console.log('watch p');
-              searchResult(newValue);
-            // }
+            vm.keyword  = $location.search().q;
+            vm.path     = $location.path();
+            default_result.get('search', 76);
           }
-        });
+        }, true);
 
-      $rootScope.$watchCollection(function() {
+      $scope.$watchCollection(function() {
         if ($location.search().q) {
           return $location.search().q;
         }
@@ -254,14 +251,26 @@
             $rootScope.search_result = response[0].data.hits;
           });
       }
-
+      // asc       : $location.search().asc,
+      // filter    : $rootScope.classification || [],
+      // option    : $rootScope.option || [],
+      // keyword   : $location.search().q,
+      // fromPage  : $location.search().p,
+      // option_val: {
+      //   is_award      : $rootScope.is_award,
+      //   is_sole_source: $rootScope.is_sole_source
+      // }
       function searchCallback(page) {
         console.log('search');
         return commonsDataService
           .httpGETQueryParams('search', {
             asc: $location.search().asc,
             keyword:vm.keyword,
-            p: page
+            p: page,
+            option_val: {
+              is_award      : $rootScope.is_award,
+              is_sole_source: $rootScope.is_sole_source
+            }
           }, elasticsearchServiceApi)
           .then(function(response) {
             return response;

@@ -125,9 +125,9 @@
               //     });
               // }
             },/*@ngInject*/
-            default_result: function($location, $rootScope, default_result) {
+            default_results: function($location, $rootScope, default_result) {
               /**
-               * User when keyword is undefined and option is undefined
+               * Used when keyword is undefined and option is undefined
                */
 
               if ($location.search().q === undefined && $location.search().option === undefined) {

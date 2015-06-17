@@ -10,7 +10,6 @@
   app.route('/user/info')
     .get(io.authorize, io.xPoweredBy, user_get.info);
 
-
   app.route('/saved_items')
     .get(io.xPoweredBy, io.authorize, user_get.saved_items_list)
     .post(io.xPoweredBy, io.authorize, user_post.saved_items)

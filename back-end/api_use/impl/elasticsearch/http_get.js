@@ -18,6 +18,9 @@
         type  : 'data',
         body  : {
           from  : fromPage, size : 20,
+          query: {
+
+          },
           sort  : {
             posted_date_var: {
               order : 'desc'

@@ -11,10 +11,6 @@
       return {
         get: function() {
           console.log('default filter');
-          /*Used to eliminate redundant call in the config.route upon reload*/
-          // if ($rootScope.fromStateUrl === '') {
-          //   return;
-          // }
           $rootScope.services_filter = [];
           $rootScope.products_filter = [];
 

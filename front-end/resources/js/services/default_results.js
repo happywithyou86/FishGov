@@ -8,7 +8,8 @@
     default_result.$inject = ['$location', '$rootScope', '$timeout', 'oboe_data_service'];
     /*@ngInject*/
     function default_result($location, $rootScope, $timeout, oboe_data_service) {
-      return {
+
+      var results =  {
         get: function(name, num) {
           console.log('call from ' + name + ' line number ' + num);
           $rootScope.search_result = [];
@@ -93,5 +94,7 @@
             });
         }
       };
+
+      return results;
     }
 }());

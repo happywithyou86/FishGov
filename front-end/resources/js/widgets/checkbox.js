@@ -234,6 +234,7 @@
           $rootScope.products_count_check   = 0;
           $rootScope.services_count_check   = 0;
           $location.search().f              = undefined;
+          $location.search().p              = 1;
           $rootScope.isProductsSelectedAll  = false;
           $rootScope.isServicesSelectedAll  = false;
         });
